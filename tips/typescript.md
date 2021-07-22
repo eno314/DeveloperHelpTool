@@ -1,6 +1,12 @@
-# TypeScript tips
+# Next.js tips
 
-## next.js を TypeScript 化する
+## src ディレクトリ
+
+src 以下であれば、pages のルーティングはデフォルトで効く
+
+スターターキットでは src ディレクトリが無いので、srcを作成したら、pages と styles を src 以下に移動すると良い
+
+## TypeScript 化する
 
 TypeScript 関連パッケージをインストール
 
