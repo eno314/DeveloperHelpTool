@@ -5,6 +5,13 @@ class UrlEncodeForm extends React.Component {
     private decodedTextArea = React.createRef<HTMLTextAreaElement>()
     private encodedTextArea = React.createRef<HTMLTextAreaElement>()
 
+    constructor() {
+        super({})
+
+        this.onClickUrlEncode = this.onClickUrlEncode.bind(this)
+        this.onClickUrlDecode = this.onClickUrlDecode.bind(this)
+    }
+
     render() {
         return (
             <div>
@@ -12,8 +19,8 @@ class UrlEncodeForm extends React.Component {
                     <textarea ref={this.decodedTextArea} rows={4} cols={100} />
                 </div>
                 <div>
-                    <button onClick={this.onClickUrlEncode.bind(this)}>▼URLエンコード</button>
-                    <button onClick={this.onClickUrlDecode.bind(this)}>▲URLデコード</button>
+                    <button onClick={this.onClickUrlEncode}>▼URLエンコード</button>
+                    <button onClick={this.onClickUrlDecode}>▲URLデコード</button>
                 </div>
                 <div>
                     <textarea ref={this.encodedTextArea} rows={4} cols={100} />
