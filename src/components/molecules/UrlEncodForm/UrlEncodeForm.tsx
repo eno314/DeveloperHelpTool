@@ -9,8 +9,8 @@ class UrlEncodeForm extends React.Component {
     private readonly decodedTextArea = React.createRef<HTMLTextAreaElement>()
     private readonly encodedTextArea = React.createRef<HTMLTextAreaElement>()
 
-    constructor() {
-        super({})
+    constructor(prop: any) {
+        super(prop)
 
         this.onClickUrlEncode = this.onClickUrlEncode.bind(this)
         this.onClickUrlDecode = this.onClickUrlDecode.bind(this)
@@ -30,10 +30,10 @@ class UrlEncodeForm extends React.Component {
                 </div>
                 <div className={"row"}>
                     <div className={"col text-center"}>
-                        <button type={"button"} className={"btn btn-primary"} onClick={this.onClickUrlEncode}>▼ URLエンコード</button>
+                        <button type={"button"} className={"btn btn-primary"} onClick={this.onClickUrlEncode}>▼ Apply URL Encoding</button>
                     </div>
                     <div className={"col text-center"}>
-                        <button type={"button"} className={"btn btn-primary"} onClick={this.onClickUrlDecode}>▲ URLデコード</button>
+                        <button type={"button"} className={"btn btn-primary"} onClick={this.onClickUrlDecode}>▲ Apply URL Decoding</button>
                     </div>
                 </div>
                 <div className={"row form-floating"}>
