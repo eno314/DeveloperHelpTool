@@ -2,8 +2,12 @@ import React from "react";
 
 class UrlEncodeForm extends React.Component {
 
-    private decodedTextArea = React.createRef<HTMLTextAreaElement>()
-    private encodedTextArea = React.createRef<HTMLTextAreaElement>()
+    private readonly textAreaStyle = {
+        height: 100
+    };
+
+    private readonly decodedTextArea = React.createRef<HTMLTextAreaElement>()
+    private readonly encodedTextArea = React.createRef<HTMLTextAreaElement>()
 
     constructor() {
         super({})
@@ -14,16 +18,32 @@ class UrlEncodeForm extends React.Component {
 
     render() {
         return (
-            <div>
-                <div>
-                    <textarea ref={this.decodedTextArea} rows={4} cols={100} />
+            <div className={"container"}>
+                <div className={"row form-floating"}>
+                    <textarea
+                        ref={this.decodedTextArea}
+                        id="floatingTextarea"
+                        className={"form-control textarea"}
+                        style={this.textAreaStyle}
+                    />
+                    <label htmlFor={"floatingTextarea"}>Please input text you'd like to encode.</label>
                 </div>
-                <div>
-                    <button onClick={this.onClickUrlEncode}>▼URLエンコード</button>
-                    <button onClick={this.onClickUrlDecode}>▲URLデコード</button>
+                <div className={"row"}>
+                    <div className={"col text-center"}>
+                        <button type={"button"} className={"btn btn-primary"} onClick={this.onClickUrlEncode}>▼ URLエンコード</button>
+                    </div>
+                    <div className={"col text-center"}>
+                        <button type={"button"} className={"btn btn-primary"} onClick={this.onClickUrlDecode}>▲ URLデコード</button>
+                    </div>
                 </div>
-                <div>
-                    <textarea ref={this.encodedTextArea} rows={4} cols={100} />
+                <div className={"row form-floating"}>
+                    <textarea
+                        ref={this.encodedTextArea}
+                        id="floatingTextarea"
+                        className={"form-control textarea"}
+                        style={this.textAreaStyle}
+                    />
+                    <label htmlFor={"floatingTextarea"}>Please input text you'd like to decode.</label>
                 </div>
             </div>
         )
