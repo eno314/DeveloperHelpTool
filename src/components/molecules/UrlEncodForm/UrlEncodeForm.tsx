@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 class UrlEncodeForm extends React.Component {
 
@@ -16,7 +16,7 @@ class UrlEncodeForm extends React.Component {
         this.onClickUrlDecode = this.onClickUrlDecode.bind(this)
     }
 
-    render() {
+    render(): ReactNode {
         return (
             <div className={"container"}>
                 <div className={"row form-floating"}>
