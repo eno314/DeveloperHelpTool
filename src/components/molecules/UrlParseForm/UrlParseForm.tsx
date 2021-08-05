@@ -33,7 +33,7 @@ class UrlParseForm extends React.Component<{}, State> {
 
         this.onChangeParsedURLText = this.onChangeParsedURLText.bind(this)
         this.onChangeBaseURLText = this.onChangeBaseURLText.bind(this)
-        this.onChangeParamsText = this.onChangeParamsText.bind(this)
+        this.onChangeParamsValueText = this.onChangeParamsValueText.bind(this)
         this.onClickUrlParse = this.onClickUrlParse.bind(this)
         this.onClickUrlBuild = this.onClickUrlBuild.bind(this)
         this.onClickDeleteParam = this.onClickDeleteParam.bind(this)
@@ -83,8 +83,8 @@ class UrlParseForm extends React.Component<{}, State> {
         return this.state.urlParams.map((urlParam: UrlParam, i: number) => {
             return (
                 <tr key={i}>
-                    <td><input type={"text"} value={this.state.urlParams[i].key} data-index={i} data-type={"key"} onChange={this.onChangeParamsText} /></td>
-                    <td><input type={"text"} value={this.state.urlParams[i].value} data-index={i} data-type={"value"} onChange={this.onChangeParamsText} /></td>
+                    <td>{this.state.urlParams[i].key}</td>
+                    <td><input type={"text"} className={"form-control"} value={this.state.urlParams[i].value} data-index={i} onChange={this.onChangeParamsValueText} /></td>
                     <td><button type={"button"} className={"btn btn-secondary btn-sm"} onClick={this.onClickDeleteParam} data-index={i}>delete</button></td>
                 </tr>
             )
@@ -103,11 +103,10 @@ class UrlParseForm extends React.Component<{}, State> {
         })
     }
 
-    onChangeParamsText(e: React.ChangeEvent<HTMLInputElement>) {
+    onChangeParamsValueText(e: React.ChangeEvent<HTMLInputElement>) {
         const newUrlParams = Array.from(this.state.urlParams)
         const index = Number(e.currentTarget.getAttribute('data-index'))
-        const type = Number(e.currentTarget.getAttribute('data-type'))
-        newUrlParams[index][type] = e.target.value
+        newUrlParams[index].value = e.target.value
         this.setState({
             urlParams: newUrlParams,
         })
