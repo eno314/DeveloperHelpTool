@@ -33,10 +33,11 @@ class UrlParseForm extends React.Component<{}, State> {
 
         this.onChangeParsedURLText = this.onChangeParsedURLText.bind(this)
         this.onChangeBaseURLText = this.onChangeBaseURLText.bind(this)
-        this.onChangeParamsValueText = this.onChangeParamsValueText.bind(this)
+        this.onChangeParamsText = this.onChangeParamsText.bind(this)
         this.onClickUrlParse = this.onClickUrlParse.bind(this)
         this.onClickUrlBuild = this.onClickUrlBuild.bind(this)
         this.onClickDeleteParam = this.onClickDeleteParam.bind(this)
+        this.onClickAddParam = this.onClickAddParam.bind(this)
     }
 
     render(): ReactNode {
@@ -72,7 +73,7 @@ class UrlParseForm extends React.Component<{}, State> {
                         </tbody>
                     </table>
                     <div style={this.styles.addParamButton}>
-                        <button type={"button"} className={"btn btn-secondary"}>add param</button>
+                        <button type={"button"} className={"btn btn-secondary"} onClick={this.onClickAddParam}>add param</button>
                     </div>
                 </div>
             </div>
@@ -83,8 +84,8 @@ class UrlParseForm extends React.Component<{}, State> {
         return this.state.urlParams.map((urlParam: UrlParam, i: number) => {
             return (
                 <tr key={i}>
-                    <td>{this.state.urlParams[i].key}</td>
-                    <td><input type={"text"} className={"form-control"} value={this.state.urlParams[i].value} data-index={i} onChange={this.onChangeParamsValueText} /></td>
+                    <td><input type={"text"} className={"form-control"} value={this.state.urlParams[i].key} data-index={i} data-type={"key"} onChange={this.onChangeParamsText} /></td>
+                    <td><input type={"text"} className={"form-control"} value={this.state.urlParams[i].value} data-index={i} data-type={"value"} onChange={this.onChangeParamsText} /></td>
                     <td><button type={"button"} className={"btn btn-secondary btn-sm"} onClick={this.onClickDeleteParam} data-index={i}>delete</button></td>
                 </tr>
             )
@@ -103,10 +104,11 @@ class UrlParseForm extends React.Component<{}, State> {
         })
     }
 
-    onChangeParamsValueText(e: React.ChangeEvent<HTMLInputElement>) {
+    onChangeParamsText(e: React.ChangeEvent<HTMLInputElement>) {
         const newUrlParams = Array.from(this.state.urlParams)
         const index = Number(e.currentTarget.getAttribute('data-index'))
-        newUrlParams[index].value = e.target.value
+        const type = e.currentTarget.getAttribute('data-type')
+        newUrlParams[index][type] = e.target.value
         this.setState({
             urlParams: newUrlParams,
         })
@@ -142,6 +144,14 @@ class UrlParseForm extends React.Component<{}, State> {
     onClickDeleteParam(e: React.MouseEvent<HTMLElement>) {
         const clickButtonIndex = e.currentTarget.getAttribute('data-index')
         const newUrlParams = this.state.urlParams.filter((urlParam: UrlParam, index: number) => clickButtonIndex != index.toString())
+        this.setState({
+            urlParams: newUrlParams,
+        })
+    }
+
+    onClickAddParam(e: React.MouseEvent<HTMLElement>) {
+        const newUrlParams = Array.from(this.state.urlParams)
+        newUrlParams.push({ key: '', value: '' })
         this.setState({
             urlParams: newUrlParams,
         })
