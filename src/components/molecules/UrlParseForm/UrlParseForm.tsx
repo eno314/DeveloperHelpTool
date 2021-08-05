@@ -1,6 +1,15 @@
 import React, { ReactNode } from "react";
 
-class UrlParseForm extends React.Component {
+type State = {
+    urlParams?: UrlParam[],
+}
+
+type UrlParam = {
+    key: string,
+    value: string
+}
+
+class UrlParseForm extends React.Component<{}, State> {
 
     private readonly styles = {
         primaryButtonsRow: {
@@ -8,15 +17,18 @@ class UrlParseForm extends React.Component {
             marginBottom: 10,
         },
         addParamButton: {
-            textAlign: 'center',
+            textAlign: 'center' as const,
         },
     };
 
     private readonly parsedUrlText = React.createRef<HTMLInputElement>()
-    private readonly parseResultBaseUrlText = React.createRef<HTMLInputElement>()
+    private readonly baseUrlText = React.createRef<HTMLInputElement>()
 
     constructor(prop: any) {
         super(prop)
+        this.state = {
+            urlParams: [],
+        }
 
         this.onClickUrlParse = this.onClickUrlParse.bind(this)
         this.onClickUrlBuild = this.onClickUrlBuild.bind(this)
@@ -25,9 +37,9 @@ class UrlParseForm extends React.Component {
     render(): ReactNode {
         return (
             <div className={"container"}>
-                <div className="input-group mb-3">
-                    <span className="input-group-text" id="parsedUrl">Parsed URL</span>
-                    <input ref={this.parsedUrlText} type={"url"} className="form-control" aria-describedby="parsedUrl" />
+                <div className={"input-group mb-3"}>
+                    <span className={"input-group-text"} id={"parsedUrl"}>Parsed URL</span>
+                    <input ref={this.parsedUrlText} type={"url"} className={"form-control"} aria-describedby={"parsedUrl"} />
                 </div>
                 <div className={"row"} style={this.styles.primaryButtonsRow}>
                     <div className={"col text-center"}>
@@ -39,8 +51,8 @@ class UrlParseForm extends React.Component {
                 </div>
                 <div>
                     <div className={"input-group mb-3"}>
-                        <span className="input-group-text" id="baseUrl">Base URL</span>
-                        <input ref={this.parseResultBaseUrlText} type={"url"} className="form-control" aria-describedby="baseUrl" />
+                        <span className={"input-group-text"} id={"baseUrl"}>Base URL</span>
+                        <input ref={this.baseUrlText} type={"url"} className={"form-control"} aria-describedby={"baseUrl"} />
                     </div>
                     <table className={"table table-sm"}>
                         <thead>
@@ -51,16 +63,7 @@ class UrlParseForm extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><input type={"text"} defaultValue={"hoge"} /></td>
-                                <td><input type={"text"} defaultValue={"fuga"} /></td>
-                                <td><button type={"button"} className={"btn btn-secondary btn-sm"}>delete</button></td>
-                            </tr>
-                            <tr>
-                                <td><input type={"text"} defaultValue={"hoge"} /></td>
-                                <td><input type={"text"} defaultValue={"fuga"} /></td>
-                                <td><button type={"button"} className={"btn btn-secondary btn-sm"}>delete</button></td>
-                            </tr>
+                            {this.urlParamsTbodyTr()}
                         </tbody>
                     </table>
                     <div style={this.styles.addParamButton}>
@@ -71,11 +74,37 @@ class UrlParseForm extends React.Component {
         )
     }
 
+    urlParamsTbodyTr(): ReactNode {
+        return this.state.urlParams.map((urlParam: UrlParam, i: number) => {
+            return (
+                <tr key={i}>
+                    <td><input type={"text"} defaultValue={urlParam.key} /></td>
+                    <td><input type={"text"} defaultValue={urlParam.value} /></td>
+                    <td><button type={"button"} className={"btn btn-secondary btn-sm"}>delete</button></td>
+                </tr>
+            )
+        })
+    }
+
     onClickUrlParse(e: React.MouseEvent<HTMLElement>) {
-        console.log(this.parsedUrlText.current.value)
+        const parsedUrl = new URL(this.parsedUrlText.current.value)
+        this.baseUrlText.current.value = `${parsedUrl.protocol}//${parsedUrl.hostname}${parsedUrl.pathname}`
+
+        const urlParams: UrlParam[] = []
+        parsedUrl.searchParams.forEach(((value: string, key: string, parent: URLSearchParams) => {
+            urlParams.push({ key: key, value: value })
+        }))
+
+        this.setState({
+            urlParams: urlParams,
+        })
     }
 
     onClickUrlBuild(e: React.MouseEvent<HTMLElement>) {
+    }
+
+    createParamsTr(paramKey: string, paramValue: string): string {
+        return
     }
 }
 
