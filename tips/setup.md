@@ -32,3 +32,13 @@ package.json の内容をローカルにインストール
 ```text
 yarn install
 ```
+
+## Content-Security-Policy 対応
+
+以下のリンク参照
+<https://kotamat.com/post/nextjs-strict-csp/>
+
+## Googla Analytics 対応
+
+- <https://fwywd.com/tech/next-ga-pv>
+- <https://hukurouo.com/articles/2021-02-07-gtag>
