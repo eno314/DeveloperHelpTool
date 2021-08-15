@@ -20,3 +20,8 @@ jobs:
 
       - name: Unit Test
         run: yarn test:coverage
+        
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
