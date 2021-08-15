@@ -27,7 +27,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "src/components/molecules/Index/Index.test.jsx"
   ],
   "exclude": [
     "node_modules"
