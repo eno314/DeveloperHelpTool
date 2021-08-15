@@ -1,17 +1,25 @@
 import React, { ReactNode } from "react";
 
-class UrlEncodeForm extends React.Component {
+type State = {
+    decodedText: string,
+    encodedText: string,
+}
+
+class UrlEncodeForm extends React.Component<{}, State> {
 
     private readonly textAreaStyle = {
         height: 100
     };
 
-    private readonly decodedTextArea = React.createRef<HTMLTextAreaElement>()
-    private readonly encodedTextArea = React.createRef<HTMLTextAreaElement>()
-
     constructor(prop: any) {
         super(prop)
+        this.state = {
+            decodedText: '',
+            encodedText: '',
+        }
 
+        this.onChangeDecodedTextArea = this.onChangeDecodedTextArea.bind(this)
+        this.onChangeEncodedTextArea = this.onChangeEncodedTextArea.bind(this)
         this.onClickUrlEncode = this.onClickUrlEncode.bind(this)
         this.onClickUrlDecode = this.onClickUrlDecode.bind(this)
     }
@@ -21,10 +29,11 @@ class UrlEncodeForm extends React.Component {
             <div className={"container"}>
                 <div className={"row form-floating"}>
                     <textarea
-                        ref={this.decodedTextArea}
                         id="floatingTextarea"
                         className={"form-control textarea"}
                         style={this.textAreaStyle}
+                        value={this.state.decodedText}
+                        onChange={this.onChangeDecodedTextArea}
                     />
                     <label htmlFor={"floatingTextarea"}>Please input text you'd like to encode.</label>
                 </div>
@@ -38,10 +47,11 @@ class UrlEncodeForm extends React.Component {
                 </div>
                 <div className={"row form-floating"}>
                     <textarea
-                        ref={this.encodedTextArea}
                         id="floatingTextarea"
                         className={"form-control textarea"}
                         style={this.textAreaStyle}
+                        value={this.state.encodedText}
+                        onChange={this.onChangeEncodedTextArea}
                     />
                     <label htmlFor={"floatingTextarea"}>Please input text you'd like to decode.</label>
                 </div>
@@ -49,14 +59,28 @@ class UrlEncodeForm extends React.Component {
         )
     }
 
+    onChangeDecodedTextArea(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        this.setState({
+            decodedText: e.target.value
+        })
+    }
+
+    onChangeEncodedTextArea(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        this.setState({
+            encodedText: e.target.value
+        })
+    }
+
     onClickUrlEncode(e: React.MouseEvent<HTMLElement>) {
-        const decodedText = this.decodedTextArea.current.value
-        this.encodedTextArea.current.value = encodeURIComponent(decodedText)
+        this.setState({
+            encodedText: encodeURIComponent(this.state.decodedText)
+        })
     }
 
     onClickUrlDecode(e: React.MouseEvent<HTMLElement>) {
-        const encodedText = this.encodedTextArea.current.value
-        this.decodedTextArea.current.value = decodeURIComponent(encodedText)
+        this.setState({
+            decodedText: decodeURIComponent(this.state.encodedText)
+        })
     }
 }
 
