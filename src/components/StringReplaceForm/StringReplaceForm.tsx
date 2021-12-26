@@ -54,20 +54,20 @@ class StringReplaceForm extends React.Component<{}, State> {
                     <div className={"input-group mb-3 col"}>
                         <span className={"input-group-text"} id={"targetSubstr"}>target substr</span>
                         <input
-                            type={"url"}
-                            className={"form-control"}
                             aria-describedby={"targetSubstr"}
-                            value={this.state.targetSubstr}
-                            onChange={this.onChangeTargetSubstr} />
+                            className={"form-control"}
+                            onChange={this.onChangeTargetSubstr}
+                            type={"text"}
+                            value={this.state.targetSubstr} />
                     </div>
                     <div className={"input-group mb-3 col"}>
                         <span className={"input-group-text"} id={"newSubstr"}>new substr</span>
                         <input
-                            type={"url"}
-                            className={"form-control"}
                             aria-describedby={"newSubstr"}
-                            value={this.state.newSubstr}
-                            onChange={this.onChangeNewSubstr} />
+                            className={"form-control"}
+                            onChange={this.onChangeNewSubstr}
+                            type={"text"}
+                            value={this.state.newSubstr} />
                     </div>
                 </div>
                 <div className={"row"} style={this.styles.buttonsRow}>
@@ -79,10 +79,9 @@ class StringReplaceForm extends React.Component<{}, State> {
                     <textarea
                         className={"form-control textarea"}
                         id="newTextarea"
-                        style={this.styles.textArea}
-                        value={this.state.resultStr}
                         onChange={this.onChangeResultTextarea}
-                    />
+                        style={this.styles.textArea}
+                        value={this.state.resultStr} />
                     <label htmlFor={"newTextarea"}>If you click apply button, replaced string will appear here.</label>
                 </div>
             </div>
@@ -115,10 +114,10 @@ class StringReplaceForm extends React.Component<{}, State> {
 
     onClickReplace(e: React.MouseEvent<HTMLElement>) {
         const replacedStr = this.state.replacedStr
-        const targetSubstr = this.state.targetSubstr
+        const regex = new RegExp(this.state.targetSubstr, 'g')
         const newSubstr = this.state.newSubstr
         this.setState({
-            resultStr: replacedStr.replaceAll(targetSubstr, newSubstr)
+            resultStr: replacedStr.replace(regex, newSubstr)
         })
     }
 }
