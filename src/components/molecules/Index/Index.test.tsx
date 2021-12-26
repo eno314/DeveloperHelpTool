@@ -9,7 +9,8 @@ describe('Index', () => {
     test('renders Index component', () => {
         render(<Index />);
         const links = screen.getAllByRole('link')
-        expect(links[0]).toHaveAttribute('href', '/url/parse');
+        expect(links[0]).toHaveAttribute('href', '/string/replace');
         expect(links[1]).toHaveAttribute('href', '/url/encode');
+        expect(links[2]).toHaveAttribute('href', '/url/parse');
     });
 });
