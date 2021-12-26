@@ -33,7 +33,6 @@ class StringReplaceForm extends React.Component<{}, State> {
         this.onChangeReplacedTextarea = this.onChangeReplacedTextarea.bind(this)
         this.onChangeTargetSubstr = this.onChangeTargetSubstr.bind(this)
         this.onChangeNewSubstr = this.onChangeNewSubstr.bind(this)
-        this.onChangeResultTextarea = this.onChangeResultTextarea.bind(this)
         this.onClickReplace = this.onClickReplace.bind(this)
     }
 
@@ -78,10 +77,10 @@ class StringReplaceForm extends React.Component<{}, State> {
                 <div className={"row form-floating"}>
                     <textarea
                         className={"form-control textarea"}
+                        defaultValue={this.state.resultStr}
                         id="newTextarea"
-                        onChange={this.onChangeResultTextarea}
-                        style={this.styles.textArea}
-                        value={this.state.resultStr} />
+                        readOnly={true}
+                        style={this.styles.textArea} />
                     <label htmlFor={"newTextarea"}>If you click apply button, replaced string will appear here.</label>
                 </div>
             </div>
@@ -103,12 +102,6 @@ class StringReplaceForm extends React.Component<{}, State> {
     onChangeNewSubstr(e: React.ChangeEvent<HTMLInputElement>) {
         this.setState({
             newSubstr: e.target.value
-        })
-    }
-
-    onChangeResultTextarea(e: React.ChangeEvent<HTMLTextAreaElement>) {
-        this.setState({
-            resultStr: e.target.value
         })
     }
 
