@@ -130,15 +130,23 @@ class UrlParseForm extends React.Component<{}, State> {
 
     onClickUrlBuild(e: React.MouseEvent<HTMLElement>) {
         const params = this.state.urlParams
+            .filter((urlParam: UrlParam) => urlParam.key && urlParam.value)
             .map((urlParam: UrlParam) => {
                 const encodedValue = encodeURIComponent(urlParam.value)
                 return `${urlParam.key}=${encodedValue}`
             })
             .join('&')
 
-        this.setState({
-            parsedUrlText: `${this.state.baseUrlText}?${params}`
-        })
+        if (!params) {
+            this.setState({
+                parsedUrlText: this.state.baseUrlText
+            })
+        } else {
+            this.setState({
+                parsedUrlText: `${this.state.baseUrlText}?${params}`
+            })
+        }
+
     }
 
     onClickDeleteParam(e: React.MouseEvent<HTMLElement>) {
