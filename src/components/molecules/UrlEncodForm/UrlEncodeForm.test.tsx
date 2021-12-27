@@ -52,4 +52,16 @@ describe('onClickUrlDecode.', () => {
 
         expect(textBoxes[0]).toHaveValue('あいうえお')
     });
+
+    test('when encodedText is invalid, decodedTextArea apply can not ', () => {
+        render(<UrlEncodeForm />)
+
+        const textBoxes = screen.getAllByRole('textbox')
+        const buttons = screen.getAllByRole('button')
+
+        fireEvent.change(textBoxes[1], { target: { value: '%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81' } })
+        fireEvent.click(buttons[1])
+
+        expect(textBoxes[0]).toHaveValue('can not decode. URIError: URI malformed.')
+    });
 })
