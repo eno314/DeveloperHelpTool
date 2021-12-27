@@ -78,9 +78,15 @@ class UrlEncodeForm extends React.Component<{}, State> {
     }
 
     onClickUrlDecode(e: React.MouseEvent<HTMLElement>) {
-        this.setState({
-            decodedText: decodeURIComponent(this.state.encodedText)
-        })
+        try {
+            this.setState({
+                decodedText: decodeURIComponent(this.state.encodedText)
+            })
+        } catch (e) {
+            this.setState({
+                decodedText: `can not decode. ${e}.`
+            })
+        }
     }
 }
 
