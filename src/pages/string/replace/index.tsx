@@ -2,9 +2,11 @@ import DeveloperHelpToolFrame from '@/components/molecules/DeveloperHelpToolFram
 import StringReplaceForm from '@/components/molecules/StringReplaceForm/StringReplaceForm'
 import React from 'react'
 
-export default function StringReplace (): JSX.Element {
+const StringReplace = (): JSX.Element => {
   return <DeveloperHelpToolFrame
         subTitle={'String Replace Tool'}
         content={<StringReplaceForm />}
     />
 }
+
+export default StringReplace
