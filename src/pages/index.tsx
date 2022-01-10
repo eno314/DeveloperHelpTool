@@ -2,9 +2,9 @@ import DeveloperHelpToolFrame from '@/components/molecules/DeveloperHelpToolFram
 import Index from '@/components/molecules/Index/Index'
 import React from 'react'
 
-export default function Home() {
+export default function Home (): JSX.Element {
   return <DeveloperHelpToolFrame
-    subTitle={"index page"}
+    subTitle={'index page'}
     content={<Index />}
   />
 }
