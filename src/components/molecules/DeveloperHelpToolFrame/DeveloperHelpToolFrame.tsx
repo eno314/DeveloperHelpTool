@@ -6,19 +6,19 @@ interface Props {
   content: React.ReactNode
 }
 
-const DeveloperHelpToolFrame = ({ subTitle, content }: Props): JSX.Element => {
+const DeveloperHelpToolFrame = (props: Props): JSX.Element => {
   return (
-        <div>
-            <Head>
-                <title>Developer Help Tool - {subTitle}</title>
-            </Head>
+    <div>
+      <Head>
+        <title>Developer Help Tool - {props.subTitle}</title>
+      </Head>
 
-            <main>
-                <h1 className={'col text-center'}>Developer Help Tool</h1>
-                <h2 className={'col text-center'}>{subTitle}</h2>
-                {content}
-            </main>
-        </div>
+      <main>
+        <h1 className={'col text-center'}>Developer Help Tool</h1>
+        <h2 className={'col text-center'}>{props.subTitle}</h2>
+        {props.content}
+      </main>
+    </div>
   )
 }
 
