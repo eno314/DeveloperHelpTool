@@ -1,92 +1,69 @@
-import React, { ReactNode } from 'react'
+import React, { useState } from 'react'
 
-interface State {
-  decodedText: string
-  encodedText: string
+const textAreaStyle = {
+  height: 100
 }
 
-class UrlEncodeForm extends React.Component<{}, State> {
-  private readonly textAreaStyle = {
-    height: 100
-  }
+const UrlEncodeForm = (): JSX.Element => {
+  const [decodedText, setDecodedText] = useState('')
+  const [encodedText, setEncodedText] = useState('')
 
-  constructor (prop: any) {
-    super(prop)
-    this.state = {
-      decodedText: '',
-      encodedText: ''
-    }
+  return (
+    <div className={'container'}>
+      <div className={'row form-floating'}>
+          <textarea
+            id="floatingTextarea"
+            className={'form-control textarea'}
+            style={textAreaStyle}
+            value={decodedText}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDecodedText(e.target.value)}
+          />
+          <label htmlFor={'floatingTextarea'}>Please input text you'd like to encode.</label>
+      </div>
+      <div className={'row'}>
+          <div className={'col text-center'}>
+              <button
+                type={'button'}
+                className={'btn btn-primary'}
+                onClick={() => setEncodedText(toEncodedText(decodedText))}
+              >
+                ▼ Apply URL Encoding
+              </button>
+          </div>
+          <div className={'col text-center'}>
+              <button
+                type={'button'}
+                className={'btn btn-primary'}
+                onClick={() => setDecodedText(toDecodedText(encodedText))}
+              >
+                ▲ Apply URL Decoding
+              </button>
+          </div>
+      </div>
+      <div className={'row form-floating'}>
+          <textarea
+              id="floatingTextarea"
+              className={'form-control textarea'}
+              style={textAreaStyle}
+              value={encodedText}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setEncodedText(e.target.value)}
+          />
+          <label htmlFor={'floatingTextarea'}>Please input text you'd like to decode.</label>
+      </div>
+    </div>
+  )
+}
 
-    this.onChangeDecodedTextArea = this.onChangeDecodedTextArea.bind(this)
-    this.onChangeEncodedTextArea = this.onChangeEncodedTextArea.bind(this)
-    this.onClickUrlEncode = this.onClickUrlEncode.bind(this)
-    this.onClickUrlDecode = this.onClickUrlDecode.bind(this)
-  }
+const toEncodedText = (text: string): string => {
+  return encodeURIComponent(text)
+}
 
-  render (): ReactNode {
-    return (
-            <div className={'container'}>
-                <div className={'row form-floating'}>
-                    <textarea
-                        id="floatingTextarea"
-                        className={'form-control textarea'}
-                        style={this.textAreaStyle}
-                        value={this.state.decodedText}
-                        onChange={this.onChangeDecodedTextArea}
-                    />
-                    <label htmlFor={'floatingTextarea'}>Please input text you'd like to encode.</label>
-                </div>
-                <div className={'row'}>
-                    <div className={'col text-center'}>
-                        <button type={'button'} className={'btn btn-primary'} onClick={this.onClickUrlEncode}>▼ Apply URL Encoding</button>
-                    </div>
-                    <div className={'col text-center'}>
-                        <button type={'button'} className={'btn btn-primary'} onClick={this.onClickUrlDecode}>▲ Apply URL Decoding</button>
-                    </div>
-                </div>
-                <div className={'row form-floating'}>
-                    <textarea
-                        id="floatingTextarea"
-                        className={'form-control textarea'}
-                        style={this.textAreaStyle}
-                        value={this.state.encodedText}
-                        onChange={this.onChangeEncodedTextArea}
-                    />
-                    <label htmlFor={'floatingTextarea'}>Please input text you'd like to decode.</label>
-                </div>
-            </div>
-    )
-  }
-
-  onChangeDecodedTextArea (e: React.ChangeEvent<HTMLTextAreaElement>): void {
-    this.setState({
-      decodedText: e.target.value
-    })
-  }
-
-  onChangeEncodedTextArea (e: React.ChangeEvent<HTMLTextAreaElement>): void {
-    this.setState({
-      encodedText: e.target.value
-    })
-  }
-
-  onClickUrlEncode (e: React.MouseEvent<HTMLElement>): void {
-    this.setState({
-      encodedText: encodeURIComponent(this.state.decodedText)
-    })
-  }
-
-  onClickUrlDecode (e: React.MouseEvent<HTMLElement>): void {
-    try {
-      this.setState({
-        decodedText: decodeURIComponent(this.state.encodedText)
-      })
-    } catch (err) {
-      const errMessage: string = err.toString()
-      this.setState({
-        decodedText: `can not decode. ${errMessage}.`
-      })
-    }
+const toDecodedText = (text: string): string => {
+  try {
+    return decodeURIComponent(text)
+  } catch (err) {
+    const errMessage: string = err.toString()
+    return `can not decode. ${errMessage}.`
   }
 }
 
