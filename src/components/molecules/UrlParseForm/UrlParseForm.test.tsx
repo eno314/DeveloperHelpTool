@@ -39,10 +39,8 @@ describe('onClickAddParam', () => {
 
     const newTextBoxes = screen.getAllByRole('textbox')
     expect(newTextBoxes).toHaveLength(4)
-    expect(newTextBoxes[2]).toHaveAttribute('data-index', '0')
-    expect(newTextBoxes[2]).toHaveAttribute('data-type', 'key')
-    expect(newTextBoxes[3]).toHaveAttribute('data-index', '0')
-    expect(newTextBoxes[3]).toHaveAttribute('data-type', 'value')
+    expect(newTextBoxes[2]).toHaveValue('')
+    expect(newTextBoxes[3]).toHaveValue('')
   })
 
   test('when click add param button twice, add two forms to input url param', () => {
@@ -57,10 +55,8 @@ describe('onClickAddParam', () => {
 
     const newTextBoxes = screen.getAllByRole('textbox')
     expect(newTextBoxes).toHaveLength(6)
-    expect(newTextBoxes[4]).toHaveAttribute('data-index', '1')
-    expect(newTextBoxes[4]).toHaveAttribute('data-type', 'key')
-    expect(newTextBoxes[5]).toHaveAttribute('data-index', '1')
-    expect(newTextBoxes[5]).toHaveAttribute('data-type', 'value')
+    expect(newTextBoxes[4]).toHaveValue('')
+    expect(newTextBoxes[5]).toHaveValue('')
   })
 })
 
