@@ -1,169 +1,160 @@
-import React, { ReactNode } from "react";
+import React, { ChangeEvent, useState } from 'react'
 
-type State = {
-    parsedUrlText: string,
-    baseUrlText: string,
-    urlParams?: UrlParam[],
+interface UrlParam {
+  key: string
+  value: string
 }
 
-type UrlParam = {
-    key: string,
-    value: string
+const styles = {
+  primaryButtonsRow: {
+    marginTop: 10,
+    marginBottom: 10
+  },
+  addParamButton: {
+    textAlign: 'center' as const
+  }
 }
 
-class UrlParseForm extends React.Component<{}, State> {
+const UrlParseForm = (): JSX.Element => {
+  const [parsedUrlText, setParsedUrlText] = useState('')
+  const [baseUrlText, setBaseUrlText] = useState('')
+  const [urlParams, setUrlParams] = useState([] as UrlParam[])
 
-    private readonly styles = {
-        primaryButtonsRow: {
-            marginTop: 10,
-            marginBottom: 10,
-        },
-        addParamButton: {
-            textAlign: 'center' as const,
-        },
-    };
+  return (
+    <div className={'container'}>
+      <div className={'input-group mb-3'}>
+        <span className={'input-group-text'} id={'parsedUrl'}>Parsed URL</span>
+        <input
+          type={'url'}
+          className={'form-control'}
+          aria-describedby={'parsedUrl'}
+          value={parsedUrlText}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setParsedUrlText(e.target.value)} />
+      </div>
+      <div className={'row'} style={styles.primaryButtonsRow}>
+        <div className={'col text-center'}>
+          <button
+            type={'button'}
+            className={'btn btn-primary'}
+            onClick={() => {
+              const result = parseUrl(parsedUrlText)
+              setBaseUrlText(result.baseUrlText)
+              setUrlParams(result.urlParams)
+            }}
+          >▼ Parse URL</button>
+        </div>
+        <div className={'col text-center'}>
+          <button
+            type={'button'}
+            className={'btn btn-primary'}
+            onClick={() => setParsedUrlText(createUrlText(baseUrlText, urlParams))}
+          >▲ Build URL</button>
+        </div>
+      </div>
+      <div>
+        <div className={'input-group mb-3'}>
+          <span className={'input-group-text'} id={'baseUrl'}>Base URL</span>
+          <input
+            type={'url'}
+            className={'form-control'}
+            aria-describedby={'baseUrl'}
+            value={baseUrlText}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setBaseUrlText(e.target.value)} />
+        </div>
+        <table className={'table table-sm'}>
+          <thead>
+            <tr>
+              <th scope={'col'}>URL PARAM KEY</th>
+              <th scope={'col'}>URL PARAM VALUE</th>
+              <th scope={'col'}>DELETE</th>
+            </tr>
+          </thead>
+          <tbody>
+            {urlParams.map((urlParam: UrlParam, i: number) => (
+              <tr key={i}>
+                <td>
+                  <input
+                    type={'text'}
+                    className={'form-control'}
+                    value={urlParam.key}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setUrlParams(updateUrlParams(urlParams, i, 'key', e.target.value))} />
+                </td>
+                <td>
+                  <input
+                    type={'text'}
+                    className={'form-control'}
+                    value={urlParam.value}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setUrlParams(updateUrlParams(urlParams, i, 'value', e.target.value))} />
+                </td>
+                <td>
+                  <button
+                    type={'button'}
+                    className={'btn btn-secondary btn-sm'}
+                    onClick={() => setUrlParams(removeUrlParamOf(i, urlParams))}
+                  >delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div style={styles.addParamButton}>
+          <button
+            type={'button'}
+            className={'btn btn-secondary'}
+            onClick={() => setUrlParams(addUrlParam(urlParams))}
+          >add param</button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
-    constructor(prop: any) {
-        super(prop)
-        this.state = {
-            parsedUrlText: '',
-            baseUrlText: '',
-            urlParams: [],
-        }
+const updateUrlParams = (base: UrlParam[], index: number, type: string, value: string): UrlParam[] => {
+  const urlParams = Array.from(base)
+  urlParams[index][type] = value
+  return urlParams
+}
 
-        this.onChangeParsedURLText = this.onChangeParsedURLText.bind(this)
-        this.onChangeBaseURLText = this.onChangeBaseURLText.bind(this)
-        this.onChangeParamsText = this.onChangeParamsText.bind(this)
-        this.onClickUrlParse = this.onClickUrlParse.bind(this)
-        this.onClickUrlBuild = this.onClickUrlBuild.bind(this)
-        this.onClickDeleteParam = this.onClickDeleteParam.bind(this)
-        this.onClickAddParam = this.onClickAddParam.bind(this)
-    }
+const parseUrl = (url: string): { baseUrlText: string, urlParams: UrlParam[]} => {
+  const parsedUrl = new URL(url)
 
-    render(): ReactNode {
-        return (
-            <div className={"container"}>
-                <div className={"input-group mb-3"}>
-                    <span className={"input-group-text"} id={"parsedUrl"}>Parsed URL</span>
-                    <input type={"url"} className={"form-control"} aria-describedby={"parsedUrl"} value={this.state.parsedUrlText} onChange={this.onChangeParsedURLText} />
-                </div>
-                <div className={"row"} style={this.styles.primaryButtonsRow}>
-                    <div className={"col text-center"}>
-                        <button type={"button"} className={"btn btn-primary"} onClick={this.onClickUrlParse}>▼ Parse URL</button>
-                    </div>
-                    <div className={"col text-center"}>
-                        <button type={"button"} className={"btn btn-primary"} onClick={this.onClickUrlBuild}>▲ Build URL</button>
-                    </div>
-                </div>
-                <div>
-                    <div className={"input-group mb-3"}>
-                        <span className={"input-group-text"} id={"baseUrl"}>Base URL</span>
-                        <input type={"url"} className={"form-control"} aria-describedby={"baseUrl"} value={this.state.baseUrlText} onChange={this.onChangeBaseURLText} />
-                    </div>
-                    <table className={"table table-sm"}>
-                        <thead>
-                            <tr>
-                                <th scope={"col"}>URL PARAM KEY</th>
-                                <th scope={"col"}>URL PARAM VALUE</th>
-                                <th scope={"col"}>DELETE</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.urlParamsTbodyTr()}
-                        </tbody>
-                    </table>
-                    <div style={this.styles.addParamButton}>
-                        <button type={"button"} className={"btn btn-secondary"} onClick={this.onClickAddParam}>add param</button>
-                    </div>
-                </div>
-            </div>
-        )
-    }
+  const urlParams: UrlParam[] = []
+  parsedUrl.searchParams.forEach((value: string, key: string, _: URLSearchParams) => {
+    urlParams.push({ key: key, value: value })
+  })
 
-    urlParamsTbodyTr(): ReactNode {
-        return this.state.urlParams.map((urlParam: UrlParam, i: number) => {
-            return (
-                <tr key={i}>
-                    <td><input type={"text"} className={"form-control"} value={this.state.urlParams[i].key} data-index={i} data-type={"key"} onChange={this.onChangeParamsText} /></td>
-                    <td><input type={"text"} className={"form-control"} value={this.state.urlParams[i].value} data-index={i} data-type={"value"} onChange={this.onChangeParamsText} /></td>
-                    <td><button type={"button"} className={"btn btn-secondary btn-sm"} onClick={this.onClickDeleteParam} data-index={i}>delete</button></td>
-                </tr>
-            )
-        })
-    }
+  return {
+    baseUrlText: `${parsedUrl.protocol}//${parsedUrl.hostname}${parsedUrl.pathname}`,
+    urlParams: urlParams
+  }
+}
 
-    onChangeParsedURLText(e: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({
-            parsedUrlText: e.target.value
-        })
-    }
+const createUrlText = (baseUrlText: string, urlParams: UrlParam[]): string => {
+  const params = urlParams
+    .filter((urlParam: UrlParam) => (urlParam.key.length > 0) && urlParam.value)
+    .map((urlParam: UrlParam) => {
+      const encodedValue = encodeURIComponent(urlParam.value)
+      return `${urlParam.key}=${encodedValue}`
+    })
+    .join('&')
 
-    onChangeBaseURLText(e: React.ChangeEvent<HTMLInputElement>) {
-        this.setState({
-            baseUrlText: e.target.value
-        })
-    }
+  if (params.length === 0) {
+    return baseUrlText
+  } else {
+    return `${baseUrlText}?${params}`
+  }
+}
 
-    onChangeParamsText(e: React.ChangeEvent<HTMLInputElement>) {
-        const newUrlParams = Array.from(this.state.urlParams)
-        const index = Number(e.currentTarget.getAttribute('data-index'))
-        const type = e.currentTarget.getAttribute('data-type')
-        newUrlParams[index][type] = e.target.value
-        this.setState({
-            urlParams: newUrlParams,
-        })
-    }
+const removeUrlParamOf = (index: number, urlParams: UrlParam[]): UrlParam[] => {
+  const newUrlParams = Array.from(urlParams)
+  newUrlParams.splice(index, 1)
+  return newUrlParams
+}
 
-    onClickUrlParse(e: React.MouseEvent<HTMLElement>) {
-        const parsedUrl = new URL(this.state.parsedUrlText)
-
-        const urlParams: UrlParam[] = []
-        parsedUrl.searchParams.forEach(((value: string, key: string, parent: URLSearchParams) => {
-            urlParams.push({ key: key, value: value })
-        }))
-
-        this.setState({
-            baseUrlText: `${parsedUrl.protocol}//${parsedUrl.hostname}${parsedUrl.pathname}`,
-            urlParams: urlParams,
-        })
-    }
-
-    onClickUrlBuild(e: React.MouseEvent<HTMLElement>) {
-        const params = this.state.urlParams
-            .filter((urlParam: UrlParam) => urlParam.key && urlParam.value)
-            .map((urlParam: UrlParam) => {
-                const encodedValue = encodeURIComponent(urlParam.value)
-                return `${urlParam.key}=${encodedValue}`
-            })
-            .join('&')
-
-        if (!params) {
-            this.setState({
-                parsedUrlText: this.state.baseUrlText
-            })
-        } else {
-            this.setState({
-                parsedUrlText: `${this.state.baseUrlText}?${params}`
-            })
-        }
-
-    }
-
-    onClickDeleteParam(e: React.MouseEvent<HTMLElement>) {
-        const clickButtonIndex = e.currentTarget.getAttribute('data-index')
-        const newUrlParams = this.state.urlParams.filter((urlParam: UrlParam, index: number) => clickButtonIndex != index.toString())
-        this.setState({
-            urlParams: newUrlParams,
-        })
-    }
-
-    onClickAddParam(e: React.MouseEvent<HTMLElement>) {
-        const newUrlParams = Array.from(this.state.urlParams)
-        newUrlParams.push({ key: '', value: '' })
-        this.setState({
-            urlParams: newUrlParams,
-        })
-    }
+const addUrlParam = (urlParams: UrlParam[]): UrlParam[] => {
+  const newUrlParams = Array.from(urlParams)
+  newUrlParams.push({ key: '', value: '' })
+  return newUrlParams
 }
 
 export default UrlParseForm

@@ -23,7 +23,10 @@ jobs:
 
       - name: Unit Test
         run: yarn test:coverage
-        
+
+      - name: Lint
+        run: yarn lint
+
       - name: Upload Coverage
         uses: codecov/codecov-action@v1
         with:
