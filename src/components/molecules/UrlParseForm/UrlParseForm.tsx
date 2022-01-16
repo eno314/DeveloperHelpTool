@@ -146,7 +146,9 @@ const createUrlText = (baseUrlText: string, urlParams: UrlParam[]): string => {
 }
 
 const removeUrlParamOf = (index: number, urlParams: UrlParam[]): UrlParam[] => {
-  return urlParams.splice(index, 1)
+  const newUrlParams = Array.from(urlParams)
+  newUrlParams.splice(index, 1)
+  return newUrlParams
 }
 
 const addUrlParam = (urlParams: UrlParam[]): UrlParam[] => {

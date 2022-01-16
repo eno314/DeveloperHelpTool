@@ -67,11 +67,15 @@ describe('onClickDeleteParam', () => {
     // add two form to input url param
     fireEvent.click(screen.getAllByRole('button')[2])
     fireEvent.click(screen.getAllByRole('button')[3])
-    // click delete form button
-    fireEvent.click(screen.getAllByRole('button')[3])
+    fireEvent.click(screen.getAllByRole('button')[4])
 
-    expect(screen.getAllByRole('button')).toHaveLength(4)
-    expect(screen.getAllByRole('textbox')).toHaveLength(4)
+    expect(screen.getAllByRole('button')).toHaveLength(6)
+
+    // click delete form button
+    fireEvent.click(screen.getAllByRole('button')[4])
+
+    expect(screen.getAllByRole('button')).toHaveLength(5)
+    expect(screen.getAllByRole('textbox')).toHaveLength(6)
   })
 })
 
