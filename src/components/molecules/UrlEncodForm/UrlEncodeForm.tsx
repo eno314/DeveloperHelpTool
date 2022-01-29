@@ -12,13 +12,13 @@ const UrlEncodeForm = (): JSX.Element => {
     <div className={'container'}>
       <div className={'row form-floating'}>
           <textarea
-            id="floatingTextarea"
+            id="encodingTextarea"
             className={'form-control textarea'}
             style={textAreaStyle}
             value={decodedText}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDecodedText(e.target.value)}
           />
-          <label htmlFor={'floatingTextarea'}>Please input text you'd like to encode.</label>
+          <label htmlFor={'encodingTextarea'}>Please input text you'd like to encode.</label>
       </div>
       <div className={'row'}>
           <div className={'col text-center'}>
@@ -26,29 +26,25 @@ const UrlEncodeForm = (): JSX.Element => {
                 type={'button'}
                 className={'btn btn-primary'}
                 onClick={() => setEncodedText(toEncodedText(decodedText))}
-              >
-                ▼ Apply URL Encoding
-              </button>
+              >▼ Apply URL Encoding</button>
           </div>
           <div className={'col text-center'}>
               <button
                 type={'button'}
                 className={'btn btn-primary'}
                 onClick={() => setDecodedText(toDecodedText(encodedText))}
-              >
-                ▲ Apply URL Decoding
-              </button>
+              >▲ Apply URL Decoding</button>
           </div>
       </div>
       <div className={'row form-floating'}>
           <textarea
-              id="floatingTextarea"
+              id="decodingTextarea"
               className={'form-control textarea'}
               style={textAreaStyle}
               value={encodedText}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setEncodedText(e.target.value)}
           />
-          <label htmlFor={'floatingTextarea'}>Please input text you'd like to decode.</label>
+          <label htmlFor={'decodingTextarea'}>Please input text you'd like to decode.</label>
       </div>
     </div>
   )
