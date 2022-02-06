@@ -3,7 +3,7 @@
  */
 
 import { fireEvent, render, screen } from '@testing-library/react'
-import JSONEncodeForm from './JSONEncodeForm'
+import JSONEncodeForm from './JSONParseForm'
 
 describe('render', () => {
   test('JSONEncodeForm has 2 textbox', () => {
