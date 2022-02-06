@@ -36,7 +36,6 @@ const JSONEncodeForm = (): JSX.Element => {
             style={textAreaStyle}
             value={resultText}
             readOnly={true}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setResultText(e.target.value)}
           />
         </div>
       </div>
