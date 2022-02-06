@@ -5,7 +5,7 @@ import React from 'react'
 const JSONEncode = (): JSX.Element => {
   return (
     <DeveloperHelpToolFrame
-      subTitle={'JSON Encode And Decode Tool'}
+      subTitle={'JSON Parse Tool'}
       content={<JSONEncodeForm />}
     />
   )
