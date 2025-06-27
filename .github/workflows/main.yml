@@ -19,16 +19,16 @@ jobs:
           node-version: '14.x'
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       - name: Unit Test
-        run: yarn test:coverage
+        run: npm run test:coverage
 
       - name: Lint
-        run: yarn lint
+        run: npm run lint
 
       - name: Vulnerability
-        run: yarn audit
+        run: npm audit
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v1
