@@ -21,7 +21,7 @@ const ToolList = ({ toolList }: Props): JSX.Element => {
 
 const toolLink = (tool: Tool, index: number): React.ReactNode => {
   return (
-    <Link href={tool.linkPath} key={index}>
+    <Link href={tool.linkPath} key={index} legacyBehavior>
       <a className={'list-group-item list-group-item-action'}>
           <div className={'d-flex justify-content-between'}>
               <h5 className="mb-1">{tool.title}</h5>

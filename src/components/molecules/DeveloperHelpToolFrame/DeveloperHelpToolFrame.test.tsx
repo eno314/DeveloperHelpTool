@@ -21,7 +21,8 @@ describe('render', () => {
   test('DeveloperHelpToolFrame has title', () => {
     render(<DeveloperHelpToolFrame subTitle={subTitle} content={content} />)
 
-    expect(screen.getByText('Developer Help Tool - sub title')).toBeInTheDocument()
+    expect(screen.getByText('Developer Help Tool')).toBeInTheDocument()
+    expect(screen.getByText('sub title')).toBeInTheDocument()
   })
 
   test('DeveloperHelpToolFrame has headings', () => {
