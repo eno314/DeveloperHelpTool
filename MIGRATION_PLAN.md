@@ -1,6 +1,6 @@
 # Next.js Application Migration Plan
 
-This document outlines the step-by-step plan to upgrade the application from Next.js 12 (Pages Router), React 17, and Node.js 14 to Next.js 16 (or latest 15), React 19, and Node.js 22, using an incremental approach.
+This document outlines the step-by-step plan to upgrade the application from Next.js 12 (Pages Router), React 17, and Node.js 14 to the latest stable Next.js 15.x, React 19, and Node.js 22, using an incremental approach.
 
 ## 1. Analysis of Current State
 
@@ -14,7 +14,7 @@ This document outlines the step-by-step plan to upgrade the application from Nex
 
 **Target Environment:**
 - **Node.js**: `22.x`
-- **Next.js**: `16.x` (or `15.x` depending on stable availability)
+- **Next.js**: `15.x` (latest stable)
 - **React**: `19`
 - **Testing**: Jest `29.x`, React Testing Library `16.x` (or latest compatible)
 - **TypeScript**: `5.x`
@@ -29,7 +29,7 @@ This document outlines the step-by-step plan to upgrade the application from Nex
   - React 18 introduced concurrent rendering and `createRoot` (replacing `ReactDOM.render`).
   - React 19 introduces new hooks (`use`, `useActionState`, etc.) and transitions.
   - Functional components no longer implicitly include `children` in their types.
-- **Next.js 12 to 16/15**:
+- **Next.js 12 to 15**:
   - **Routing**: Shift from Pages Router (`pages/`) to App Router (`app/`).
   - **Data Fetching**: `getServerSideProps` and `getStaticProps` are replaced by standard `async`/`await` in Server Components.
   - **Images**: `next/image` requires updates (legacy behavior removed).
@@ -50,10 +50,11 @@ This document outlines the step-by-step plan to upgrade the application from Nex
 ### Step 2: Upgrade React & Next.js to Latest (Pages Router Compatibility)
 *Goal: Upgrade core dependencies while keeping the existing `pages/` directory functioning.*
 1. Upgrade `react` and `react-dom` to `19`.
-2. Upgrade `next` to `16` (or `15`).
+2. Upgrade `next` to the latest stable `15.x`.
 3. Update `next.config.js` or `next.config.mjs` according to the new schema.
-4. Update ESLint and its plugins to versions compatible with ESLint 8/9 and the new Next.js version.
-5. Fix breaking changes in `src/pages/` components:
+4. Update ESLint and its plugins but **keep ESLint 8** to avoid mixing configuration issues (do not migrate to ESLint 9/Flat Config).
+5. Run React's official codemods (e.g., to automatically remove implicit `children` from `React.FC` and other React 18/19 changes) to automatically fix breaking changes.
+6. Fix remaining breaking changes in `src/pages/` components manually:
    - Remove nested `<a>` tags inside `<Link>`.
    - Update `next/image` usages to the new format.
    - Update `ReactDOM.render` to `createRoot` in custom setup (if applicable).
