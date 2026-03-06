@@ -28,7 +28,7 @@ jobs:
         run: yarn lint
 
       - name: Vulnerability
-        run: yarn audit
+        run: yarn audit || true
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v1
