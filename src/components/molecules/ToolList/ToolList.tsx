@@ -14,11 +14,13 @@ interface Tool {
 const ToolList = ({ toolList }: Props): React.JSX.Element => {
   return (
     <div className={'list-group'}>
+      {/* eslint-disable-next-line @typescript-eslint/promise-function-async */}
       {toolList.map((link, index) => toolLink(link, index))}
     </div>
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/promise-function-async
 const toolLink = (tool: Tool, index: number): React.ReactNode => {
   return (
     <Link href={tool.linkPath} key={index} className={'list-group-item list-group-item-action'}>
