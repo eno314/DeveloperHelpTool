@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../styles/globals.css'
 
-const MyApp = ({ Component, pageProps }): JSX.Element => {
+const MyApp = ({ Component, pageProps }): React.JSX.Element => {
   return <Component {...pageProps} />
 }
 

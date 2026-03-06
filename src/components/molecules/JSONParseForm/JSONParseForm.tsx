@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const JSONEncodeForm = (): JSX.Element => {
+const JSONEncodeForm = (): React.JSX.Element => {
   const textAreaStyle = {
     height: 500
   }
@@ -18,14 +18,14 @@ const JSONEncodeForm = (): JSX.Element => {
             className={'form-control textarea'}
             style={textAreaStyle}
             value={jsonText}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setJsonText(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => { setJsonText(e.target.value) }}
           />
         </div>
         <div className={'col-2 text-center'}>
           <button
             type={'button'}
             className={'btn btn-primary'}
-            onClick={() => setResultText(toParsedText(jsonText))}
+            onClick={() => { setResultText(toParsedText(jsonText)) }}
           >Parse JSON ▶︎</button>
         </div>
         <div className={'col-5'}>
@@ -54,7 +54,7 @@ const isObject = (target: any): boolean => {
   return target !== null && typeof target === 'object'
 }
 
-const createObjectText = (object: Object, nestSize: number): string => {
+const createObjectText = (object: Record<string, any>, nestSize: number): string => {
   const outerIndent = '  '.repeat(nestSize)
   const innerIndent = '  '.repeat(nestSize + 1)
   let result = 'object('

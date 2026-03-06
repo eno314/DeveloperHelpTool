@@ -25,7 +25,7 @@ const links = [
   }
 ]
 
-const Home = (): JSX.Element => {
+const Home = (): React.JSX.Element => {
   return <DeveloperHelpToolFrame
     subTitle={'index page'}
     content={<ToolList toolList={links} />}
