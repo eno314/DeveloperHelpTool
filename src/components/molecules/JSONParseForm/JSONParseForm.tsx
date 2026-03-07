@@ -14,7 +14,7 @@ const JSONEncodeForm = (): React.JSX.Element => {
     <div className={'container'} >
       <div className={'row align-items-center'}>
         <div className={'col-5'}>
-          <label htmlFor={'jsonTextarea'}>Please input JSON text you'd like to parse.</label>
+          <label htmlFor={'jsonTextarea'}>Please input JSON text you&apos;d like to parse.</label>
           <textarea
             id="jsonTextarea"
             className={'form-control textarea'}
