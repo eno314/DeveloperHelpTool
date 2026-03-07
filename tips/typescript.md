@@ -11,7 +11,7 @@ src 以下であれば、pages のルーティングはデフォルトで効く
 TypeScript 関連パッケージをインストール
 
 ```text
-yarn add -D typescript @types/react
+npm install -D typescript @types/react
 ```
 
 pages に配備されている、index.js と _app.js の拡張子を .tsx に変更する

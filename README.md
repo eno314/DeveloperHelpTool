@@ -9,11 +9,11 @@ This is a tool for developer.
 check
 
 ```:sh
-yarn audit
+npm audit
 ```
 
 fix
 
 ```:sh
-yarn upgrade
+npm update
 ```
