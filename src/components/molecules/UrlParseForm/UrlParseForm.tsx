@@ -97,7 +97,7 @@ const UrlParseForm = (): React.JSX.Element => {
                     value={urlParam.key}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                       setUrlParams(
-                        updateUrlParams(urlParams, i, 'key', e.target.value)
+                        updateUrlParams(urlParams, i, 'key', e.target.value),
                       );
                     }}
                   />
@@ -109,7 +109,7 @@ const UrlParseForm = (): React.JSX.Element => {
                     value={urlParam.value}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                       setUrlParams(
-                        updateUrlParams(urlParams, i, 'value', e.target.value)
+                        updateUrlParams(urlParams, i, 'value', e.target.value),
                       );
                     }}
                   />
@@ -149,7 +149,7 @@ const updateUrlParams = (
   base: UrlParam[],
   index: number,
   type: string,
-  value: string
+  value: string,
 ): UrlParam[] => {
   const urlParams = Array.from(base);
   urlParams[index][type] = value;
@@ -157,7 +157,7 @@ const updateUrlParams = (
 };
 
 const parseUrl = (
-  url: string
+  url: string,
 ): {baseUrlText: string; urlParams: UrlParam[]} => {
   const parsedUrl = new URL(url);
 

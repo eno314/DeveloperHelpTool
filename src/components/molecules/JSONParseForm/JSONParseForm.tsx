@@ -66,7 +66,7 @@ const isObject = (target: unknown): target is Record<string, unknown> => {
 
 const createObjectText = (
   object: Record<string, unknown>,
-  nestSize: number
+  nestSize: number,
 ): string => {
   const outerIndent = '  '.repeat(nestSize);
   const innerIndent = '  '.repeat(nestSize + 1);

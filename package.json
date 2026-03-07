@@ -13,7 +13,13 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "lint": "gts lint src/",
-    "lint:fix": "gts fix src/"
+    "lint:fix": "gts fix src/",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint"
   },
   "dependencies": {
     "bootstrap": "5.x",
@@ -24,6 +30,8 @@
     "tmp": "^0.2.5"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^9.39.4",
     "@testing-library/dom": "^10.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -33,16 +41,16 @@
     "@types/react-dom": "19",
     "@typescript-eslint/eslint-plugin": "^8.56.1",
     "@typescript-eslint/parser": "^8.56.1",
-    "eslint": "8",
-    "eslint-config-next": "15.2.0",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^15.5.12",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.5.5",
-    "eslint-plugin-promise": "^6.6.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "gts": "^5.3.1",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "gts": "^7.0.0",
     "jest": "^29.0.0",
     "jest-environment-jsdom": "^30.2.0",
     "typescript": "^5.9.3"
