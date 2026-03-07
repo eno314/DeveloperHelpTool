@@ -19,16 +19,16 @@ jobs:
           node-version: '22.x'
 
       - name: Install dependencies
-        run: yarn install
+        run: npm ci
 
       - name: Unit Test
-        run: yarn test:coverage
+        run: npm run test:coverage
 
       - name: Lint
-        run: yarn lint
+        run: npm run lint
 
       - name: Vulnerability
-        run: yarn audit || true
+        run: npm audit --audit-level=moderate
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v1

@@ -19,16 +19,10 @@ nodeコマンドが使えるように、zshrc に以下を追加
 eval "$(nodenv init -)"
 ```
 
-## yarn
-
-インストール
-
-```text
-brew install yarn
-```
+## npm
 
 package.json の内容をローカルにインストール
 
 ```text
-yarn install
+npm install
 ```

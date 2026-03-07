@@ -5,7 +5,7 @@
 ### パッケージの追加
 
 ```test
-yarn add -D jest @types/jest ts-jest
+npm install -D jest @types/jest ts-jest
 ```
 
 TypeScript のコードをテストするために、`@types/jest` と `ts-jest` が必要になる
@@ -47,7 +47,7 @@ Reactコンポーネントをテストしやすくするためのライブラリ
 ### パッケージの追加
 
 ```text
-yarn add -D @testing-library/react @testing-library/jest-dom
+npm install -D @testing-library/react @testing-library/jest-dom
 ```
 
 `@testing-library/jest-dom` は、Dom要素の詳細な matchers を提供してくれるライブラリ。一緒に入れておいた方がいい。
