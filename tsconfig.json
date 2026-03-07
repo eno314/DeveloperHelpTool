@@ -24,13 +24,19 @@
         "./src/*"
       ]
     },
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/components/molecules/Index/Index.test.jsx"
+    "next-env.d.ts",
+    "src/components/molecules/Index/Index.test.jsx",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

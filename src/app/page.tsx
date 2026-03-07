@@ -1,6 +1,11 @@
+import type { Metadata } from 'next'
 import DeveloperHelpToolFrame from '@/components/molecules/DeveloperHelpToolFrame/DeveloperHelpToolFrame'
 import ToolList from '@/components/molecules/ToolList/ToolList'
 import React from 'react'
+
+export const metadata: Metadata = {
+  title: 'Developer Help Tool - index page'
+}
 
 const links = [
   {
