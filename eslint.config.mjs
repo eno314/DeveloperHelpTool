@@ -1,20 +1,18 @@
-import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Convert current file path and directory for FlatCompat
+// Convert current file path and directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Initialize FlatCompat for Next.js legacy configs
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-});
-
-// Import GTS flat config
 import gts from 'gts';
+
+// Core next plugins
+import nextPlugin from '@next/eslint-plugin-next';
+// eslint-plugin-react is currently crashing with ESLint 10 due to contextOrFilename.getFilename not a function.
+// import reactPlugin from 'eslint-plugin-react';
+import hooksPlugin from 'eslint-plugin-react-hooks';
 
 export default [
   // Global Ignores
@@ -30,8 +28,21 @@ export default [
   },
   // GTS Configuration
   ...gts,
-  // Next.js Configuration (via FlatCompat)
-  ...compat.extends('next/core-web-vitals'),
+
+  // Next.js Core Web Vitals equivalent configuration for Flat Config
+  // Removed `eslint-plugin-react` because it's incompatible with ESLint 10.
+  {
+    plugins: {
+      '@next/next': nextPlugin,
+      'react-hooks': hooksPlugin,
+    },
+    rules: {
+      ...hooksPlugin.configs.recommended.rules,
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs['core-web-vitals'].rules,
+    },
+  },
+
   // Custom Overrides
   {
     rules: {
