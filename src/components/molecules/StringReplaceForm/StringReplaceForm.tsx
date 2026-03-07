@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { type ChangeEvent, useState } from 'react'
 
 const styles = {
   textArea: {
@@ -12,7 +12,7 @@ const styles = {
   }
 }
 
-const StringReplaceForm = (): JSX.Element => {
+const StringReplaceForm = (): React.JSX.Element => {
   const [replacedStr, setReplacedStr] = useState('')
   const [targetSubstr, setTargetSubstr] = useState('')
   const [newSubstr, setNewSubstr] = useState('')
@@ -24,7 +24,7 @@ const StringReplaceForm = (): JSX.Element => {
             <textarea
                 className={'form-control textarea'}
                 id="replacedTextarea"
-                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setReplacedStr(e.target.value)}
+                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => { setReplacedStr(e.target.value) }}
                 style={styles.textArea}
                 value={replacedStr}
             />
@@ -36,7 +36,7 @@ const StringReplaceForm = (): JSX.Element => {
                 <input
                     aria-describedby={'targetSubstr'}
                     className={'form-control'}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setTargetSubstr(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => { setTargetSubstr(e.target.value) }}
                     type={'text'}
                     value={targetSubstr} />
             </div>
@@ -45,7 +45,7 @@ const StringReplaceForm = (): JSX.Element => {
                 <input
                     aria-describedby={'newSubstr'}
                     className={'form-control'}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setNewSubstr(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => { setNewSubstr(e.target.value) }}
                     type={'text'}
                     value={newSubstr} />
             </div>
@@ -55,7 +55,7 @@ const StringReplaceForm = (): JSX.Element => {
                 <button
                   type={'button'}
                   className={'btn btn-primary'}
-                  onClick={() => setResultStr(replaceStr(replacedStr, targetSubstr, newSubstr))} >
+                  onClick={() => { setResultStr(replaceStr(replacedStr, targetSubstr, newSubstr)) }} >
                   ▼ Apply
                 </button>
             </div>

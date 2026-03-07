@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { type ChangeEvent, useState } from 'react'
 
 interface UrlParam {
   key: string
@@ -15,7 +15,7 @@ const styles = {
   }
 }
 
-const UrlParseForm = (): JSX.Element => {
+const UrlParseForm = (): React.JSX.Element => {
   const [parsedUrlText, setParsedUrlText] = useState('')
   const [baseUrlText, setBaseUrlText] = useState('')
   const [urlParams, setUrlParams] = useState([] as UrlParam[])
@@ -29,7 +29,7 @@ const UrlParseForm = (): JSX.Element => {
           className={'form-control'}
           aria-describedby={'parsedUrl'}
           value={parsedUrlText}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => setParsedUrlText(e.target.value)} />
+          onChange={(e: ChangeEvent<HTMLInputElement>) => { setParsedUrlText(e.target.value) }} />
       </div>
       <div className={'row'} style={styles.primaryButtonsRow}>
         <div className={'col text-center'}>
@@ -47,7 +47,7 @@ const UrlParseForm = (): JSX.Element => {
           <button
             type={'button'}
             className={'btn btn-primary'}
-            onClick={() => setParsedUrlText(createUrlText(baseUrlText, urlParams))}
+            onClick={() => { setParsedUrlText(createUrlText(baseUrlText, urlParams)) }}
           >▲ Build URL</button>
         </div>
       </div>
@@ -59,7 +59,7 @@ const UrlParseForm = (): JSX.Element => {
             className={'form-control'}
             aria-describedby={'baseUrl'}
             value={baseUrlText}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setBaseUrlText(e.target.value)} />
+            onChange={(e: ChangeEvent<HTMLInputElement>) => { setBaseUrlText(e.target.value) }} />
         </div>
         <table className={'table table-sm'}>
           <thead>
@@ -77,20 +77,20 @@ const UrlParseForm = (): JSX.Element => {
                     type={'text'}
                     className={'form-control'}
                     value={urlParam.key}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setUrlParams(updateUrlParams(urlParams, i, 'key', e.target.value))} />
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => { setUrlParams(updateUrlParams(urlParams, i, 'key', e.target.value)) }} />
                 </td>
                 <td>
                   <input
                     type={'text'}
                     className={'form-control'}
                     value={urlParam.value}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setUrlParams(updateUrlParams(urlParams, i, 'value', e.target.value))} />
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => { setUrlParams(updateUrlParams(urlParams, i, 'value', e.target.value)) }} />
                 </td>
                 <td>
                   <button
                     type={'button'}
                     className={'btn btn-secondary btn-sm'}
-                    onClick={() => setUrlParams(removeUrlParamOf(i, urlParams))}
+                    onClick={() => { setUrlParams(removeUrlParamOf(i, urlParams)) }}
                   >delete</button>
                 </td>
               </tr>
@@ -101,7 +101,7 @@ const UrlParseForm = (): JSX.Element => {
           <button
             type={'button'}
             className={'btn btn-secondary'}
-            onClick={() => setUrlParams(addUrlParam(urlParams))}
+            onClick={() => { setUrlParams(addUrlParam(urlParams)) }}
           >add param</button>
         </div>
       </div>
@@ -115,17 +115,17 @@ const updateUrlParams = (base: UrlParam[], index: number, type: string, value: s
   return urlParams
 }
 
-const parseUrl = (url: string): { baseUrlText: string, urlParams: UrlParam[]} => {
+const parseUrl = (url: string): { baseUrlText: string, urlParams: UrlParam[] } => {
   const parsedUrl = new URL(url)
 
   const urlParams: UrlParam[] = []
   parsedUrl.searchParams.forEach((value: string, key: string, _: URLSearchParams) => {
-    urlParams.push({ key: key, value: value })
+    urlParams.push({ key, value })
   })
 
   return {
     baseUrlText: `${parsedUrl.protocol}//${parsedUrl.hostname}${parsedUrl.pathname}`,
-    urlParams: urlParams
+    urlParams
   }
 }
 

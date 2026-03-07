@@ -2,7 +2,7 @@ import DeveloperHelpToolFrame from '@/components/molecules/DeveloperHelpToolFram
 import JSONEncodeForm from '@/components/molecules/JSONParseForm/JSONParseForm'
 import React from 'react'
 
-const JSONEncode = (): JSX.Element => {
+const JSONEncode = (): React.JSX.Element => {
   return (
     <DeveloperHelpToolFrame
       subTitle={'JSON Parse Tool'}

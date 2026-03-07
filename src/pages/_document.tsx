@@ -15,7 +15,7 @@ export default class MyDocument extends Document<WithNonceProp> {
     }
   }
 
-  render (): JSX.Element {
+  render (): React.JSX.Element {
     const nonce = this.props.nonce
     const csp = `object-src 'none'; base-uri 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http: 'nonce-${nonce}' 'strict-dynamic'`
 

@@ -4,7 +4,7 @@ const textAreaStyle = {
   height: 100
 }
 
-const UrlEncodeForm = (): JSX.Element => {
+const UrlEncodeForm = (): React.JSX.Element => {
   const [decodedText, setDecodedText] = useState('')
   const [encodedText, setEncodedText] = useState('')
 
@@ -16,7 +16,7 @@ const UrlEncodeForm = (): JSX.Element => {
             className={'form-control textarea'}
             style={textAreaStyle}
             value={decodedText}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDecodedText(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => { setDecodedText(e.target.value) }}
           />
           <label htmlFor={'encodingTextarea'}>Please input text you'd like to encode.</label>
       </div>
@@ -25,14 +25,14 @@ const UrlEncodeForm = (): JSX.Element => {
               <button
                 type={'button'}
                 className={'btn btn-primary'}
-                onClick={() => setEncodedText(toEncodedText(decodedText))}
+                onClick={() => { setEncodedText(toEncodedText(decodedText)) }}
               >▼ Apply URL Encoding</button>
           </div>
           <div className={'col text-center'}>
               <button
                 type={'button'}
                 className={'btn btn-primary'}
-                onClick={() => setDecodedText(toDecodedText(encodedText))}
+                onClick={() => { setDecodedText(toDecodedText(encodedText)) }}
               >▲ Apply URL Decoding</button>
           </div>
       </div>
@@ -42,7 +42,7 @@ const UrlEncodeForm = (): JSX.Element => {
               className={'form-control textarea'}
               style={textAreaStyle}
               value={encodedText}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setEncodedText(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => { setEncodedText(e.target.value) }}
           />
           <label htmlFor={'decodingTextarea'}>Please input text you'd like to decode.</label>
       </div>
