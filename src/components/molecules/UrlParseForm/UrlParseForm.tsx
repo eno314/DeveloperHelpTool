@@ -1,3 +1,5 @@
+'use client'
+
 import React, { type ChangeEvent, useState } from 'react'
 
 interface UrlParam {

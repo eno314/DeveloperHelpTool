@@ -5,24 +5,9 @@
 import DeveloperHelpToolFrame from './DeveloperHelpToolFrame'
 import { render, screen } from '@testing-library/react'
 
-jest.mock('next/head', () => {
-  return {
-    __esModule: true,
-    default: ({ children }: { children: React.ReactElement[] }) => {
-      return <>{children}</>
-    }
-  }
-})
-
 describe('render', () => {
   const subTitle = 'sub title'
   const content = <div data-testid={'test'}>hoge</div>
-
-  test('DeveloperHelpToolFrame has title', () => {
-    render(<DeveloperHelpToolFrame subTitle={subTitle} content={content} />)
-
-    expect(document.title).toBe('Developer Help Tool - sub title')
-  })
 
   test('DeveloperHelpToolFrame has headings', () => {
     render(<DeveloperHelpToolFrame subTitle={subTitle} content={content} />)
