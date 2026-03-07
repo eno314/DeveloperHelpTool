@@ -28,6 +28,11 @@ const links = [
     title: 'Url Parse Tool',
     description: 'You can parse and build url by this tool.',
   },
+  {
+    linkPath: '/amidakuji',
+    title: 'Amidakuji Tool',
+    description: 'You can play Amidakuji (Ghost Leg) by this tool.',
+  },
 ];
 
 const Home = (): React.JSX.Element => {
