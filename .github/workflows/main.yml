@@ -21,6 +21,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
       - name: Unit Test
         run: npm run test:coverage
 
@@ -29,6 +32,9 @@ jobs:
 
       - name: Vulnerability
         run: npm audit --audit-level=moderate
+
+      - name: UI Test
+        run: npx playwright test tests/index.spec.ts
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v5
