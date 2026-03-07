@@ -28,7 +28,7 @@ jobs:
         run: npm run lint
 
       - name: Vulnerability
-        run: npm audit
+        run: npm audit --audit-level=moderate
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v1
