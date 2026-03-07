@@ -34,7 +34,7 @@ describe('onClickUrlEncode.', () => {
     fireEvent.click(buttons[0]);
 
     expect(textBoxes[1]).toHaveValue(
-      '%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A'
+      '%E3%81%82%E3%81%84%E3%81%86%E3%81%88%E3%81%8A',
     );
   });
 });
@@ -66,7 +66,7 @@ describe('onClickUrlDecode.', () => {
     fireEvent.click(buttons[1]);
 
     expect(textBoxes[0]).toHaveValue(
-      'can not decode. URIError: URI malformed.'
+      'can not decode. URIError: URI malformed.',
     );
   });
 });

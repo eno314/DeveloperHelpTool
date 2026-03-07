@@ -109,7 +109,7 @@ describe('onClickUrlParse', () => {
     const textBoxes = screen.getAllByRole('textbox');
     expect(textBoxes).toHaveLength(6);
     expect(textBoxes[1]).toHaveValue(
-      'https://developer-help-tool.app/hoge/fuga'
+      'https://developer-help-tool.app/hoge/fuga',
     );
     expect(textBoxes[2]).toHaveValue('foo');
     expect(textBoxes[3]).toHaveValue('bar');

@@ -98,7 +98,7 @@ const StringReplaceForm = (): React.JSX.Element => {
 const replaceStr = (
   replacedStr: string,
   targetSubstr: string,
-  newSubstr: string
+  newSubstr: string,
 ): string => {
   const regex = new RegExp(targetSubstr, 'g');
   return replacedStr.replace(regex, newSubstr);
