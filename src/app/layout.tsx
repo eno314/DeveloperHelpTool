@@ -11,7 +11,7 @@ export default async function RootLayout ({
 
   return (
     <html lang="en">
-      <head>
+      <head nonce={nonce}>
         <meta httpEquiv="Content-Security-Policy" content={`object-src 'none'; base-uri 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http: 'nonce-${nonce}' 'strict-dynamic'`} />
       </head>
       <body>
