@@ -20,7 +20,7 @@ const UrlEncodeForm = (): React.JSX.Element => {
             value={decodedText}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => { setDecodedText(e.target.value) }}
           />
-          <label htmlFor={'encodingTextarea'}>Please input text you'd like to encode.</label>
+          <label htmlFor={'encodingTextarea'}>Please input text you&apos;d like to encode.</label>
       </div>
       <div className={'row'}>
           <div className={'col text-center'}>
@@ -46,7 +46,7 @@ const UrlEncodeForm = (): React.JSX.Element => {
               value={encodedText}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => { setEncodedText(e.target.value) }}
           />
-          <label htmlFor={'decodingTextarea'}>Please input text you'd like to decode.</label>
+          <label htmlFor={'decodingTextarea'}>Please input text you&apos;d like to decode.</label>
       </div>
     </div>
   )

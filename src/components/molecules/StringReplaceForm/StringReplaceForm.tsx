@@ -30,7 +30,7 @@ const StringReplaceForm = (): React.JSX.Element => {
                 style={styles.textArea}
                 value={replacedStr}
             />
-            <label htmlFor={'replacedTextarea'}>Please input text you'd like to replace.</label>
+            <label htmlFor={'replacedTextarea'}>Please input text you&apos;d like to replace.</label>
         </div>
         <div className={'row'} style={styles.buttonsRow}>
             <div className={'input-group mb-3 col'}>

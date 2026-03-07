@@ -2,11 +2,11 @@
     "root": true,
     "parser": "@typescript-eslint/parser",
     "plugins": [
-        "@typescript-eslint",
-        "react-hooks"
+        "@typescript-eslint"
     ],
     "extends": [
-        "standard-with-typescript"
+        "standard-with-typescript",
+        "next/core-web-vitals"
     ],
     "parserOptions": {
         "project": "./tsconfig.json"
