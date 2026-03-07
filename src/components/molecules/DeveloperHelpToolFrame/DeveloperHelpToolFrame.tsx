@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 interface Props {
-  subTitle: string
-  content: React.ReactNode
+  subTitle: string;
+  content: React.ReactNode;
 }
 
 const DeveloperHelpToolFrame = (props: Props): React.JSX.Element => {
@@ -14,7 +14,7 @@ const DeveloperHelpToolFrame = (props: Props): React.JSX.Element => {
         {props.content}
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default DeveloperHelpToolFrame
+export default DeveloperHelpToolFrame;

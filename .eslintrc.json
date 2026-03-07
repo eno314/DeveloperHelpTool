@@ -5,7 +5,7 @@
         "@typescript-eslint"
     ],
     "extends": [
-        "standard-with-typescript",
+        "./node_modules/gts/",
         "next/core-web-vitals"
     ],
     "parserOptions": {
