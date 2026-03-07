@@ -29,7 +29,50 @@ const Amidakuji = (): React.JSX.Element => {
 
   // Handle number of lines change
   const handleNumLinesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputNumLines(e.target.value);
+    const inputValue = e.target.value;
+    setInputNumLines(inputValue);
+
+    let value = parseInt(inputValue, 10);
+    if (isNaN(value)) {
+      value = MIN_LINES;
+    }
+
+    // Still let them type e.g. '1', but visually clamp for the board state
+    const clampedValue = Math.max(MIN_LINES, Math.min(value, MAX_LINES));
+
+    if (clampedValue !== numLines) {
+      setNumLines(clampedValue);
+
+      // Update labels to match the new size, keeping existing ones
+      setTopLabels(prev => {
+        const newLabels = [...prev];
+        if (newLabels.length < clampedValue) {
+          for (let i = newLabels.length; i < clampedValue; i++) {
+            newLabels.push(String(i + 1));
+          }
+        } else {
+          newLabels.length = clampedValue;
+        }
+        return newLabels;
+      });
+
+      setBottomLabels(prev => {
+        const newLabels = [...prev];
+        if (newLabels.length < clampedValue) {
+          for (let i = newLabels.length; i < clampedValue; i++) {
+            newLabels.push(String(i + 1));
+          }
+        } else {
+          newLabels.length = clampedValue;
+        }
+        return newLabels;
+      });
+
+      // Reset state on board size change
+      setHorizontalLines([]);
+      setIsGenerated(false);
+      setSelectedStart(null);
+    }
   };
 
   const handleNumLinesBlur = () => {
@@ -37,44 +80,8 @@ const Amidakuji = (): React.JSX.Element => {
     if (isNaN(value)) {
       value = MIN_LINES;
     }
-    if (value < MIN_LINES) value = MIN_LINES;
-    if (value > MAX_LINES) value = MAX_LINES;
-
-    setInputNumLines(String(value));
-
-    if (value !== numLines) {
-      setNumLines(value);
-
-      // Update labels to match the new size, keeping existing ones
-      setTopLabels(prev => {
-        const newLabels = [...prev];
-        if (newLabels.length < value) {
-          for (let i = newLabels.length; i < value; i++) {
-            newLabels.push(String(i + 1));
-          }
-        } else {
-          newLabels.length = value;
-        }
-        return newLabels;
-      });
-
-      setBottomLabels(prev => {
-        const newLabels = [...prev];
-        if (newLabels.length < value) {
-          for (let i = newLabels.length; i < value; i++) {
-            newLabels.push(String(i + 1));
-          }
-        } else {
-          newLabels.length = value;
-        }
-        return newLabels;
-      });
-
-      // Reset state
-      setHorizontalLines([]);
-      setIsGenerated(false);
-      setSelectedStart(null);
-    }
+    const clampedValue = Math.max(MIN_LINES, Math.min(value, MAX_LINES));
+    setInputNumLines(String(clampedValue));
   };
 
   const handleLabelChange = (index: number, value: string, isTop: boolean) => {
@@ -111,6 +118,14 @@ const Amidakuji = (): React.JSX.Element => {
     setHorizontalLines(newLines);
     setIsGenerated(true);
     setSelectedStart(null); // Reset selection on new generation
+  }, [numLines]);
+
+  const handleClear = useCallback(() => {
+    setHorizontalLines([]);
+    setIsGenerated(false);
+    setSelectedStart(null);
+    setTopLabels(Array.from({length: numLines}, (_, i) => String(i + 1)));
+    setBottomLabels(Array.from({length: numLines}, (_, i) => String(i + 1)));
   }, [numLines]);
 
   // Calculate the path for a given start index
@@ -245,9 +260,14 @@ const Amidakuji = (): React.JSX.Element => {
           onBlur={handleNumLinesBlur}
           style={{maxWidth: '200px'}}
         />
-        <button className="btn btn-primary mt-3" onClick={generateLines}>
-          生成 (Generate)
-        </button>
+        <div className="mt-3">
+          <button className="btn btn-primary me-2" onClick={generateLines}>
+            生成 (Generate)
+          </button>
+          <button className="btn btn-outline-secondary" onClick={handleClear}>
+            クリア (Clear)
+          </button>
+        </div>
       </div>
 
       <div className={styles.amidakujiBoard} ref={containerRef}>

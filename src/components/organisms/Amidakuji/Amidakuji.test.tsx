@@ -24,9 +24,8 @@ describe('Amidakuji Component', () => {
     render(<Amidakuji />);
     const numLinesInput = screen.getByLabelText('Number of Lines (2-15):');
 
-    // Change to 3 lines and blur
+    // Change to 3 lines
     fireEvent.change(numLinesInput, {target: {value: '3'}});
-    fireEvent.blur(numLinesInput);
 
     const inputs = screen.getAllByRole('textbox');
     expect(inputs).toHaveLength(6); // 3 top, 3 bottom
@@ -34,6 +33,33 @@ describe('Amidakuji Component', () => {
     expect(inputs[2]).toHaveValue('3');
     expect(inputs[3]).toHaveValue('1');
     expect(inputs[5]).toHaveValue('3');
+  });
+
+  it('clears horizontal lines and resets labels when clicking Clear', () => {
+    render(<Amidakuji />);
+
+    const generateButton = screen.getByText('生成 (Generate)');
+    const clearButton = screen.getByText('クリア (Clear)');
+
+    const inputs = screen.getAllByRole('textbox');
+
+    // Edit labels
+    fireEvent.change(inputs[0], {target: {value: 'A'}});
+    expect(inputs[0]).toHaveValue('A');
+
+    // Generate
+    fireEvent.click(generateButton);
+    expect(screen.getAllByText('Select').length).toBeGreaterThan(0);
+
+    // Clear
+    fireEvent.click(clearButton);
+
+    // Select buttons should be gone, meaning horizontal lines are cleared
+    expect(screen.queryByText('Select')).not.toBeInTheDocument();
+
+    // Labels should be reset
+    const newInputs = screen.getAllByRole('textbox');
+    expect(newInputs[0]).toHaveValue('1');
   });
 
   it('generates horizontal lines when clicking Generate', () => {
