@@ -18,10 +18,10 @@ describe('render', () => {
   const subTitle = 'sub title'
   const content = <div data-testid={'test'}>hoge</div>
 
-  test.skip('DeveloperHelpToolFrame has title', () => {
+  test('DeveloperHelpToolFrame has title', () => {
     render(<DeveloperHelpToolFrame subTitle={subTitle} content={content} />)
 
-    expect(screen.getByText('Developer Help Tool - sub title')).toBeInTheDocument()
+    expect(document.title).toBe('Developer Help Tool - sub title')
   })
 
   test('DeveloperHelpToolFrame has headings', () => {
