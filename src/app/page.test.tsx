@@ -17,5 +17,8 @@ describe('Home Page', () => {
     expect(screen.getByText('String Replace Tool')).toBeInTheDocument();
     expect(screen.getByText('Url Encode And Decode Tool')).toBeInTheDocument();
     expect(screen.getByText('Url Parse Tool')).toBeInTheDocument();
+    expect(
+      screen.getByText('Base64 Encode And Decode Tool'),
+    ).toBeInTheDocument();
   });
 });
