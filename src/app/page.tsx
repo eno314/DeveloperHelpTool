@@ -43,6 +43,11 @@ const links = [
     title: 'Base64 Encode And Decode Tool',
     description: 'You can encode and decode base64 by this tool.',
   },
+  {
+    linkPath: '/curl/builder',
+    title: 'Curl Builder Tool',
+    description: 'You can build curl command by this tool.',
+  },
 ];
 
 const Home = (): React.JSX.Element => {

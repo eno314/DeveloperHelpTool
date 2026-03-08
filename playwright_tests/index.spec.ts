@@ -36,6 +36,11 @@ test.describe('Index Page Navigation Tests', () => {
       expectedPath: '/base64/encode',
       expectedTitle: 'Developer Help Tool - Base64 Encode And Decode Tool',
     },
+    {
+      text: 'Curl Builder Tool',
+      expectedPath: '/curl/builder',
+      expectedTitle: 'Developer Help Tool - Curl Builder Tool',
+    },
   ];
 
   for (const link of linksToTest) {
