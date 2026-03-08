@@ -38,6 +38,11 @@ const links = [
     title: 'Amidakuji Tool',
     description: 'You can play Amidakuji (Ghost Leg) by this tool.',
   },
+  {
+    linkPath: '/base64/encode',
+    title: 'Base64 Encode And Decode Tool',
+    description: 'You can encode and decode base64 by this tool.',
+  },
 ];
 
 const Home = (): React.JSX.Element => {

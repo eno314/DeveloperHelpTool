@@ -31,6 +31,11 @@ test.describe('Index Page Navigation Tests', () => {
       expectedPath: '/amidakuji',
       expectedTitle: 'Developer Help Tool - Amidakuji Tool',
     },
+    {
+      text: 'Base64 Encode And Decode Tool',
+      expectedPath: '/base64/encode',
+      expectedTitle: 'Developer Help Tool - Base64 Encode And Decode Tool',
+    },
   ];
 
   for (const link of linksToTest) {
