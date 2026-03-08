@@ -1,0 +1,16 @@
+.diffContainer {
+  background-color: #f8f9fa;
+  min-height: 200px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+}
+
+.added {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.removed {
+  background-color: #f8d7da;
+  color: #721c24;
+}
