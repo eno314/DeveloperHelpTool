@@ -281,6 +281,7 @@ const Amidakuji = (): React.JSX.Element => {
                 value={label}
                 onChange={e => handleLabelChange(i, e.target.value, true)}
                 onClick={() => isGenerated && setSelectedStart(i)}
+                readOnly={isGenerated}
                 style={{
                   cursor: isGenerated ? 'pointer' : 'text',
                   borderColor: selectedStart === i ? 'red' : undefined,
@@ -321,6 +322,7 @@ const Amidakuji = (): React.JSX.Element => {
                   className={`form-control ${styles.labelInput}`}
                   value={label}
                   onChange={e => handleLabelChange(i, e.target.value, false)}
+                  readOnly={isGenerated}
                   style={{
                     borderColor: isEndNode ? 'red' : undefined,
                     borderWidth: isEndNode ? '2px' : undefined,
