@@ -40,4 +40,18 @@ describe('onClickReplace', () => {
 
     expect(textBoxes[3]).toHaveValue('aaaa\tbbbb\tcccc');
   });
+
+  test('Text of replacedTextarea should replace using regular expression', () => {
+    render(<StringReplaceForm />);
+
+    const textBoxes = screen.getAllByRole('textbox');
+    const buttons = screen.getAllByRole('button');
+
+    fireEvent.change(textBoxes[0], {target: {value: 'hello world 123'}});
+    fireEvent.change(textBoxes[1], {target: {value: '\\d+'}});
+    fireEvent.change(textBoxes[2], {target: {value: 'X'}});
+    fireEvent.click(buttons[0]);
+
+    expect(textBoxes[3]).toHaveValue('hello world X');
+  });
 });
