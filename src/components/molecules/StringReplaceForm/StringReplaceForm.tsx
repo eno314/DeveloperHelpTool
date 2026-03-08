@@ -47,6 +47,7 @@ const StringReplaceForm = (): React.JSX.Element => {
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setTargetSubstr(e.target.value);
             }}
+            placeholder={'Supports regular expression'}
             type={'text'}
             value={targetSubstr}
           />
