@@ -17,7 +17,7 @@ test.describe('JSON Parse Tool Tests', () => {
         tags: ['developer', 'typescript'],
       },
       null,
-      2
+      2,
     );
 
     const expectedParsedResult = `object(

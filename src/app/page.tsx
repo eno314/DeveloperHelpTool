@@ -14,6 +14,11 @@ const links = [
     description: 'You can parse JSON by this tool.',
   },
   {
+    linkPath: '/json/compare',
+    title: 'JSON Compare Tool',
+    description: 'You can compare two JSONs by this tool.',
+  },
+  {
     linkPath: '/string/replace',
     title: 'String Replace Tool',
     description: 'You can replace string by this tool.',
