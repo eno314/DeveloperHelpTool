@@ -2,7 +2,7 @@
 
 開発者の日々の作業を支援するためのツール群です。
 
-[![codecov](https://codecov.io/gh/eno314/DeveloperHelpTool/branch/master/graph/badge.svg?token=NGLYKX6L70)](https://codecov.io/gh/eno314/DeveloperHelpTool)
+[![codecov](https://codecov.io/gh/eno314/DeveloperHelpTool/branch/main/graph/badge.svg?token=NGLYKX6L70)](https://codecov.io/gh/eno314/DeveloperHelpTool)
 
 ## ページ一覧と機能概要
 
