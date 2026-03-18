@@ -30,14 +30,14 @@ const JSONEncodeForm = (): React.JSX.Element => {
     <div className={'container'}>
       <div className={'row align-items-center'}>
         <div className={'col-5'}>
-          <div className="d-flex justify-content-between align-items-end mb-2">
-            <label htmlFor={'jsonTextarea'} className="mb-0">
+          <div className="mb-2">
+            <label htmlFor={'jsonTextarea'} className="d-block mb-1">
               Please input JSON text you&apos;d like to parse.
             </label>
             <input
               type="file"
               accept=".json"
-              className="form-control form-control-sm w-auto"
+              className="form-control form-control-sm"
               onChange={handleFileUpload}
               aria-label="Upload JSON file"
             />

@@ -66,14 +66,17 @@ const JSONCompareForm = (): React.JSX.Element => {
       )}
       <div className="row mb-3">
         <div className="col-md-6">
-          <div className="d-flex justify-content-between align-items-end mb-2">
-            <label htmlFor={`left-json-${id}`} className="form-label mb-0">
+          <div className="mb-2">
+            <label
+              htmlFor={`left-json-${id}`}
+              className="form-label d-block mb-1"
+            >
               Left JSON
             </label>
             <input
               type="file"
               accept=".json"
-              className="form-control form-control-sm w-auto"
+              className="form-control form-control-sm"
               onChange={handleFileChange(setLeftInput)}
               aria-label="Upload Left JSON file"
             />
@@ -87,14 +90,17 @@ const JSONCompareForm = (): React.JSX.Element => {
           />
         </div>
         <div className="col-md-6">
-          <div className="d-flex justify-content-between align-items-end mb-2">
-            <label htmlFor={`right-json-${id}`} className="form-label mb-0">
+          <div className="mb-2">
+            <label
+              htmlFor={`right-json-${id}`}
+              className="form-label d-block mb-1"
+            >
               Right JSON
             </label>
             <input
               type="file"
               accept=".json"
-              className="form-control form-control-sm w-auto"
+              className="form-control form-control-sm"
               onChange={handleFileChange(setRightInput)}
               aria-label="Upload Right JSON file"
             />
