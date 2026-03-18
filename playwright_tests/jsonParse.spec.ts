@@ -41,4 +41,29 @@ test.describe('JSON Parse Tool Tests', () => {
     const resultTextarea = page.locator('#resultTextarea');
     await expect(resultTextarea).toHaveValue(expectedParsedResult);
   });
+  test('should parse JSON from uploaded file successfully', async ({page}) => {
+    await page.goto('/json/parse');
+
+    const inputJson = JSON.stringify({file: 'upload'});
+    const expectedParsedResult = `object(
+  file : upload
+)`;
+
+    const fileChooserPromise = page.waitForEvent('filechooser');
+    await page.getByLabel('Upload JSON file').click();
+    const fileChooser = await fileChooserPromise;
+    await fileChooser.setFiles({
+      name: 'test.json',
+      mimeType: 'application/json',
+      buffer: Buffer.from(inputJson),
+    });
+
+    await expect(page.locator('#jsonTextarea')).toHaveValue(inputJson);
+
+    await page.click('button:has-text("Parse JSON")');
+
+    await expect(page.locator('#resultTextarea')).toHaveValue(
+      expectedParsedResult,
+    );
+  });
 });

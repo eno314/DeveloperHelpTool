@@ -10,13 +10,38 @@ const JSONEncodeForm = (): React.JSX.Element => {
   const [jsonText, setJsonText] = useState('');
   const [resultText, setResultText] = useState('');
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = event => {
+      const content = event.target?.result;
+      if (typeof content === 'string') {
+        setJsonText(content);
+      }
+    };
+    reader.readAsText(file);
+    // Reset the input value so the same file can be selected again
+    e.target.value = '';
+  };
+
   return (
     <div className={'container'}>
       <div className={'row align-items-center'}>
         <div className={'col-5'}>
-          <label htmlFor={'jsonTextarea'}>
-            Please input JSON text you&apos;d like to parse.
-          </label>
+          <div className="mb-2">
+            <label htmlFor={'jsonTextarea'} className="d-block mb-1">
+              Please input JSON text you&apos;d like to parse.
+            </label>
+            <input
+              type="file"
+              accept=".json"
+              className="form-control form-control-sm"
+              onChange={handleFileUpload}
+              aria-label="Upload JSON file"
+            />
+          </div>
           <textarea
             id="jsonTextarea"
             className={'form-control textarea'}

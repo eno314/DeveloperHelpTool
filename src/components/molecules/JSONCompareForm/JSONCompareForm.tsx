@@ -11,6 +11,24 @@ const JSONCompareForm = (): React.JSX.Element => {
   const [error, setError] = useState<string | null>(null);
   const id = useId();
 
+  const handleFileChange =
+    (setter: React.Dispatch<React.SetStateAction<string>>) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = event => {
+        const content = event.target?.result;
+        if (typeof content === 'string') {
+          setter(content);
+        }
+      };
+      reader.readAsText(file);
+      // Reset the input value so the same file can be selected again
+      e.target.value = '';
+    };
+
   const handleCompare = () => {
     setError(null);
     setDiffResult(null);
@@ -48,9 +66,21 @@ const JSONCompareForm = (): React.JSX.Element => {
       )}
       <div className="row mb-3">
         <div className="col-md-6">
-          <label htmlFor={`left-json-${id}`} className="form-label">
-            Left JSON
-          </label>
+          <div className="mb-2">
+            <label
+              htmlFor={`left-json-${id}`}
+              className="form-label d-block mb-1"
+            >
+              Left JSON
+            </label>
+            <input
+              type="file"
+              accept=".json"
+              className="form-control form-control-sm"
+              onChange={handleFileChange(setLeftInput)}
+              aria-label="Upload Left JSON file"
+            />
+          </div>
           <textarea
             id={`left-json-${id}`}
             className="form-control"
@@ -60,9 +90,21 @@ const JSONCompareForm = (): React.JSX.Element => {
           />
         </div>
         <div className="col-md-6">
-          <label htmlFor={`right-json-${id}`} className="form-label">
-            Right JSON
-          </label>
+          <div className="mb-2">
+            <label
+              htmlFor={`right-json-${id}`}
+              className="form-label d-block mb-1"
+            >
+              Right JSON
+            </label>
+            <input
+              type="file"
+              accept=".json"
+              className="form-control form-control-sm"
+              onChange={handleFileChange(setRightInput)}
+              aria-label="Upload Right JSON file"
+            />
+          </div>
           <textarea
             id={`right-json-${id}`}
             className="form-control"
