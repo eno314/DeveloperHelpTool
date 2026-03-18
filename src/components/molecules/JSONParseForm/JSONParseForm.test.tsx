@@ -22,6 +22,52 @@ describe('render', () => {
     expect(buttons).toHaveLength(1);
     expect(buttons[0]).toHaveTextContent('Parse JSON ▶');
   });
+  test('JSONEncodeForm has file input for JSON', () => {
+    render(<JSONEncodeForm />);
+    const fileInput = screen.getByLabelText('Upload JSON file');
+    expect(fileInput).toBeInTheDocument();
+    expect(fileInput).toHaveAttribute('type', 'file');
+    expect(fileInput).toHaveAttribute('accept', '.json');
+  });
+});
+
+describe('onFileUpload', () => {
+  test('updates jsonTextarea with file content', async () => {
+    render(<JSONEncodeForm />);
+    const fileInput = screen.getByLabelText('Upload JSON file');
+    const textBoxes = screen.getAllByRole('textbox');
+
+    const fileContent = '{"key": "value"}';
+    const file = new File([fileContent], 'test.json', {
+      type: 'application/json',
+    });
+
+    Object.defineProperty(fileInput, 'files', {
+      value: [file],
+    });
+
+    // Mock FileReader
+    const mockFileReader = {
+      readAsText: jest.fn(function (this: FileReader) {
+        if (this.onload) {
+          this.onload({
+            target: {result: fileContent},
+          } as unknown as ProgressEvent<FileReader>);
+        }
+      }),
+    };
+    jest
+      .spyOn(window, 'FileReader')
+      .mockImplementation(() => mockFileReader as unknown as FileReader);
+
+    fireEvent.change(fileInput);
+
+    expect(mockFileReader.readAsText).toHaveBeenCalledWith(file);
+    expect(textBoxes[0]).toHaveValue(fileContent);
+
+    // cleanup
+    jest.restoreAllMocks();
+  });
 });
 
 describe('onClickParseButton', () => {

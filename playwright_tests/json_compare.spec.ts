@@ -39,3 +39,41 @@ test('JSON Compare Tool correctly parses and compares JSON strings', async ({
   await expect(rightAddedSpan).toContainText('"age": 31');
   await expect(rightAddedSpan).toContainText('"city": "New York"');
 });
+
+test('JSON Compare Tool correctly parses and compares from uploaded JSON files', async ({
+  page,
+}) => {
+  await page.goto('http://localhost:3000/json/compare');
+
+  const validJsonLeft = '{"name": "John", "age": 30}';
+  const validJsonRight = '{"name": "John", "age": 31, "city": "New York"}';
+
+  const leftFileChooserPromise = page.waitForEvent('filechooser');
+  await page.getByLabel('Upload Left JSON file').click();
+  const leftFileChooser = await leftFileChooserPromise;
+  await leftFileChooser.setFiles({
+    name: 'left.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(validJsonLeft),
+  });
+
+  const rightFileChooserPromise = page.waitForEvent('filechooser');
+  await page.getByLabel('Upload Right JSON file').click();
+  const rightFileChooser = await rightFileChooserPromise;
+  await rightFileChooser.setFiles({
+    name: 'right.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(validJsonRight),
+  });
+
+  const leftTextarea = page.locator('textarea').nth(0);
+  const rightTextarea = page.locator('textarea').nth(1);
+  await expect(leftTextarea).toHaveValue(validJsonLeft);
+  await expect(rightTextarea).toHaveValue(validJsonRight);
+
+  const compareButton = page.getByRole('button', {name: 'Compare'});
+  await compareButton.click();
+
+  await expect(page.getByText('Left Result')).toBeVisible();
+  await expect(page.getByText('Right Result')).toBeVisible();
+});
