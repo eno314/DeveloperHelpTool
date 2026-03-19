@@ -163,4 +163,116 @@ describe('EncodeDecodeForm', () => {
       'can not decode. InvalidCharacterError',
     );
   });
+
+  it('should change mode to JSON and clear textareas', () => {
+    render(<EncodeDecodeForm />);
+    const select = screen.getByLabelText('Format');
+    const encodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to encode.",
+    );
+
+    fireEvent.change(encodingTextarea, {target: {value: 'test'}});
+    expect(encodingTextarea).toHaveValue('test');
+
+    fireEvent.change(select, {target: {value: 'JSON'}});
+
+    expect(encodingTextarea).toHaveValue('');
+    expect(screen.getByText('▼ Apply JSON Encoding')).toBeInTheDocument();
+  });
+
+  it('should encode JSON correctly', () => {
+    render(<EncodeDecodeForm />);
+    const select = screen.getByLabelText('Format');
+    fireEvent.change(select, {target: {value: 'JSON'}});
+
+    const encodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to encode.",
+    );
+    const decodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to decode.",
+    );
+    const encodeButton = screen.getByText('▼ Apply JSON Encoding');
+
+    const inputJSON = `{
+  "key": "value",
+  "num": 123
+}`;
+    fireEvent.change(encodingTextarea, {
+      target: {value: inputJSON},
+    });
+    fireEvent.click(encodeButton);
+
+    expect(decodingTextarea).toHaveValue('{"key":"value","num":123}');
+  });
+
+  it('should decode JSON correctly', () => {
+    render(<EncodeDecodeForm />);
+    const select = screen.getByLabelText('Format');
+    fireEvent.change(select, {target: {value: 'JSON'}});
+
+    const encodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to encode.",
+    );
+    const decodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to decode.",
+    );
+    const decodeButton = screen.getByText('▲ Apply JSON Decoding');
+
+    fireEvent.change(decodingTextarea, {
+      target: {value: '{"key":"value","num":123}'},
+    });
+    fireEvent.click(decodeButton);
+
+    const expectedJSON = `{
+  "key": "value",
+  "num": 123
+}`;
+    expect(encodingTextarea).toHaveValue(expectedJSON);
+  });
+
+  it('should display error when encoding invalid JSON', () => {
+    render(<EncodeDecodeForm />);
+    const select = screen.getByLabelText('Format');
+    fireEvent.change(select, {target: {value: 'JSON'}});
+
+    const encodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to encode.",
+    );
+    const decodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to decode.",
+    );
+    const encodeButton = screen.getByText('▼ Apply JSON Encoding');
+
+    fireEvent.change(encodingTextarea, {
+      target: {value: '{invalid_json}'},
+    });
+    fireEvent.click(encodeButton);
+
+    expect(decodingTextarea.textContent).toContain(
+      'can not encode. SyntaxError',
+    );
+  });
+
+  it('should display error when decoding invalid JSON', () => {
+    render(<EncodeDecodeForm />);
+    const select = screen.getByLabelText('Format');
+    fireEvent.change(select, {target: {value: 'JSON'}});
+
+    const encodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to encode.",
+    );
+    const decodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to decode.",
+    );
+    const decodeButton = screen.getByText('▲ Apply JSON Decoding');
+
+    fireEvent.change(decodingTextarea, {
+      target: {value: '{invalid_json}'},
+    });
+    fireEvent.click(decodeButton);
+
+    expect(encodingTextarea.textContent).toContain(
+      'can not decode. SyntaxError',
+    );
+  });
 });

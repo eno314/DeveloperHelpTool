@@ -9,11 +9,6 @@ export const metadata: Metadata = {
 
 const links = [
   {
-    linkPath: '/json/parse',
-    title: 'JSON Parse Tool',
-    description: 'You can parse JSON by this tool.',
-  },
-  {
     linkPath: '/json/compare',
     title: 'JSON Compare Tool',
     description: 'You can compare two JSONs by this tool.',

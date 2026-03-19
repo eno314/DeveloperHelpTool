@@ -6,7 +6,7 @@ const textAreaStyle = {
   height: 100,
 };
 
-type EncodeDecodeMode = 'URL' | 'Base64';
+type EncodeDecodeMode = 'URL' | 'Base64' | 'JSON';
 
 const EncodeDecodeForm = (): React.JSX.Element => {
   const [mode, setMode] = useState<EncodeDecodeMode>('URL');
@@ -16,6 +16,14 @@ const EncodeDecodeForm = (): React.JSX.Element => {
   const toEncodedText = (text: string): string => {
     if (mode === 'URL') {
       return encodeURIComponent(text);
+    } else if (mode === 'JSON') {
+      try {
+        const obj = JSON.parse(text);
+        return JSON.stringify(obj);
+      } catch (err) {
+        const errMessage: string = (err as Error).toString();
+        return `can not encode. ${errMessage}.`;
+      }
     } else {
       try {
         const bytes = new TextEncoder().encode(text);
@@ -34,6 +42,14 @@ const EncodeDecodeForm = (): React.JSX.Element => {
     if (mode === 'URL') {
       try {
         return decodeURIComponent(text);
+      } catch (err) {
+        const errMessage: string = (err as Error).toString();
+        return `can not decode. ${errMessage}.`;
+      }
+    } else if (mode === 'JSON') {
+      try {
+        const obj = JSON.parse(text);
+        return JSON.stringify(obj, null, 2);
       } catch (err) {
         const errMessage: string = (err as Error).toString();
         return `can not decode. ${errMessage}.`;
@@ -71,6 +87,7 @@ const EncodeDecodeForm = (): React.JSX.Element => {
           >
             <option value="URL">URL</option>
             <option value="Base64">Base64</option>
+            <option value="JSON">JSON</option>
           </select>
         </div>
       </div>
