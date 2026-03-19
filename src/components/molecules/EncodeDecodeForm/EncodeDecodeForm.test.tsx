@@ -15,7 +15,8 @@ describe('EncodeDecodeForm', () => {
     render(<EncodeDecodeForm />);
     const select = screen.getByLabelText('Format') as HTMLSelectElement;
     expect(select.value).toBe('URL');
-    expect(screen.getByText('Apply URL Encoding ▶')).toBeInTheDocument();
+    expect(screen.getByText('Encoding ▶')).toBeInTheDocument();
+    expect(screen.getByText('◀ Decoding')).toBeInTheDocument();
   });
 
   it('should encode URL correctly', () => {
@@ -26,7 +27,7 @@ describe('EncodeDecodeForm', () => {
     const decodingTextarea = screen.getByLabelText(
       "Please input text you'd like to decode.",
     );
-    const encodeButton = screen.getByText('Apply URL Encoding ▶');
+    const encodeButton = screen.getByText('Encoding ▶');
 
     fireEvent.change(encodingTextarea, {
       target: {value: 'https://example.com/?q=あ'},
@@ -46,7 +47,7 @@ describe('EncodeDecodeForm', () => {
     const decodingTextarea = screen.getByLabelText(
       "Please input text you'd like to decode.",
     );
-    const decodeButton = screen.getByText('◀ Apply URL Decoding');
+    const decodeButton = screen.getByText('◀ Decoding');
 
     fireEvent.change(decodingTextarea, {
       target: {value: 'https%3A%2F%2Fexample.com%2F%3Fq%3D%E3%81%82'},
@@ -73,7 +74,7 @@ describe('EncodeDecodeForm', () => {
       "Please input text you'd like to encode. (UTF-8)",
     );
     expect(encodingTextareaBase64).toHaveValue('');
-    expect(screen.getByText('Apply Base64 Encoding ▶')).toBeInTheDocument();
+    expect(screen.getByText('Encoding ▶')).toBeInTheDocument();
   });
 
   it('should encode Base64 correctly', () => {
@@ -87,7 +88,7 @@ describe('EncodeDecodeForm', () => {
     const decodingTextarea = screen.getByLabelText(
       "Please input text you'd like to decode.",
     );
-    const encodeButton = screen.getByText('Apply Base64 Encoding ▶');
+    const encodeButton = screen.getByText('Encoding ▶');
 
     fireEvent.change(encodingTextarea, {
       target: {value: 'あいうえお UTF-8 123'},
@@ -110,7 +111,7 @@ describe('EncodeDecodeForm', () => {
     const decodingTextarea = screen.getByLabelText(
       "Please input text you'd like to decode.",
     );
-    const decodeButton = screen.getByText('◀ Apply Base64 Decoding');
+    const decodeButton = screen.getByText('◀ Decoding');
 
     fireEvent.change(decodingTextarea, {
       target: {value: '44GC44GE44GG44GI44GKIFVURi04IDEyMw=='},
@@ -128,7 +129,7 @@ describe('EncodeDecodeForm', () => {
     const decodingTextarea = screen.getByLabelText(
       "Please input text you'd like to decode.",
     );
-    const decodeButton = screen.getByText('◀ Apply URL Decoding');
+    const decodeButton = screen.getByText('◀ Decoding');
 
     fireEvent.change(decodingTextarea, {
       target: {value: '%E3%81%82%'},
@@ -151,7 +152,7 @@ describe('EncodeDecodeForm', () => {
     const decodingTextarea = screen.getByLabelText(
       "Please input text you'd like to decode.",
     );
-    const decodeButton = screen.getByText('◀ Apply Base64 Decoding');
+    const decodeButton = screen.getByText('◀ Decoding');
 
     // "InvalidCharacterError" string
     fireEvent.change(decodingTextarea, {
@@ -177,7 +178,7 @@ describe('EncodeDecodeForm', () => {
     fireEvent.change(select, {target: {value: 'JSON'}});
 
     expect(encodingTextarea).toHaveValue('');
-    expect(screen.getByText('Apply JSON Encoding ▶')).toBeInTheDocument();
+    expect(screen.getByText('Encoding ▶')).toBeInTheDocument();
   });
 
   it('should encode JSON correctly', () => {
@@ -191,7 +192,7 @@ describe('EncodeDecodeForm', () => {
     const decodingTextarea = screen.getByLabelText(
       "Please input text you'd like to decode.",
     );
-    const encodeButton = screen.getByText('Apply JSON Encoding ▶');
+    const encodeButton = screen.getByText('Encoding ▶');
 
     const inputJSON = `{
   "key": "value",
@@ -216,7 +217,7 @@ describe('EncodeDecodeForm', () => {
     const decodingTextarea = screen.getByLabelText(
       "Please input text you'd like to decode.",
     );
-    const decodeButton = screen.getByText('◀ Apply JSON Decoding');
+    const decodeButton = screen.getByText('◀ Decoding');
 
     fireEvent.change(decodingTextarea, {
       target: {value: '{"key":"value","num":123}'},
@@ -241,7 +242,7 @@ describe('EncodeDecodeForm', () => {
     const decodingTextarea = screen.getByLabelText(
       "Please input text you'd like to decode.",
     );
-    const encodeButton = screen.getByText('Apply JSON Encoding ▶');
+    const encodeButton = screen.getByText('Encoding ▶');
 
     fireEvent.change(encodingTextarea, {
       target: {value: '{invalid_json}'},
@@ -264,7 +265,7 @@ describe('EncodeDecodeForm', () => {
     const decodingTextarea = screen.getByLabelText(
       "Please input text you'd like to decode.",
     );
-    const decodeButton = screen.getByText('◀ Apply JSON Decoding');
+    const decodeButton = screen.getByText('◀ Decoding');
 
     fireEvent.change(decodingTextarea, {
       target: {value: '{invalid_json}'},

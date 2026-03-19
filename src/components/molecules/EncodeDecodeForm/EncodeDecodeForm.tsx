@@ -158,7 +158,7 @@ const EncodeDecodeForm = (): React.JSX.Element => {
               setEncodedText(toEncodedText(decodedText));
             }}
           >
-            Apply {mode} Encoding ▶
+            Encoding ▶
           </button>
           <button
             type={'button'}
@@ -167,7 +167,7 @@ const EncodeDecodeForm = (): React.JSX.Element => {
               setDecodedText(toDecodedText(encodedText));
             }}
           >
-            ◀ Apply {mode} Decoding
+            ◀ Decoding
           </button>
         </div>
 
