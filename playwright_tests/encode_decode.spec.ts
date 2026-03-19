@@ -21,7 +21,7 @@ test.describe('Encode And Decode Tool', () => {
       .fill(urlToEncode);
 
     // Click the encode button
-    await page.getByRole('button', {name: '▼ Apply URL Encoding'}).click();
+    await page.getByRole('button', {name: 'Encoding ▶'}).click();
 
     // Verify the output in the decode textarea
     await expect(
@@ -40,7 +40,7 @@ test.describe('Encode And Decode Tool', () => {
       .fill(encodedUrlToDecode);
 
     // Click the decode button
-    await page.getByRole('button', {name: '▲ Apply URL Decoding'}).click();
+    await page.getByRole('button', {name: '◀ Decoding'}).click();
 
     // Verify the output in the encode textarea
     await expect(
@@ -55,9 +55,7 @@ test.describe('Encode And Decode Tool', () => {
     await expect(
       page.getByLabel("Please input text you'd like to encode. (UTF-8)"),
     ).toBeVisible();
-    await expect(
-      page.getByRole('button', {name: '▼ Apply Base64 Encoding'}),
-    ).toBeVisible();
+    await expect(page.getByRole('button', {name: 'Encoding ▶'})).toBeVisible();
   });
 
   test('should encode text with multibyte parameters in Base64 mode', async ({
@@ -76,7 +74,7 @@ test.describe('Encode And Decode Tool', () => {
       .fill(textToEncode);
 
     // Click the encode button
-    await page.getByRole('button', {name: '▼ Apply Base64 Encoding'}).click();
+    await page.getByRole('button', {name: 'Encoding ▶'}).click();
 
     // Verify the output in the decode textarea
     await expect(
@@ -100,11 +98,62 @@ test.describe('Encode And Decode Tool', () => {
       .fill(encodedTextToDecode);
 
     // Click the decode button
-    await page.getByRole('button', {name: '▲ Apply Base64 Decoding'}).click();
+    await page.getByRole('button', {name: '◀ Decoding'}).click();
 
     // Verify the output in the encode textarea
     await expect(
       page.getByLabel("Please input text you'd like to encode. (UTF-8)"),
     ).toHaveValue(textToDecode);
+  });
+
+  test('should show file upload inputs in JSON mode', async ({page}) => {
+    // Change format to JSON
+    await page.getByLabel('Format').selectOption('JSON');
+
+    // Verify file upload inputs are visible
+    await expect(page.getByLabel('Upload File to Encode')).toBeVisible();
+    await expect(page.getByLabel('Upload File to Decode')).toBeVisible();
+  });
+
+  test('should encode (minify) formatted JSON string', async ({page}) => {
+    // Change format to JSON
+    await page.getByLabel('Format').selectOption('JSON');
+
+    const formattedJson = '{\n  "key": "value",\n  "num": 123\n}';
+    const minifiedJson = '{"key":"value","num":123}';
+
+    // Fill the textarea associated with "Please input text you'd like to encode."
+    await page
+      .getByLabel("Please input text you'd like to encode.")
+      .fill(formattedJson);
+
+    // Click the encode button
+    await page.getByRole('button', {name: 'Encoding ▶'}).click();
+
+    // Verify the output in the decode textarea
+    await expect(
+      page.getByLabel("Please input text you'd like to decode."),
+    ).toHaveValue(minifiedJson);
+  });
+
+  test('should decode (format) minified JSON string', async ({page}) => {
+    // Change format to JSON
+    await page.getByLabel('Format').selectOption('JSON');
+
+    const minifiedJson = '{"key":"value","num":123}';
+    const formattedJson = '{\n  "key": "value",\n  "num": 123\n}';
+
+    // Fill the textarea associated with "Please input text you'd like to decode."
+    await page
+      .getByLabel("Please input text you'd like to decode.")
+      .fill(minifiedJson);
+
+    // Click the decode button
+    await page.getByRole('button', {name: '◀ Decoding'}).click();
+
+    // Verify the output in the encode textarea
+    await expect(
+      page.getByLabel("Please input text you'd like to encode."),
+    ).toHaveValue(formattedJson);
   });
 });
