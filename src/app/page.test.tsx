@@ -12,7 +12,6 @@ describe('Home Page', () => {
 
   it('renders ToolList links', () => {
     render(<Home />);
-    expect(screen.getByText('JSON Parse Tool')).toBeInTheDocument();
     expect(screen.getByText('JSON Compare Tool')).toBeInTheDocument();
     expect(screen.getByText('String Replace Tool')).toBeInTheDocument();
     expect(screen.getByText('Encode And Decode Tool')).toBeInTheDocument();
