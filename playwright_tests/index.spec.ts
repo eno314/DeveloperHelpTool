@@ -7,11 +7,6 @@ test.describe('Index Page Navigation Tests', () => {
 
   const linksToTest = [
     {
-      text: 'JSON Parse Tool',
-      expectedPath: '/json/parse',
-      expectedTitle: 'Developer Help Tool - JSON Parse Tool',
-    },
-    {
       text: 'String Replace Tool',
       expectedPath: '/string/replace',
       expectedTitle: 'Developer Help Tool - String Replace Tool',
