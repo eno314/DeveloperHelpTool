@@ -8,10 +8,9 @@
 
 当アプリケーションでは、以下のツールを提供しています。
 
-- **JSON Parse Tool**: JSONをパースして整形・検証するツールです。
 - **JSON Compare Tool**: 2つのJSONを比較し、差分を確認できるツールです。
 - **String Replace Tool**: 文字列の検索・置換を簡単に行うツールです。
-- **Encode And Decode Tool**: URLとBase64形式のエンコードおよびデコードを行うツールです。
+- **Encode And Decode Tool**: URLとBase64、JSON形式のエンコードおよびデコードを行うツールです。
 - **Url Parse Tool**: URLをパースし、クエリパラメータ等を組み立てるツールです。
 - **Amidakuji Tool**: あみだくじ（Ghost Leg）を作成・実行できるツールです。
 - **Curl Builder Tool**: HTTPリクエストを構築し、cURLコマンドを生成するツールです。
