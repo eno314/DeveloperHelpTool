@@ -17,9 +17,9 @@ test.describe('Index Page Navigation Tests', () => {
       expectedTitle: 'Developer Help Tool - String Replace Tool',
     },
     {
-      text: 'Url Encode And Decode Tool',
-      expectedPath: '/url/encode',
-      expectedTitle: 'Developer Help Tool - Url Encode And Decode Tool',
+      text: 'Encode And Decode Tool',
+      expectedPath: '/encodeDecode',
+      expectedTitle: 'Developer Help Tool - Encode And Decode Tool',
     },
     {
       text: 'Url Parse Tool',
@@ -30,11 +30,6 @@ test.describe('Index Page Navigation Tests', () => {
       text: 'Amidakuji Tool',
       expectedPath: '/amidakuji',
       expectedTitle: 'Developer Help Tool - Amidakuji Tool',
-    },
-    {
-      text: 'Base64 Encode And Decode Tool',
-      expectedPath: '/base64/encode',
-      expectedTitle: 'Developer Help Tool - Base64 Encode And Decode Tool',
     },
     {
       text: 'Curl Builder Tool',

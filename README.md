@@ -11,10 +11,9 @@
 - **JSON Parse Tool**: JSONをパースして整形・検証するツールです。
 - **JSON Compare Tool**: 2つのJSONを比較し、差分を確認できるツールです。
 - **String Replace Tool**: 文字列の検索・置換を簡単に行うツールです。
-- **Url Encode And Decode Tool**: URLのエンコードおよびデコードを行うツールです。
+- **Encode And Decode Tool**: URLとBase64形式のエンコードおよびデコードを行うツールです。
 - **Url Parse Tool**: URLをパースし、クエリパラメータ等を組み立てるツールです。
 - **Amidakuji Tool**: あみだくじ（Ghost Leg）を作成・実行できるツールです。
-- **Base64 Encode And Decode Tool**: Base64形式のエンコードおよびデコードを行うツールです。
 - **Curl Builder Tool**: HTTPリクエストを構築し、cURLコマンドを生成するツールです。
 
 ## ローカルでの開発手順と使用条件

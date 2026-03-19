@@ -24,9 +24,9 @@ const links = [
     description: 'You can replace string by this tool.',
   },
   {
-    linkPath: '/url/encode',
-    title: 'Url Encode And Decode Tool',
-    description: 'You can encode and decode url by this tool.',
+    linkPath: '/encodeDecode',
+    title: 'Encode And Decode Tool',
+    description: 'You can encode and decode url or base64 by this tool.',
   },
   {
     linkPath: '/url/parse',
@@ -37,11 +37,6 @@ const links = [
     linkPath: '/amidakuji',
     title: 'Amidakuji Tool',
     description: 'You can play Amidakuji (Ghost Leg) by this tool.',
-  },
-  {
-    linkPath: '/base64/encode',
-    title: 'Base64 Encode And Decode Tool',
-    description: 'You can encode and decode base64 by this tool.',
   },
   {
     linkPath: '/curl/builder',
