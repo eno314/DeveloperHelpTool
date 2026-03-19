@@ -206,6 +206,38 @@ describe('EncodeDecodeForm', () => {
     expect(decodingTextarea).toHaveValue('{"key":"value","num":123}');
   });
 
+  it('should handle encode error gracefully in Base64 mode', () => {
+    // Mock btoa to throw an error
+    const originalBtoa = global.btoa;
+    global.btoa = jest.fn(() => {
+      throw new Error('Mock btoa error');
+    });
+
+    render(<EncodeDecodeForm />);
+    const select = screen.getByLabelText('Format');
+    fireEvent.change(select, {target: {value: 'Base64'}});
+
+    const encodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to encode. (UTF-8)",
+    );
+    const decodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to decode.",
+    );
+    const encodeButton = screen.getByText('Encoding ▶');
+
+    fireEvent.change(encodingTextarea, {
+      target: {value: 'test string'},
+    });
+    fireEvent.click(encodeButton);
+
+    expect(decodingTextarea).toHaveValue(
+      'can not encode. Error: Mock btoa error.',
+    );
+
+    // Restore original btoa
+    global.btoa = originalBtoa;
+  });
+
   it('should decode JSON correctly', () => {
     render(<EncodeDecodeForm />);
     const select = screen.getByLabelText('Format');
@@ -275,5 +307,47 @@ describe('EncodeDecodeForm', () => {
     expect(encodingTextarea.textContent).toContain(
       'can not decode. SyntaxError',
     );
+  });
+
+  it('should read file contents when a file is uploaded to encode (left side)', async () => {
+    render(<EncodeDecodeForm />);
+    const select = screen.getByLabelText('Format');
+    fireEvent.change(select, {target: {value: 'JSON'}});
+
+    const fileInput = screen.getByLabelText('Upload File to Encode');
+    const encodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to encode.",
+    );
+
+    const file = new File(['{"fileKey":"fileValue"}'], 'test.json', {
+      type: 'application/json',
+    });
+
+    fireEvent.change(fileInput, {target: {files: [file]}});
+
+    // Wait for the FileReader to complete
+    await screen.findByDisplayValue('{"fileKey":"fileValue"}');
+    expect(encodingTextarea).toHaveValue('{"fileKey":"fileValue"}');
+  });
+
+  it('should read file contents when a file is uploaded to decode (right side)', async () => {
+    render(<EncodeDecodeForm />);
+    const select = screen.getByLabelText('Format');
+    fireEvent.change(select, {target: {value: 'JSON'}});
+
+    const fileInput = screen.getByLabelText('Upload File to Decode');
+    const decodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to decode.",
+    );
+
+    const file = new File(['{"decodeKey":123}'], 'test2.json', {
+      type: 'application/json',
+    });
+
+    fireEvent.change(fileInput, {target: {files: [file]}});
+
+    // Wait for the FileReader to complete
+    await screen.findByDisplayValue('{"decodeKey":123}');
+    expect(decodingTextarea).toHaveValue('{"decodeKey":123}');
   });
 });
