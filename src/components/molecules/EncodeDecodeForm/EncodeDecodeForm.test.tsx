@@ -119,4 +119,48 @@ describe('EncodeDecodeForm', () => {
 
     expect(encodingTextarea).toHaveValue('あいうえお UTF-8 123');
   });
+
+  it('should display error when decoding invalid URL', () => {
+    render(<EncodeDecodeForm />);
+    const encodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to encode.",
+    );
+    const decodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to decode.",
+    );
+    const decodeButton = screen.getByText('▲ Apply URL Decoding');
+
+    fireEvent.change(decodingTextarea, {
+      target: {value: '%E3%81%82%'},
+    });
+    fireEvent.click(decodeButton);
+
+    expect(encodingTextarea.textContent).toContain(
+      'can not decode. URIError: URI malformed.',
+    );
+  });
+
+  it('should display error when decoding invalid Base64 string', () => {
+    render(<EncodeDecodeForm />);
+    const select = screen.getByLabelText('Format');
+    fireEvent.change(select, {target: {value: 'Base64'}});
+
+    const encodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to encode. (UTF-8)",
+    );
+    const decodingTextarea = screen.getByLabelText(
+      "Please input text you'd like to decode.",
+    );
+    const decodeButton = screen.getByText('▲ Apply Base64 Decoding');
+
+    // "InvalidCharacterError" string
+    fireEvent.change(decodingTextarea, {
+      target: {value: 'Invalid%%!!'},
+    });
+    fireEvent.click(decodeButton);
+
+    expect(encodingTextarea.textContent).toContain(
+      'can not decode. InvalidCharacterError',
+    );
+  });
 });
