@@ -4,7 +4,7 @@ import React, {useState, useEffect} from 'react';
 
 const TimestampTool = (): React.JSX.Element => {
   const [now, setNow] = useState<Date | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
     setNow(new Date()); // Initial set to avoid hydration mismatch if not using SSR date, but since it's 'use client' we still need to set it on mount.
@@ -15,12 +15,10 @@ const TimestampTool = (): React.JSX.Element => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleCopy = () => {
-    if (!now) return;
-    const timestamp = Math.floor(now.getTime() / 1000).toString();
-    void navigator.clipboard.writeText(timestamp).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+  const handleCopy = (textToCopy: string, id: string) => {
+    void navigator.clipboard.writeText(textToCopy).then(() => {
+      setCopiedId(id);
+      setTimeout(() => setCopiedId(null), 2000);
     });
   };
 
@@ -78,11 +76,11 @@ const TimestampTool = (): React.JSX.Element => {
             <div className="card-body d-flex align-items-center justify-content-between">
               <h2 className="mb-0 text-monospace">{timestamp}</h2>
               <button
-                className={`btn ${copied ? 'btn-success' : 'btn-outline-primary'}`}
-                onClick={handleCopy}
+                className={`btn ${copiedId === 'timestamp' ? 'btn-success' : 'btn-outline-primary'}`}
+                onClick={() => handleCopy(timestamp.toString(), 'timestamp')}
                 aria-label="Copy timestamp"
               >
-                {copied ? 'Copied!' : 'Copy'}
+                {copiedId === 'timestamp' ? 'Copied!' : 'Copy'}
               </button>
             </div>
           </div>
@@ -101,40 +99,46 @@ const TimestampTool = (): React.JSX.Element => {
                   <tr>
                     <th scope="col">Timezone / City</th>
                     <th scope="col">Time (YYYY-MM-DD HH:mm:ss)</th>
+                    <th scope="col" style={{width: '100px'}}>
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Japan (JST)</td>
-                    <td className="text-monospace">
-                      {formatDate(now, 'Asia/Tokyo')}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>UTC (GMT)</td>
-                    <td className="text-monospace">{formatDate(now, 'UTC')}</td>
-                  </tr>
-                  <tr>
-                    <td>New York (EST/EDT)</td>
-                    <td className="text-monospace">
-                      {formatDate(now, 'America/New_York')}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>London (GMT/BST)</td>
-                    <td className="text-monospace">
-                      {formatDate(now, 'Europe/London')}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Local Time</td>
-                    <td className="text-monospace">
-                      {formatDate(
-                        now,
-                        Intl.DateTimeFormat().resolvedOptions().timeZone,
-                      )}
-                    </td>
-                  </tr>
+                  {[
+                    {label: 'Japan (JST)', id: 'jst', tz: 'Asia/Tokyo'},
+                    {label: 'UTC (GMT)', id: 'utc', tz: 'UTC'},
+                    {
+                      label: 'New York (EST/EDT)',
+                      id: 'est',
+                      tz: 'America/New_York',
+                    },
+                    {label: 'London (GMT/BST)', id: 'bst', tz: 'Europe/London'},
+                    {
+                      label: 'Local Time',
+                      id: 'local',
+                      tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    },
+                  ].map(row => {
+                    const formattedTime = formatDate(now, row.tz);
+                    return (
+                      <tr key={row.id}>
+                        <td className="align-middle">{row.label}</td>
+                        <td className="text-monospace align-middle">
+                          {formattedTime}
+                        </td>
+                        <td>
+                          <button
+                            className={`btn btn-sm ${copiedId === row.id ? 'btn-success' : 'btn-outline-primary'}`}
+                            onClick={() => handleCopy(formattedTime, row.id)}
+                            aria-label={`Copy time for ${row.label}`}
+                          >
+                            {copiedId === row.id ? 'Copied!' : 'Copy'}
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

@@ -63,6 +63,24 @@ test.describe('Timestamp Tool', () => {
     // Check that what was copied is a valid number (timestamp)
     expect(Number(clipboardText)).not.toBeNaN();
     expect(Number(clipboardText)).toBeGreaterThan(0);
+
+    // Now test a row copy button
+    const copyJstButton = page.getByRole('button', {
+      name: 'Copy time for Japan (JST)',
+    });
+    await expect(copyJstButton).toBeVisible();
+
+    // Click the JST row copy button
+    await copyJstButton.click();
+    await expect(copyJstButton).toContainText('Copied!');
+
+    // Check clipboard content
+    const jstClipboardText = await page.evaluate(
+      'navigator.clipboard.readText()',
+    );
+
+    // Check that it's a formatted date string matching roughly YYYY-MM-DD HH:mm:ss
+    expect(jstClipboardText).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
   });
 
   test('should be accessible from the index page', async ({page}) => {

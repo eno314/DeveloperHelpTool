@@ -67,4 +67,36 @@ describe('TimestampTool', () => {
 
     expect(copyButton).toHaveTextContent('Copy');
   });
+
+  it('copies the formatted time when a row copy button is clicked', async () => {
+    // Mock the date to a specific value
+    const mockDate = new Date('2023-01-01T12:00:00Z');
+    jest.setSystemTime(mockDate);
+
+    render(<TimestampTool />);
+
+    act(() => {
+      jest.advanceTimersByTime(10);
+    });
+
+    const copyJstButton = screen.getByLabelText('Copy time for Japan (JST)');
+    expect(copyJstButton).toBeInTheDocument();
+
+    await act(async () => {
+      fireEvent.click(copyJstButton);
+    });
+
+    // We know from formatting logic that JST for this UTC time is 2023-01-01 21:00:00
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
+      '2023-01-01 21:00:00',
+    );
+    expect(copyJstButton).toHaveTextContent('Copied!');
+
+    // Advance timer to see it revert
+    await act(async () => {
+      jest.advanceTimersByTime(2500);
+    });
+
+    expect(copyJstButton).toHaveTextContent('Copy');
+  });
 });
