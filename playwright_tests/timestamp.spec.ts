@@ -14,11 +14,11 @@ test.describe('Timestamp Tool', () => {
 
     // Check Unix Timestamp section
     await expect(
-      page.locator('text=Current Unix Timestamp (Seconds)'),
+      page.locator('text=Current Unix Timestamp (Seconds)').first(),
     ).toBeVisible();
 
     // Wait for client-side rendering to complete and the unix timestamp to show up
-    const timestampValue = page.locator('.card-body h2.text-monospace');
+    const timestampValue = page.locator('h2.text-monospace').first();
     await expect(timestampValue).toBeVisible();
 
     // Validate it's a number
@@ -27,16 +27,56 @@ test.describe('Timestamp Tool', () => {
     expect(Number(text)).toBeGreaterThan(0);
 
     // Check Current Time section
-    await expect(page.locator('text=Current Time')).toBeVisible();
+    await expect(page.locator('h5', {hasText: 'Current Time'})).toBeVisible();
 
     // Check table headers
-    await expect(page.locator('text=Timezone / City')).toBeVisible();
-    await expect(page.locator('text=Time (YYYY-MM-DD HH:mm:ss)')).toBeVisible();
+    await expect(
+      page.locator('th', {hasText: 'Timezone / City'}),
+    ).toBeVisible();
+    await expect(
+      page.locator('th', {hasText: 'Time (YYYY-MM-DD HH:mm:ss)'}),
+    ).toBeVisible();
 
     // Check specific rows
-    await expect(page.locator('text=Local Time')).toBeVisible();
-    await expect(page.locator('text=UTC (GMT)')).toBeVisible();
+    await expect(page.locator('td', {hasText: 'Local Time'})).toBeVisible();
+    await expect(page.locator('td', {hasText: 'UTC (GMT)'})).toBeVisible();
     await expect(page.getByLabel('Select timezone')).toBeVisible();
+
+    // Check Timestamp Converter section exists
+    await expect(
+      page.locator('h5', {hasText: 'Timestamp Converter'}),
+    ).toBeVisible();
+  });
+
+  test('should verify the Timestamp Converter functionality', async ({
+    page,
+  }) => {
+    const timestampInput = page.getByLabel('Unix Timestamp (Seconds)');
+    const localTimeInput = page.getByLabel('Local Time (YYYY-MM-DD HH:mm:ss)');
+    const utcTimeInput = page.getByLabel('UTC Time (YYYY-MM-DD HH:mm:ss)');
+
+    await expect(timestampInput).toBeVisible();
+    await expect(localTimeInput).toBeVisible();
+    await expect(utcTimeInput).toBeVisible();
+
+    // Set a known UTC timestamp (2025-01-01 12:00:00 UTC = 1735732800)
+    await timestampInput.fill('1735732800');
+
+    // Check if UTC Time input updates correctly
+    await expect(utcTimeInput).toHaveValue('2025-01-01 12:00:00');
+
+    // Update the UTC Time input to a new time
+    await utcTimeInput.fill('2025-01-02 12:00:00');
+
+    // Verify timestamp input updates correctly (1735819200)
+    await expect(timestampInput).toHaveValue('1735819200');
+
+    // Update the local time input with a known pattern to verify connection
+    // Note: Playwright test browser runs with UTC timezone by default, so Local and UTC will usually match,
+    // but we can at least test bidirectional data flow.
+    await localTimeInput.fill('2025-01-03 12:00:00');
+    await expect(utcTimeInput).toHaveValue('2025-01-03 12:00:00');
+    await expect(timestampInput).toHaveValue('1735905600');
   });
 
   test('should verify the copy button functionality', async ({
