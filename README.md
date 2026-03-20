@@ -20,7 +20,8 @@
 
 ### 使用条件 (Prerequisites)
 
-- Node.js `>=24.0.0`
+- Deno (ローカル開発用)
+- Node.js `>=24.0.0` (Vercelデプロイ・CI用)
 - npm
 
 ### インストール
@@ -31,15 +32,17 @@
 npm install
 ```
 
-### 開発用サーバーの起動
+### 開発用サーバーの起動 (Deno環境)
 
-ローカル環境で開発用サーバーを起動します。
+ローカル開発環境ではDenoを使用して開発用サーバーを起動します。（`deno.json` に設定されています）
 
 ```sh
-npm run dev
+deno task dev
 ```
 
 起動後、ブラウザで [http://localhost:3000](http://localhost:3000) にアクセスしてください。
+
+※ Vercel上でのビルド・デプロイには引き続き Node.js (npm) 環境が使用されます。
 
 ### テストの実行
 
