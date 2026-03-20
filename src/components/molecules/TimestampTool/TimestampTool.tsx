@@ -5,6 +5,16 @@ import React, {useState, useEffect} from 'react';
 const TimestampTool = (): React.JSX.Element => {
   const [now, setNow] = useState<Date | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [selectedTimezone, setSelectedTimezone] = useState<string>('');
+
+  const TIMEZONES = [
+    {label: 'Japan (JST)', value: 'Asia/Tokyo'},
+    {label: 'New York (EST/EDT)', value: 'America/New_York'},
+    {label: 'London (GMT/BST)', value: 'Europe/London'},
+    {label: 'Sydney (AEST/AEDT)', value: 'Australia/Sydney'},
+    {label: 'Paris (CET/CEST)', value: 'Europe/Paris'},
+    {label: 'Los Angeles (PST/PDT)', value: 'America/Los_Angeles'},
+  ];
 
   useEffect(() => {
     setNow(new Date()); // Initial set to avoid hydration mismatch if not using SSR date, but since it's 'use client' we still need to set it on mount.
@@ -106,19 +116,12 @@ const TimestampTool = (): React.JSX.Element => {
                 </thead>
                 <tbody>
                   {[
-                    {label: 'Japan (JST)', id: 'jst', tz: 'Asia/Tokyo'},
-                    {label: 'UTC (GMT)', id: 'utc', tz: 'UTC'},
-                    {
-                      label: 'New York (EST/EDT)',
-                      id: 'est',
-                      tz: 'America/New_York',
-                    },
-                    {label: 'London (GMT/BST)', id: 'bst', tz: 'Europe/London'},
                     {
                       label: 'Local Time',
                       id: 'local',
                       tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
                     },
+                    {label: 'UTC (GMT)', id: 'utc', tz: 'UTC'},
                   ].map(row => {
                     const formattedTime = formatDate(now, row.tz);
                     return (
@@ -139,6 +142,44 @@ const TimestampTool = (): React.JSX.Element => {
                       </tr>
                     );
                   })}
+                  <tr>
+                    <td className="align-middle">
+                      <select
+                        className="form-select form-select-sm"
+                        value={selectedTimezone}
+                        onChange={e => setSelectedTimezone(e.target.value)}
+                        aria-label="Select timezone"
+                      >
+                        <option value="">Select a Timezone...</option>
+                        {TIMEZONES.map(tz => (
+                          <option key={tz.value} value={tz.value}>
+                            {tz.label}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td className="text-monospace align-middle">
+                      {selectedTimezone
+                        ? formatDate(now, selectedTimezone)
+                        : ''}
+                    </td>
+                    <td>
+                      {selectedTimezone && (
+                        <button
+                          className={`btn btn-sm ${copiedId === 'selected' ? 'btn-success' : 'btn-outline-primary'}`}
+                          onClick={() =>
+                            handleCopy(
+                              formatDate(now, selectedTimezone),
+                              'selected',
+                            )
+                          }
+                          aria-label="Copy time for selected timezone"
+                        >
+                          {copiedId === 'selected' ? 'Copied!' : 'Copy'}
+                        </button>
+                      )}
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>

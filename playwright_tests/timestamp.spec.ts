@@ -34,11 +34,9 @@ test.describe('Timestamp Tool', () => {
     await expect(page.locator('text=Time (YYYY-MM-DD HH:mm:ss)')).toBeVisible();
 
     // Check specific rows
-    await expect(page.locator('text=Japan (JST)')).toBeVisible();
-    await expect(page.locator('text=UTC (GMT)')).toBeVisible();
-    await expect(page.locator('text=New York (EST/EDT)')).toBeVisible();
-    await expect(page.locator('text=London (GMT/BST)')).toBeVisible();
     await expect(page.locator('text=Local Time')).toBeVisible();
+    await expect(page.locator('text=UTC (GMT)')).toBeVisible();
+    await expect(page.getByLabel('Select timezone')).toBeVisible();
   });
 
   test('should verify the copy button functionality', async ({
@@ -65,22 +63,33 @@ test.describe('Timestamp Tool', () => {
     expect(Number(clipboardText)).toBeGreaterThan(0);
 
     // Now test a row copy button
-    const copyJstButton = page.getByRole('button', {
-      name: 'Copy time for Japan (JST)',
+    const copyUtcButton = page.getByRole('button', {
+      name: 'Copy time for UTC (GMT)',
     });
-    await expect(copyJstButton).toBeVisible();
+    await expect(copyUtcButton).toBeVisible();
 
-    // Click the JST row copy button
-    await copyJstButton.click();
-    await expect(copyJstButton).toContainText('Copied!');
+    // Click the UTC row copy button
+    await copyUtcButton.click();
+    await expect(copyUtcButton).toContainText('Copied!');
 
     // Check clipboard content
-    const jstClipboardText = await page.evaluate(
+    const utcClipboardText = await page.evaluate(
       'navigator.clipboard.readText()',
     );
 
     // Check that it's a formatted date string matching roughly YYYY-MM-DD HH:mm:ss
-    expect(jstClipboardText).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
+    expect(utcClipboardText).toMatch(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
+
+    // Test the select timezone copy functionality
+    const select = page.getByLabel('Select timezone');
+    await select.selectOption('Asia/Tokyo');
+
+    const copySelectedBtn = page.getByRole('button', {
+      name: 'Copy time for selected timezone',
+    });
+    await expect(copySelectedBtn).toBeVisible();
+    await copySelectedBtn.click();
+    await expect(copySelectedBtn).toContainText('Copied!');
   });
 
   test('should be accessible from the index page', async ({page}) => {
