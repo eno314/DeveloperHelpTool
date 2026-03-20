@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "deno task build:client && next build",
+    "build": "next build",
     "start": "next start",
     "test": "deno test -A",
     "test:watch": "deno test -A --watch",
