@@ -2,7 +2,9 @@
   "nodeModulesDir": "auto",
   "tasks": {
     "dev": "deno run -A --node-modules-dir npm:next dev",
-    "build": "deno run -A --node-modules-dir npm:next build",
+    "dev:client": "deno run -A --node-modules-dir npm:vite",
+    "build:client": "deno run -A --node-modules-dir npm:vite build",
+    "build": "deno task build:client && deno run -A --node-modules-dir npm:next build",
     "start": "deno run -A --node-modules-dir npm:next start"
   },
   "imports": {
