@@ -17,6 +17,7 @@
     "npm:@types/react-dom@19": "19.2.3_@types+react@19.2.14",
     "npm:@types/react@19": "19.2.14",
     "npm:bootstrap@5": "5.3.8_@popperjs+core@2.11.8",
+    "npm:hono@^4.12.8": "4.12.8",
     "npm:next@*": "16.2.0_@playwright+test@1.58.2_react@19.2.4_react-dom@19.2.4__react@19.2.4",
     "npm:next@^16.1.6": "16.2.0_@playwright+test@1.58.2_react@19.2.4_react-dom@19.2.4__react@19.2.4",
     "npm:react-dom@19": "19.2.4_react@19.2.4",
@@ -340,6 +341,9 @@
       "os": ["darwin"],
       "scripts": true
     },
+    "hono@4.12.8": {
+      "integrity": "sha512-VJCEvtrezO1IAR+kqEYnxUOoStaQPGrCmX3j4wDTNOcD1uRPFpGlwQUIW8niPuvHXaTUxeOUl5MMDGrl+tmO9A=="
+    },
     "nanoid@3.3.11": {
       "integrity": "sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==",
       "bin": true
@@ -484,6 +488,7 @@
         "npm:@types/react-dom@19",
         "npm:@types/react@19",
         "npm:bootstrap@5",
+        "npm:hono@^4.12.8",
         "npm:next@^16.1.6",
         "npm:react-dom@19",
         "npm:react@19",

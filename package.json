@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "bootstrap": "5.x",
+    "hono": "^4.12.8",
     "next": "^16.1.6",
     "react": "19",
     "react-dom": "19"

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { type ChangeEvent, useState } from "react";
+import { replaceStr } from "../../../utils/stringUtils.ts";
 
 const styles = {
   textArea: {
@@ -94,15 +95,6 @@ const StringReplaceForm = (): React.JSX.Element => {
       </div>
     </div>
   );
-};
-
-const replaceStr = (
-  replacedStr: string,
-  targetSubstr: string,
-  newSubstr: string,
-): string => {
-  const regex = new RegExp(targetSubstr, "g");
-  return replacedStr.replace(regex, newSubstr);
 };
 
 export default StringReplaceForm;
