@@ -1,12 +1,13 @@
-import {diffLines} from './diff';
+import {diffLines} from './diff.ts';
+import {expect} from 'jsr:@std/expect';
 
-describe('diff utility', () => {
-  it('should detect identical lines', () => {
+Deno.test('diff utility', async t => {
+  await t.step('should detect identical lines', () => {
     const changes = diffLines('hello\nworld', 'hello\nworld');
     expect(changes).toEqual([{value: 'hello\nworld'}]);
   });
 
-  it('should detect added lines', () => {
+  await t.step('should detect added lines', () => {
     const changes = diffLines('hello\nworld', 'hello\nbeautiful\nworld');
     expect(changes).toEqual([
       {value: 'hello\n'},
@@ -15,7 +16,7 @@ describe('diff utility', () => {
     ]);
   });
 
-  it('should detect removed lines', () => {
+  await t.step('should detect removed lines', () => {
     const changes = diffLines('hello\nbeautiful\nworld', 'hello\nworld');
     expect(changes).toEqual([
       {value: 'hello\n'},
@@ -24,7 +25,7 @@ describe('diff utility', () => {
     ]);
   });
 
-  it('should detect both added and removed lines', () => {
+  await t.step('should detect both added and removed lines', () => {
     const changes = diffLines('hello\ncruel\nworld', 'hello\nbeautiful\nworld');
     expect(changes).toEqual([
       {value: 'hello\n'},
@@ -34,7 +35,7 @@ describe('diff utility', () => {
     ]);
   });
 
-  it('should group adjacent identical changes', () => {
+  await t.step('should group adjacent identical changes', () => {
     const changes = diffLines('a\nb\nc\n', 'a\nx\ny\nz\nc\n');
     expect(changes).toEqual([
       {value: 'a\n'},

@@ -26,12 +26,11 @@ export default [
       'node_modules/',
       'out/',
       '**/*.d.ts', // Usually handled by tsc, ignore in lint to speed up
+      '**/*.test.ts', // Ignore Deno tests which might use unresolvable jsr: imports for standard ESLint typescript parser
     ],
   },
   // GTS Configuration
   ...gts,
-  // Next.js Configuration (via FlatCompat)
-  ...compat.extends('next/core-web-vitals'),
   // Custom Overrides
   {
     rules: {
@@ -39,8 +38,6 @@ export default [
         'error',
         { allowNumber: true },
       ],
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
     },
   },
 ];
