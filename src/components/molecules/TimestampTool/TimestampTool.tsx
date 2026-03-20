@@ -14,6 +14,16 @@ const TimestampTool = (): React.JSX.Element => {
     {label: 'Sydney (AEST/AEDT)', value: 'Australia/Sydney'},
     {label: 'Paris (CET/CEST)', value: 'Europe/Paris'},
     {label: 'Los Angeles (PST/PDT)', value: 'America/Los_Angeles'},
+    {label: 'Johannesburg (SAST)', value: 'Africa/Johannesburg'},
+    {label: 'Cairo (EET/EEST)', value: 'Africa/Cairo'},
+    {label: 'Nairobi (EAT)', value: 'Africa/Nairobi'},
+    {label: 'Mexico City (CST/CDT)', value: 'America/Mexico_City'},
+    {label: 'Costa Rica (CST)', value: 'America/Costa_Rica'},
+    {label: 'Sao Paulo (BRT/BRST)', value: 'America/Sao_Paulo'},
+    {label: 'Buenos Aires (ART)', value: 'America/Argentina/Buenos_Aires'},
+    {label: 'Bogota (COT)', value: 'America/Bogota'},
+    {label: 'Almaty (ALMT)', value: 'Asia/Almaty'},
+    {label: 'Tashkent (UZT)', value: 'Asia/Tashkent'},
   ];
 
   useEffect(() => {
