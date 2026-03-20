@@ -93,6 +93,89 @@ describe('TimestampTool', () => {
     expect(timestampInput).toHaveValue(1704196800);
   });
 
+  it('handles invalid date strings gracefully in the converter', async () => {
+    render(<TimestampTool />);
+    act(() => {
+      jest.advanceTimersByTime(10);
+    });
+
+    const localTimeInput = screen.getByLabelText(
+      'Local Time (YYYY-MM-DD HH:mm:ss)',
+    );
+    const utcTimeInput = screen.getByLabelText(
+      'UTC Time (YYYY-MM-DD HH:mm:ss)',
+    );
+    const timestampInput = screen.getByLabelText('Unix Timestamp (Seconds)');
+
+    const currentTimestamp = (timestampInput as HTMLInputElement).value;
+
+    // Enter invalid local time
+    await act(async () => {
+      fireEvent.change(localTimeInput, {target: {value: 'invalid'}});
+    });
+
+    // Verify timestamp did not change to NaN or crash
+    expect(timestampInput).toHaveValue(Number(currentTimestamp));
+
+    // Enter invalid UTC time
+    await act(async () => {
+      fireEvent.change(utcTimeInput, {target: {value: 'invalid'}});
+    });
+
+    // Verify timestamp still didn't change
+    expect(timestampInput).toHaveValue(Number(currentTimestamp));
+  });
+
+  it('converts Local time string to timestamp correctly in the converter', async () => {
+    render(<TimestampTool />);
+    act(() => {
+      jest.advanceTimersByTime(10);
+    });
+
+    const localTimeInput = screen.getByLabelText(
+      'Local Time (YYYY-MM-DD HH:mm:ss)',
+    );
+    const timestampInput = screen.getByLabelText('Unix Timestamp (Seconds)');
+
+    // We can't strictly assert the exact timestamp because of the local timezone of the test runner,
+    // but we can assert the connection works and doesn't throw.
+    await act(async () => {
+      fireEvent.change(localTimeInput, {
+        target: {value: '2025-01-01 12:00:00'},
+      });
+    });
+
+    const currentTimestamp = (timestampInput as HTMLInputElement).value;
+    expect(Number(currentTimestamp)).not.toBeNaN();
+    expect(Number(currentTimestamp)).toBeGreaterThan(0);
+  });
+
+  it('allows copying from the converter fields', async () => {
+    render(<TimestampTool />);
+    act(() => {
+      jest.advanceTimersByTime(10);
+    });
+
+    const copyTimestampBtn = screen.getByLabelText('Copy converter timestamp');
+    const copyLocalTimeBtn = screen.getByLabelText('Copy converter local time');
+    const copyUtcTimeBtn = screen.getByLabelText('Copy converter UTC time');
+
+    await act(async () => {
+      fireEvent.click(copyTimestampBtn);
+    });
+    expect(copyTimestampBtn).toHaveTextContent('Copied!');
+
+    await act(async () => {
+      fireEvent.click(copyLocalTimeBtn);
+    });
+    expect(copyLocalTimeBtn).toHaveTextContent('Copied!');
+
+    await act(async () => {
+      fireEvent.click(copyUtcTimeBtn);
+    });
+    expect(copyUtcTimeBtn).toHaveTextContent('Copied!');
+  });
+
   it('copies the timestamp when the copy button is clicked', async () => {
     // Mock the date to a specific value so we know the expected timestamp
     const mockDate = new Date('2023-01-01T12:00:00Z');
