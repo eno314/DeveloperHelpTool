@@ -56,4 +56,4 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: UI Test
-        run: npx playwright test playwright_tests/index.spec.ts
+        run: npx playwright test playwright_tests/

@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Amidakuji Page Tests - Happy Path", () => {
+test.describe("Amidakuji Page Tests (Hono) - Happy Path", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/amidakuji");
+    await page.goto("http://localhost:8000/amidakuji/index.html");
   });
 
   test("should verify the number of vertical lines for 2 and 15", async ({ page }) => {
@@ -13,9 +13,6 @@ test.describe("Amidakuji Page Tests - Happy Path", () => {
     await numLinesInput.blur();
 
     // There are top and bottom labels, we count the SVG lines
-    // Get the vertical lines. They are simple <line> elements that have y1=20.
-    // However, it's easier to count the total lines minus the horizontal ones if they exist,
-    // or since no generation has occurred, all <line> elements are vertical lines.
     let lines = page.locator("svg line");
     await expect(lines).toHaveCount(2);
 
@@ -30,8 +27,7 @@ test.describe("Amidakuji Page Tests - Happy Path", () => {
   test("should allow editing start and end points in the initial state", async ({ page }) => {
     // Top labels
     const topInputs = page
-      .locator('div[class*="labelsRow"]')
-      .first()
+      .locator("#topLabelsContainer")
       .locator('input[type="text"]');
     await topInputs.nth(0).fill("Start 1");
     await expect(topInputs.nth(0)).toHaveValue("Start 1");
@@ -39,8 +35,7 @@ test.describe("Amidakuji Page Tests - Happy Path", () => {
 
     // Bottom labels
     const bottomInputs = page
-      .locator('div[class*="labelsRow"]')
-      .last()
+      .locator("#bottomLabelsContainer")
       .locator('input[type="text"]');
     await bottomInputs.nth(0).fill("End 1");
     await expect(bottomInputs.nth(0)).toHaveValue("End 1");
@@ -58,14 +53,12 @@ test.describe("Amidakuji Page Tests - Happy Path", () => {
 
     // Verify inputs are readonly
     const topInputs = page
-      .locator('div[class*="labelsRow"]')
-      .first()
+      .locator("#topLabelsContainer")
       .locator('input[type="text"]');
     await expect(topInputs.nth(0)).toHaveAttribute("readonly", "");
 
     const bottomInputs = page
-      .locator('div[class*="labelsRow"]')
-      .last()
+      .locator("#bottomLabelsContainer")
       .locator('input[type="text"]');
     await expect(bottomInputs.nth(0)).toHaveAttribute("readonly", "");
 
@@ -83,8 +76,7 @@ test.describe("Amidakuji Page Tests - Happy Path", () => {
     await numLinesInput.blur();
 
     const topInputs = page
-      .locator('div[class*="labelsRow"]')
-      .first()
+      .locator("#topLabelsContainer")
       .locator('input[type="text"]');
     await topInputs.nth(0).fill("Start 1");
 
@@ -110,8 +102,7 @@ test.describe("Amidakuji Page Tests - Happy Path", () => {
     await expect(topInputs.nth(2)).toHaveValue("3");
 
     const bottomInputs = page
-      .locator('div[class*="labelsRow"]')
-      .last()
+      .locator("#bottomLabelsContainer")
       .locator('input[type="text"]');
     await expect(bottomInputs.nth(0)).not.toHaveAttribute("readonly");
     await expect(bottomInputs.nth(0)).toHaveValue("1");
