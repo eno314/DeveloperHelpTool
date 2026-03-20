@@ -260,10 +260,18 @@ const Amidakuji = (): React.JSX.Element => {
           style={{ maxWidth: "200px" }}
         />
         <div className="mt-3">
-          <button type="button" className="btn btn-primary me-2" onClick={generateLines}>
+          <button
+            type="button"
+            className="btn btn-primary me-2"
+            onClick={generateLines}
+          >
             生成 (Generate)
           </button>
-          <button type="button" className="btn btn-outline-secondary" onClick={handleClear}>
+          <button
+            type="button"
+            className="btn btn-outline-secondary"
+            onClick={handleClear}
+          >
             クリア (Clear)
           </button>
         </div>
@@ -290,7 +298,8 @@ const Amidakuji = (): React.JSX.Element => {
                 }}
               />
               {isGenerated && (
-                <button type="button"
+                <button
+                  type="button"
                   className="btn btn-sm btn-outline-danger mt-1"
                   onClick={() => setSelectedStart(i)}
                 >

@@ -1,71 +1,20 @@
 "use client";
 
 import React, { useId, useState } from "react";
+import {
+  EncodeDecodeMode,
+  toDecodedText,
+  toEncodedText,
+} from "../../../utils/encodeDecodeUtils.ts";
 
 const textAreaStyle = {
   height: 500,
 };
 
-type EncodeDecodeMode = "URL" | "Base64" | "JSON";
-
 const EncodeDecodeForm = (): React.JSX.Element => {
   const [mode, setMode] = useState<EncodeDecodeMode>("URL");
   const [decodedText, setDecodedText] = useState("");
   const [encodedText, setEncodedText] = useState("");
-
-  const toEncodedText = (text: string): string => {
-    if (mode === "URL") {
-      return encodeURIComponent(text);
-    } else if (mode === "JSON") {
-      try {
-        const obj = JSON.parse(text);
-        return JSON.stringify(obj);
-      } catch (err) {
-        const errMessage: string = (err as Error).toString();
-        return `can not encode. ${errMessage}.`;
-      }
-    } else {
-      try {
-        const bytes = new TextEncoder().encode(text);
-        const binString = Array.from(
-          bytes,
-          (byte) => String.fromCodePoint(byte),
-        ).join("");
-        return btoa(binString);
-      } catch (err) {
-        const errMessage: string = (err as Error).toString();
-        return `can not encode. ${errMessage}.`;
-      }
-    }
-  };
-
-  const toDecodedText = (text: string): string => {
-    if (mode === "URL") {
-      try {
-        return decodeURIComponent(text);
-      } catch (err) {
-        const errMessage: string = (err as Error).toString();
-        return `can not decode. ${errMessage}.`;
-      }
-    } else if (mode === "JSON") {
-      try {
-        const obj = JSON.parse(text);
-        return JSON.stringify(obj, null, 2);
-      } catch (err) {
-        const errMessage: string = (err as Error).toString();
-        return `can not decode. ${errMessage}.`;
-      }
-    } else {
-      try {
-        const binString = atob(text);
-        const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0)!);
-        return new TextDecoder().decode(bytes);
-      } catch (err) {
-        const errMessage: string = (err as Error).toString();
-        return `can not decode. ${errMessage}.`;
-      }
-    }
-  };
 
   const id = useId();
 
@@ -156,7 +105,7 @@ const EncodeDecodeForm = (): React.JSX.Element => {
             type="button"
             className="btn btn-primary"
             onClick={() => {
-              setEncodedText(toEncodedText(decodedText));
+              setEncodedText(toEncodedText(decodedText, mode));
             }}
           >
             Encoding ▶
@@ -165,7 +114,7 @@ const EncodeDecodeForm = (): React.JSX.Element => {
             type="button"
             className="btn btn-primary"
             onClick={() => {
-              setDecodedText(toDecodedText(encodedText));
+              setDecodedText(toDecodedText(encodedText, mode));
             }}
           >
             ◀ Decoding

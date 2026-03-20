@@ -211,7 +211,8 @@ const TimestampTool = (): React.JSX.Element => {
             </div>
             <div className="card-body d-flex align-items-center justify-content-between">
               <h2 className="mb-0 text-monospace">{timestamp}</h2>
-              <button type="button"
+              <button
+                type="button"
                 className={`btn ${
                   copiedId === "timestamp"
                     ? "btn-success"
@@ -257,7 +258,8 @@ const TimestampTool = (): React.JSX.Element => {
                           {formattedTime}
                         </td>
                         <td>
-                          <button type="button"
+                          <button
+                            type="button"
                             className={`btn btn-sm ${
                               copiedId === row.id
                                 ? "btn-success"
@@ -299,7 +301,8 @@ const TimestampTool = (): React.JSX.Element => {
                     </td>
                     <td>
                       {selectedTimezone && (
-                        <button type="button"
+                        <button
+                          type="button"
                           className={`btn btn-sm ${
                             copiedId === "selected"
                               ? "btn-success"
@@ -344,7 +347,8 @@ const TimestampTool = (): React.JSX.Element => {
                     value={converterTimestamp}
                     onChange={handleTimestampChange}
                   />
-                  <button type="button"
+                  <button
+                    type="button"
                     className={`btn ${
                       copiedId === "converter-timestamp"
                         ? "btn-success"
@@ -374,7 +378,8 @@ const TimestampTool = (): React.JSX.Element => {
                     value={converterLocalTime}
                     onChange={handleLocalTimeChange}
                   />
-                  <button type="button"
+                  <button
+                    type="button"
                     className={`btn ${
                       copiedId === "converter-local"
                         ? "btn-success"
@@ -404,7 +409,8 @@ const TimestampTool = (): React.JSX.Element => {
                     value={converterUtcTime}
                     onChange={handleUtcTimeChange}
                   />
-                  <button type="button"
+                  <button
+                    type="button"
                     className={`btn ${
                       copiedId === "converter-utc"
                         ? "btn-success"
