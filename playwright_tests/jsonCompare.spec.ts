@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { Buffer } from "node:buffer";
 
-test("JSON Compare Tool correctly parses and compares JSON strings (Hono)", async ({ page }) => {
+test("JSON Compare Tool correctly parses and compares JSON strings", async ({ page }) => {
   await page.goto("http://localhost:8000/json/compare/index.html");
 
   await expect(page).toHaveTitle("Developer Help Tool - JSON Compare Tool");
@@ -41,7 +41,7 @@ test("JSON Compare Tool correctly parses and compares JSON strings (Hono)", asyn
   await expect(rightAddedSpan).toContainText('"city": "New York"');
 });
 
-test("JSON Compare Tool correctly parses and compares from uploaded JSON files (Hono)", async ({ page }) => {
+test("JSON Compare Tool correctly parses and compares from uploaded JSON files", async ({ page }) => {
   await page.goto("http://localhost:8000/json/compare/index.html");
 
   const validJsonLeft = '{"name": "John", "age": 30}';

@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("String Replace Tool (Hono)", () => {
+test.describe("String Replace Tool", () => {
   test("should replace strings based on the target and new substring", async ({ page }) => {
-    // Navigate to the Hono proof-of-concept page
+    // Navigate to the page
     await page.goto("http://localhost:8000/string/replace/index.html");
 
     // Input the original string

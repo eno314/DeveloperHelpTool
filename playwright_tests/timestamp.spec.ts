@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Timestamp Tool (Hono)", () => {
+test.describe("Timestamp Tool", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("http://localhost:8000/timestamp/index.html");
   });

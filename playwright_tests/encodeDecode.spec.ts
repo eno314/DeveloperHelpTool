@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Encode And Decode Tool (Hono)", () => {
+test.describe("Encode And Decode Tool", () => {
   test.beforeEach(async ({ page }) => {
-    // Navigate to the Hono proof-of-concept page
+    // Navigate to the page
     await page.goto("http://localhost:8000/encodeDecode/index.html");
   });
 
