@@ -5,7 +5,8 @@
     "dev:client": "deno run -A --node-modules-dir npm:vite",
     "build:client": "deno run -A --node-modules-dir npm:vite build",
     "build": "deno task build:client && deno run -A --node-modules-dir npm:next build",
-    "start": "deno run -A --node-modules-dir npm:next start"
+    "start": "deno run -A --node-modules-dir npm:next start",
+    "start:hono": "deno serve -A src/server.ts"
   },
   "imports": {
     "@std/expect": "jsr:@std/expect@^1.0.18",
