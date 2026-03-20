@@ -1,13 +1,13 @@
 'use client';
 
 import React, {useState, useId} from 'react';
-import * as diff from 'diff';
 import styles from './JSONCompareForm.module.css';
+import {diffLines, Change} from '../../../utils/diff';
 
 const JSONCompareForm = (): React.JSX.Element => {
   const [leftInput, setLeftInput] = useState<string>('');
   const [rightInput, setRightInput] = useState<string>('');
-  const [diffResult, setDiffResult] = useState<diff.Change[] | null>(null);
+  const [diffResult, setDiffResult] = useState<Change[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const id = useId();
 
@@ -53,7 +53,7 @@ const JSONCompareForm = (): React.JSX.Element => {
     const formattedLeft = JSON.stringify(parsedLeft, null, 2);
     const formattedRight = JSON.stringify(parsedRight, null, 2);
 
-    const differences = diff.diffLines(formattedLeft, formattedRight);
+    const differences = diffLines(formattedLeft, formattedRight);
     setDiffResult(differences);
   };
 

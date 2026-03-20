@@ -4,5 +4,9 @@
     "dev": "deno run -A --node-modules-dir npm:next dev",
     "build": "deno run -A --node-modules-dir npm:next build",
     "start": "deno run -A --node-modules-dir npm:next start"
+  },
+  "imports": {
+    "@std/expect": "jsr:@std/expect@^1.0.18",
+    "@std/testing": "jsr:@std/testing@^1.0.17"
   }
 }
