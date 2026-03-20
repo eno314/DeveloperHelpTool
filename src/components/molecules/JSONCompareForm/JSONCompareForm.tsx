@@ -2,7 +2,7 @@
 
 import React, {useState, useId} from 'react';
 import styles from './JSONCompareForm.module.css';
-import {diffLines, Change} from '../../../utils/diff';
+import {diffLines, Change} from '../../../utils/diff.ts';
 
 const JSONCompareForm = (): React.JSX.Element => {
   const [leftInput, setLeftInput] = useState<string>('');
@@ -11,14 +11,13 @@ const JSONCompareForm = (): React.JSX.Element => {
   const [error, setError] = useState<string | null>(null);
   const id = useId();
 
-  const handleFileChange =
-    (setter: React.Dispatch<React.SetStateAction<string>>) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (setter: React.Dispatch<React.SetStateAction<string>>) => {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = event => {
+      reader.onload = (event) => {
         const content = event.target?.result;
         if (typeof content === 'string') {
           setter(content);
@@ -28,6 +27,7 @@ const JSONCompareForm = (): React.JSX.Element => {
       // Reset the input value so the same file can be selected again
       e.target.value = '';
     };
+  };
 
   const handleCompare = () => {
     setError(null);
@@ -116,7 +116,7 @@ const JSONCompareForm = (): React.JSX.Element => {
       </div>
       <div className="row mb-4">
         <div className="col text-center">
-          <button className="btn btn-primary" onClick={handleCompare}>
+          <button type="button" className="btn btn-primary" onClick={handleCompare}>
             Compare
           </button>
         </div>

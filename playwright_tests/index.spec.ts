@@ -1,40 +1,40 @@
-import {test, expect} from '@playwright/test';
+import { expect, test } from "@playwright/test";
 
-test.describe('Index Page Navigation Tests', () => {
-  test.beforeEach(async ({page}) => {
-    await page.goto('/');
+test.describe("Index Page Navigation Tests", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/");
   });
 
   const linksToTest = [
     {
-      text: 'String Replace Tool',
-      expectedPath: '/string/replace',
-      expectedTitle: 'Developer Help Tool - String Replace Tool',
+      text: "String Replace Tool",
+      expectedPath: "/string/replace",
+      expectedTitle: "Developer Help Tool - String Replace Tool",
     },
     {
-      text: 'Encode And Decode Tool',
-      expectedPath: '/encodeDecode',
-      expectedTitle: 'Developer Help Tool - Encode And Decode Tool',
+      text: "Encode And Decode Tool",
+      expectedPath: "/encodeDecode",
+      expectedTitle: "Developer Help Tool - Encode And Decode Tool",
     },
     {
-      text: 'Url Parse Tool',
-      expectedPath: '/url/parse',
-      expectedTitle: 'Developer Help Tool - Url Parse Tool',
+      text: "Url Parse Tool",
+      expectedPath: "/url/parse",
+      expectedTitle: "Developer Help Tool - Url Parse Tool",
     },
     {
-      text: 'Amidakuji Tool',
-      expectedPath: '/amidakuji',
-      expectedTitle: 'Developer Help Tool - Amidakuji Tool',
+      text: "Amidakuji Tool",
+      expectedPath: "/amidakuji",
+      expectedTitle: "Developer Help Tool - Amidakuji Tool",
     },
     {
-      text: 'Curl Builder Tool',
-      expectedPath: '/curl/builder',
-      expectedTitle: 'Developer Help Tool - Curl Builder Tool',
+      text: "Curl Builder Tool",
+      expectedPath: "/curl/builder",
+      expectedTitle: "Developer Help Tool - Curl Builder Tool",
     },
   ];
 
   for (const link of linksToTest) {
-    test(`should navigate to ${link.text} and verify title`, async ({page}) => {
+    test(`should navigate to ${link.text} and verify title`, async ({ page }) => {
       // Find the link by text and click it
       await page.click(`text=${link.text}`);
 

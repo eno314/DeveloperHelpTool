@@ -39,7 +39,7 @@ export function diffLines(oldStr: string, newStr: string): Change[] {
     ) {
       lastChange.value += diff.value;
     } else {
-      changes.push({...diff});
+      changes.push({ ...diff });
     }
   }
 
@@ -47,11 +47,11 @@ export function diffLines(oldStr: string, newStr: string): Change[] {
 }
 
 function splitIntoLines(str: string): string[] {
-  if (str === '') return [];
+  if (str === "") return [];
   const lines = str.split(/\r?\n/);
   return lines
-    .map((line, index) => (index < lines.length - 1 ? line + '\n' : line))
-    .filter(line => line.length > 0);
+    .map((line, index) => (index < lines.length - 1 ? line + "\n" : line))
+    .filter((line) => line.length > 0);
 }
 
 /**
@@ -61,11 +61,11 @@ function myersDiff(oldLines: string[], newLines: string[]): Change[] {
   const n = oldLines.length;
   const m = newLines.length;
   const max = n + m;
-  const v: {[k: number]: number} = {1: 0};
-  const trace: {[k: number]: number}[] = [];
+  const v: { [k: number]: number } = { 1: 0 };
+  const trace: { [k: number]: number }[] = [];
 
   for (let d = 0; d <= max; d++) {
-    const vCopy: {[k: number]: number} = {};
+    const vCopy: { [k: number]: number } = {};
     for (const key in v) {
       vCopy[key] = v[key];
     }
@@ -100,7 +100,7 @@ function myersDiff(oldLines: string[], newLines: string[]): Change[] {
 }
 
 function buildScript(
-  trace: {[k: number]: number}[],
+  trace: { [k: number]: number }[],
   oldLines: string[],
   newLines: string[],
 ): Change[] {
@@ -119,16 +119,16 @@ function buildScript(
     const yPrev = xPrev - kPrev;
 
     while (x > xPrev && y > yPrev) {
-      script.push({value: oldLines[x - 1]});
+      script.push({ value: oldLines[x - 1] });
       x--;
       y--;
     }
 
     if (d > 0) {
       if (down) {
-        script.push({value: newLines[yPrev], added: true});
+        script.push({ value: newLines[yPrev], added: true });
       } else {
-        script.push({value: oldLines[xPrev], removed: true});
+        script.push({ value: oldLines[xPrev], removed: true });
       }
       x = xPrev;
       y = yPrev;

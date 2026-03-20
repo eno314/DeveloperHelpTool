@@ -1,16 +1,16 @@
-import type {Metadata} from 'next';
-import DeveloperHelpToolFrame from '@/components/molecules/DeveloperHelpToolFrame/DeveloperHelpToolFrame';
-import TimestampTool from '@/components/molecules/TimestampTool/TimestampTool';
-import React from 'react';
+import type { Metadata } from "next";
+import DeveloperHelpToolFrame from "../../components/molecules/DeveloperHelpToolFrame/DeveloperHelpToolFrame.tsx";
+import TimestampTool from "../../components/molecules/TimestampTool/TimestampTool.tsx";
+import React from "react";
 
 export const metadata: Metadata = {
-  title: 'Timestamp Tool',
+  title: "Timestamp Tool",
 };
 
 const TimestampPage = (): React.JSX.Element => {
   return (
     <DeveloperHelpToolFrame
-      subTitle={'Timestamp Tool'}
+      subTitle="Timestamp Tool"
       content={<TimestampTool />}
     />
   );

@@ -1,56 +1,59 @@
-'use client';
+"use client";
 
-import React, {useState, useEffect} from 'react';
+import React, { useEffect, useState } from "react";
 
 const TimestampTool = (): React.JSX.Element => {
   const [now, setNow] = useState<Date | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const [selectedTimezone, setSelectedTimezone] = useState<string>('');
+  const [selectedTimezone, setSelectedTimezone] = useState<string>("");
 
   // Converter states
-  const [converterTimestamp, setConverterTimestamp] = useState<string>('');
-  const [converterLocalTime, setConverterLocalTime] = useState<string>('');
-  const [converterUtcTime, setConverterUtcTime] = useState<string>('');
+  const [converterTimestamp, setConverterTimestamp] = useState<string>("");
+  const [converterLocalTime, setConverterLocalTime] = useState<string>("");
+  const [converterUtcTime, setConverterUtcTime] = useState<string>("");
 
   const TIMEZONE_GROUPS = [
     {
-      group: 'Africa',
+      group: "Africa",
       options: [
-        {label: 'Cairo (EET/EEST)', value: 'Africa/Cairo'},
-        {label: 'Johannesburg (SAST)', value: 'Africa/Johannesburg'},
-        {label: 'Nairobi (EAT)', value: 'Africa/Nairobi'},
+        { label: "Cairo (EET/EEST)", value: "Africa/Cairo" },
+        { label: "Johannesburg (SAST)", value: "Africa/Johannesburg" },
+        { label: "Nairobi (EAT)", value: "Africa/Nairobi" },
       ],
     },
     {
-      group: 'Americas',
+      group: "Americas",
       options: [
-        {label: 'Bogota (COT)', value: 'America/Bogota'},
-        {label: 'Buenos Aires (ART)', value: 'America/Argentina/Buenos_Aires'},
-        {label: 'Costa Rica (CST)', value: 'America/Costa_Rica'},
-        {label: 'Los Angeles (PST/PDT)', value: 'America/Los_Angeles'},
-        {label: 'Mexico City (CST/CDT)', value: 'America/Mexico_City'},
-        {label: 'New York (EST/EDT)', value: 'America/New_York'},
-        {label: 'Sao Paulo (BRT/BRST)', value: 'America/Sao_Paulo'},
+        { label: "Bogota (COT)", value: "America/Bogota" },
+        {
+          label: "Buenos Aires (ART)",
+          value: "America/Argentina/Buenos_Aires",
+        },
+        { label: "Costa Rica (CST)", value: "America/Costa_Rica" },
+        { label: "Los Angeles (PST/PDT)", value: "America/Los_Angeles" },
+        { label: "Mexico City (CST/CDT)", value: "America/Mexico_City" },
+        { label: "New York (EST/EDT)", value: "America/New_York" },
+        { label: "Sao Paulo (BRT/BRST)", value: "America/Sao_Paulo" },
       ],
     },
     {
-      group: 'Asia',
+      group: "Asia",
       options: [
-        {label: 'Almaty (ALMT)', value: 'Asia/Almaty'},
-        {label: 'Japan (JST)', value: 'Asia/Tokyo'},
-        {label: 'Tashkent (UZT)', value: 'Asia/Tashkent'},
+        { label: "Almaty (ALMT)", value: "Asia/Almaty" },
+        { label: "Japan (JST)", value: "Asia/Tokyo" },
+        { label: "Tashkent (UZT)", value: "Asia/Tashkent" },
       ],
     },
     {
-      group: 'Europe',
+      group: "Europe",
       options: [
-        {label: 'London (GMT/BST)', value: 'Europe/London'},
-        {label: 'Paris (CET/CEST)', value: 'Europe/Paris'},
+        { label: "London (GMT/BST)", value: "Europe/London" },
+        { label: "Paris (CET/CEST)", value: "Europe/Paris" },
       ],
     },
     {
-      group: 'Oceania',
-      options: [{label: 'Sydney (AEST/AEDT)', value: 'Australia/Sydney'}],
+      group: "Oceania",
+      options: [{ label: "Sydney (AEST/AEDT)", value: "Australia/Sydney" }],
     },
   ];
 
@@ -66,7 +69,7 @@ const TimestampTool = (): React.JSX.Element => {
     setConverterLocalTime(
       formatDate(initialDate, Intl.DateTimeFormat().resolvedOptions().timeZone),
     );
-    setConverterUtcTime(formatDate(initialDate, 'UTC'));
+    setConverterUtcTime(formatDate(initialDate, "UTC"));
 
     const interval = setInterval(() => {
       setNow(new Date());
@@ -76,26 +79,26 @@ const TimestampTool = (): React.JSX.Element => {
   }, []);
 
   const formatDate = (date: Date, timeZone: string) => {
-    const formatter = new Intl.DateTimeFormat('en-CA', {
+    const formatter = new Intl.DateTimeFormat("en-CA", {
       // 'en-CA' gives YYYY-MM-DD
       timeZone,
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
       hour12: false,
     });
 
     // The format from en-CA is "YYYY-MM-DD, HH:mm:ss" usually, we can adjust it
     const parts = formatter.formatToParts(date);
-    const yyyy = parts.find(p => p.type === 'year')?.value;
-    const mm = parts.find(p => p.type === 'month')?.value;
-    const dd = parts.find(p => p.type === 'day')?.value;
-    const hh = parts.find(p => p.type === 'hour')?.value;
-    const min = parts.find(p => p.type === 'minute')?.value;
-    const ss = parts.find(p => p.type === 'second')?.value;
+    const yyyy = parts.find((p) => p.type === "year")?.value;
+    const mm = parts.find((p) => p.type === "month")?.value;
+    const dd = parts.find((p) => p.type === "day")?.value;
+    const hh = parts.find((p) => p.type === "hour")?.value;
+    const min = parts.find((p) => p.type === "minute")?.value;
+    const ss = parts.find((p) => p.type === "second")?.value;
 
     // Fallback if parts missing
     if (!yyyy || !mm || !dd || !hh || !min || !ss) {
@@ -104,8 +107,8 @@ const TimestampTool = (): React.JSX.Element => {
 
     // To match exact YYYY-MM-DD HH:mm:ss (ignoring en-CA specifics)
     let formattedHh = hh;
-    if (formattedHh === '24') {
-      formattedHh = '00';
+    if (formattedHh === "24") {
+      formattedHh = "00";
     }
 
     return `${yyyy}-${mm}-${dd} ${formattedHh}:${min}:${ss}`;
@@ -128,7 +131,7 @@ const TimestampTool = (): React.JSX.Element => {
       setConverterLocalTime(
         formatDate(date, Intl.DateTimeFormat().resolvedOptions().timeZone),
       );
-      setConverterUtcTime(formatDate(date, 'UTC'));
+      setConverterUtcTime(formatDate(date, "UTC"));
     }
   };
 
@@ -145,9 +148,9 @@ const TimestampTool = (): React.JSX.Element => {
     try {
       // Create date considering timezone
       // Replace space with T to make it ISO 8601-like, but we need to append timezone info
-      const isoStr = dateStr.replace(' ', 'T');
-      let fullStr = '';
-      if (timeZone === 'UTC') {
+      const isoStr = dateStr.replace(" ", "T");
+      let fullStr = "";
+      if (timeZone === "UTC") {
         fullStr = `${isoStr}Z`;
       } else {
         // Construct date using local time
@@ -174,7 +177,7 @@ const TimestampTool = (): React.JSX.Element => {
     );
     if (date) {
       setConverterTimestamp(Math.floor(date.getTime() / 1000).toString());
-      setConverterUtcTime(formatDate(date, 'UTC'));
+      setConverterUtcTime(formatDate(date, "UTC"));
     }
   };
 
@@ -182,7 +185,7 @@ const TimestampTool = (): React.JSX.Element => {
     const newUtcTime = e.target.value;
     setConverterUtcTime(newUtcTime);
 
-    const date = parseFormattedDate(newUtcTime, 'UTC');
+    const date = parseFormattedDate(newUtcTime, "UTC");
     if (date) {
       setConverterTimestamp(Math.floor(date.getTime() / 1000).toString());
       setConverterLocalTime(
@@ -208,12 +211,16 @@ const TimestampTool = (): React.JSX.Element => {
             </div>
             <div className="card-body d-flex align-items-center justify-content-between">
               <h2 className="mb-0 text-monospace">{timestamp}</h2>
-              <button
-                className={`btn ${copiedId === 'timestamp' ? 'btn-success' : 'btn-outline-primary'}`}
-                onClick={() => handleCopy(timestamp.toString(), 'timestamp')}
+              <button type="button"
+                className={`btn ${
+                  copiedId === "timestamp"
+                    ? "btn-success"
+                    : "btn-outline-primary"
+                }`}
+                onClick={() => handleCopy(timestamp.toString(), "timestamp")}
                 aria-label="Copy timestamp"
               >
-                {copiedId === 'timestamp' ? 'Copied!' : 'Copy'}
+                {copiedId === "timestamp" ? "Copied!" : "Copy"}
               </button>
             </div>
           </div>
@@ -228,7 +235,7 @@ const TimestampTool = (): React.JSX.Element => {
                   <tr>
                     <th scope="col">Timezone / City</th>
                     <th scope="col">Time (YYYY-MM-DD HH:mm:ss)</th>
-                    <th scope="col" style={{width: '100px'}}>
+                    <th scope="col" style={{ width: "100px" }}>
                       Action
                     </th>
                   </tr>
@@ -236,12 +243,12 @@ const TimestampTool = (): React.JSX.Element => {
                 <tbody>
                   {[
                     {
-                      label: 'Local Time',
-                      id: 'local',
+                      label: "Local Time",
+                      id: "local",
                       tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
                     },
-                    {label: 'UTC (GMT)', id: 'utc', tz: 'UTC'},
-                  ].map(row => {
+                    { label: "UTC (GMT)", id: "utc", tz: "UTC" },
+                  ].map((row) => {
                     const formattedTime = formatDate(now, row.tz);
                     return (
                       <tr key={row.id}>
@@ -250,12 +257,16 @@ const TimestampTool = (): React.JSX.Element => {
                           {formattedTime}
                         </td>
                         <td>
-                          <button
-                            className={`btn btn-sm ${copiedId === row.id ? 'btn-success' : 'btn-outline-primary'}`}
+                          <button type="button"
+                            className={`btn btn-sm ${
+                              copiedId === row.id
+                                ? "btn-success"
+                                : "btn-outline-primary"
+                            }`}
                             onClick={() => handleCopy(formattedTime, row.id)}
                             aria-label={`Copy time for ${row.label}`}
                           >
-                            {copiedId === row.id ? 'Copied!' : 'Copy'}
+                            {copiedId === row.id ? "Copied!" : "Copy"}
                           </button>
                         </td>
                       </tr>
@@ -266,13 +277,13 @@ const TimestampTool = (): React.JSX.Element => {
                       <select
                         className="form-select form-select-sm"
                         value={selectedTimezone}
-                        onChange={e => setSelectedTimezone(e.target.value)}
+                        onChange={(e) => setSelectedTimezone(e.target.value)}
                         aria-label="Select timezone"
                       >
                         <option value="">Select a Timezone...</option>
-                        {TIMEZONE_GROUPS.map(group => (
+                        {TIMEZONE_GROUPS.map((group) => (
                           <optgroup key={group.group} label={group.group}>
-                            {group.options.map(tz => (
+                            {group.options.map((tz) => (
                               <option key={tz.value} value={tz.value}>
                                 {tz.label}
                               </option>
@@ -284,21 +295,24 @@ const TimestampTool = (): React.JSX.Element => {
                     <td className="text-monospace align-middle">
                       {selectedTimezone
                         ? formatDate(now, selectedTimezone)
-                        : ''}
+                        : ""}
                     </td>
                     <td>
                       {selectedTimezone && (
-                        <button
-                          className={`btn btn-sm ${copiedId === 'selected' ? 'btn-success' : 'btn-outline-primary'}`}
+                        <button type="button"
+                          className={`btn btn-sm ${
+                            copiedId === "selected"
+                              ? "btn-success"
+                              : "btn-outline-primary"
+                          }`}
                           onClick={() =>
                             handleCopy(
                               formatDate(now, selectedTimezone),
-                              'selected',
-                            )
-                          }
+                              "selected",
+                            )}
                           aria-label="Copy time for selected timezone"
                         >
-                          {copiedId === 'selected' ? 'Copied!' : 'Copy'}
+                          {copiedId === "selected" ? "Copied!" : "Copy"}
                         </button>
                       )}
                     </td>
@@ -330,14 +344,17 @@ const TimestampTool = (): React.JSX.Element => {
                     value={converterTimestamp}
                     onChange={handleTimestampChange}
                   />
-                  <button
-                    className={`btn ${copiedId === 'converter-timestamp' ? 'btn-success' : 'btn-outline-secondary'}`}
+                  <button type="button"
+                    className={`btn ${
+                      copiedId === "converter-timestamp"
+                        ? "btn-success"
+                        : "btn-outline-secondary"
+                    }`}
                     onClick={() =>
-                      handleCopy(converterTimestamp, 'converter-timestamp')
-                    }
+                      handleCopy(converterTimestamp, "converter-timestamp")}
                     aria-label="Copy converter timestamp"
                   >
-                    {copiedId === 'converter-timestamp' ? 'Copied!' : 'Copy'}
+                    {copiedId === "converter-timestamp" ? "Copied!" : "Copy"}
                   </button>
                 </div>
               </div>
@@ -357,14 +374,17 @@ const TimestampTool = (): React.JSX.Element => {
                     value={converterLocalTime}
                     onChange={handleLocalTimeChange}
                   />
-                  <button
-                    className={`btn ${copiedId === 'converter-local' ? 'btn-success' : 'btn-outline-secondary'}`}
+                  <button type="button"
+                    className={`btn ${
+                      copiedId === "converter-local"
+                        ? "btn-success"
+                        : "btn-outline-secondary"
+                    }`}
                     onClick={() =>
-                      handleCopy(converterLocalTime, 'converter-local')
-                    }
+                      handleCopy(converterLocalTime, "converter-local")}
                     aria-label="Copy converter local time"
                   >
-                    {copiedId === 'converter-local' ? 'Copied!' : 'Copy'}
+                    {copiedId === "converter-local" ? "Copied!" : "Copy"}
                   </button>
                 </div>
               </div>
@@ -384,14 +404,17 @@ const TimestampTool = (): React.JSX.Element => {
                     value={converterUtcTime}
                     onChange={handleUtcTimeChange}
                   />
-                  <button
-                    className={`btn ${copiedId === 'converter-utc' ? 'btn-success' : 'btn-outline-secondary'}`}
+                  <button type="button"
+                    className={`btn ${
+                      copiedId === "converter-utc"
+                        ? "btn-success"
+                        : "btn-outline-secondary"
+                    }`}
                     onClick={() =>
-                      handleCopy(converterUtcTime, 'converter-utc')
-                    }
+                      handleCopy(converterUtcTime, "converter-utc")}
                     aria-label="Copy converter UTC time"
                   >
-                    {copiedId === 'converter-utc' ? 'Copied!' : 'Copy'}
+                    {copiedId === "converter-utc" ? "Copied!" : "Copy"}
                   </button>
                 </div>
               </div>

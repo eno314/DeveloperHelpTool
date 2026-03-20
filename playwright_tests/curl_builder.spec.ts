@@ -1,33 +1,33 @@
-import {test, expect} from '@playwright/test';
+import { expect, test } from "@playwright/test";
 
-test.describe('Curl Builder Tool Tests', () => {
-  test.beforeEach(async ({page}) => {
-    await page.goto('/curl/builder');
+test.describe("Curl Builder Tool Tests", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/curl/builder");
   });
 
-  test('should generate default curl command', async ({page}) => {
-    await expect(page).toHaveTitle('Developer Help Tool - Curl Builder Tool');
+  test("should generate default curl command", async ({ page }) => {
+    await expect(page).toHaveTitle("Developer Help Tool - Curl Builder Tool");
 
-    const outputTextarea = page.locator('textarea[readonly]');
+    const outputTextarea = page.locator("textarea[readonly]");
     await expect(outputTextarea).toHaveValue('curl ""');
   });
 
-  test('should update curl command when URL is entered', async ({page}) => {
-    await page.fill('input[type="text"] >> nth=0', 'https://example.com/api');
+  test("should update curl command when URL is entered", async ({ page }) => {
+    await page.fill('input[type="text"] >> nth=0', "https://example.com/api");
 
-    const outputTextarea = page.locator('textarea[readonly]');
+    const outputTextarea = page.locator("textarea[readonly]");
     await expect(outputTextarea).toHaveValue('curl "https://example.com/api"');
   });
 
-  test('should handle changing method to POST and add body', async ({page}) => {
+  test("should handle changing method to POST and add body", async ({ page }) => {
     // URL
-    await page.fill('input[type="text"] >> nth=0', 'http://localhost');
+    await page.fill('input[type="text"] >> nth=0', "http://localhost");
 
     // Method
-    await page.selectOption('select', 'POST');
+    await page.selectOption("select", "POST");
 
     // Output should update
-    const outputTextarea = page.locator('textarea[readonly]');
+    const outputTextarea = page.locator("textarea[readonly]");
     await expect(outputTextarea).toHaveValue('curl -X POST "http://localhost"');
 
     // Fill Body
@@ -38,21 +38,21 @@ test.describe('Curl Builder Tool Tests', () => {
     );
   });
 
-  test('should add, edit, and remove headers', async ({page}) => {
+  test("should add, edit, and remove headers", async ({ page }) => {
     // Add header
     await page.click('text="+ Add Header"');
 
     // Fill Header 1
     await page.fill(
       'input[placeholder="Key (e.g., Content-Type)"]',
-      'Authorization',
+      "Authorization",
     );
     await page.fill(
       'input[placeholder="Value (e.g., application/json)"]',
-      'Bearer token',
+      "Bearer token",
     );
 
-    const outputTextarea = page.locator('textarea[readonly]');
+    const outputTextarea = page.locator("textarea[readonly]");
     await expect(outputTextarea).toHaveValue(
       'curl "" -H "Authorization: Bearer token"',
     );
@@ -62,12 +62,12 @@ test.describe('Curl Builder Tool Tests', () => {
     await expect(outputTextarea).toHaveValue('curl ""');
   });
 
-  test('should verify body quote escaping', async ({page}) => {
-    await page.selectOption('select', 'PUT');
+  test("should verify body quote escaping", async ({ page }) => {
+    await page.selectOption("select", "PUT");
 
     await page.fill('textarea[placeholder="Request Body"]', "It's a test");
 
-    const outputTextarea = page.locator('textarea[readonly]');
+    const outputTextarea = page.locator("textarea[readonly]");
     await expect(outputTextarea).toHaveValue(
       "curl -X PUT \"\" -d 'It'\\''s a test'",
     );
