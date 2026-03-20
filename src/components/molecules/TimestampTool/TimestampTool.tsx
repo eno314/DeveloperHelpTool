@@ -202,6 +202,22 @@ const TimestampTool = (): React.JSX.Element => {
     <div className="container mt-4">
       <div className="row">
         <div className="col-12 col-md-6 mb-4 mb-md-0">
+          <div className="card mb-4">
+            <div className="card-header bg-primary text-white">
+              <h5 className="mb-0">Current Unix Timestamp (Seconds)</h5>
+            </div>
+            <div className="card-body d-flex align-items-center justify-content-between">
+              <h2 className="mb-0 text-monospace">{timestamp}</h2>
+              <button
+                className={`btn ${copiedId === 'timestamp' ? 'btn-success' : 'btn-outline-primary'}`}
+                onClick={() => handleCopy(timestamp.toString(), 'timestamp')}
+                aria-label="Copy timestamp"
+              >
+                {copiedId === 'timestamp' ? 'Copied!' : 'Copy'}
+              </button>
+            </div>
+          </div>
+
           <div className="card h-100">
             <div className="card-header bg-secondary text-white">
               <h5 className="mb-0">Current Time</h5>
@@ -294,22 +310,6 @@ const TimestampTool = (): React.JSX.Element => {
         </div>
 
         <div className="col-12 col-md-6">
-          <div className="card mb-4">
-            <div className="card-header bg-primary text-white">
-              <h5 className="mb-0">Current Unix Timestamp (Seconds)</h5>
-            </div>
-            <div className="card-body d-flex align-items-center justify-content-between">
-              <h2 className="mb-0 text-monospace">{timestamp}</h2>
-              <button
-                className={`btn ${copiedId === 'timestamp' ? 'btn-success' : 'btn-outline-primary'}`}
-                onClick={() => handleCopy(timestamp.toString(), 'timestamp')}
-                aria-label="Copy timestamp"
-              >
-                {copiedId === 'timestamp' ? 'Copied!' : 'Copy'}
-              </button>
-            </div>
-          </div>
-
           <div className="card h-100">
             <div className="card-header bg-secondary text-white">
               <h5 className="mb-0">Timestamp Converter</h5>
