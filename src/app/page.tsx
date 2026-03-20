@@ -38,6 +38,11 @@ const links = [
     title: 'Curl Builder Tool',
     description: 'You can build curl command by this tool.',
   },
+  {
+    linkPath: '/timestamp',
+    title: 'Timestamp Tool',
+    description: 'You can check current time and unix timestamp by this tool.',
+  },
 ];
 
 const Home = (): React.JSX.Element => {
