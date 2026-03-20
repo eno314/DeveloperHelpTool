@@ -34,6 +34,63 @@ describe('TimestampTool', () => {
     expect(screen.getByText('Local Time')).toBeInTheDocument();
     expect(screen.getByText('UTC (GMT)')).toBeInTheDocument();
     expect(screen.getByLabelText('Select timezone')).toBeInTheDocument();
+    expect(screen.getByText('Timestamp Converter')).toBeInTheDocument();
+  });
+
+  it('converts timestamp to dates correctly in the converter', async () => {
+    // 2024-01-01 12:00:00 UTC = 1704110400
+    const mockDate = new Date('2024-01-01T12:00:00Z');
+    jest.setSystemTime(mockDate);
+
+    render(<TimestampTool />);
+
+    act(() => {
+      jest.advanceTimersByTime(10);
+    });
+
+    const timestampInput = screen.getByLabelText('Unix Timestamp (Seconds)');
+    const localTimeInput = screen.getByLabelText(
+      'Local Time (YYYY-MM-DD HH:mm:ss)',
+    );
+    const utcTimeInput = screen.getByLabelText(
+      'UTC Time (YYYY-MM-DD HH:mm:ss)',
+    );
+
+    expect(timestampInput).toHaveValue(1704110400);
+    expect(utcTimeInput).toHaveValue('2024-01-01 12:00:00');
+    // Using localTimeInput so that it isn't completely unused.
+    expect(localTimeInput).toBeInTheDocument();
+
+    // Change timestamp to 1704196800 (2024-01-02 12:00:00 UTC)
+    await act(async () => {
+      fireEvent.change(timestampInput, {target: {value: '1704196800'}});
+    });
+
+    expect(utcTimeInput).toHaveValue('2024-01-02 12:00:00');
+  });
+
+  it('converts UTC time string to timestamp correctly in the converter', async () => {
+    const mockDate = new Date('2024-01-01T12:00:00Z');
+    jest.setSystemTime(mockDate);
+
+    render(<TimestampTool />);
+
+    act(() => {
+      jest.advanceTimersByTime(10);
+    });
+
+    const timestampInput = screen.getByLabelText('Unix Timestamp (Seconds)');
+    const utcTimeInput = screen.getByLabelText(
+      'UTC Time (YYYY-MM-DD HH:mm:ss)',
+    );
+
+    // Change UTC time to 2024-01-02 12:00:00
+    await act(async () => {
+      fireEvent.change(utcTimeInput, {target: {value: '2024-01-02 12:00:00'}});
+    });
+
+    // 2024-01-02 12:00:00 UTC = 1704196800
+    expect(timestampInput).toHaveValue(1704196800);
   });
 
   it('copies the timestamp when the copy button is clicked', async () => {
