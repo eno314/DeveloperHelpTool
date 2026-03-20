@@ -10,7 +10,9 @@ test.describe("Timestamp Tool (Hono)", () => {
     await expect(page.locator("h1")).toContainText("Developer Help Tool");
 
     // Check subtitle
-    await expect(page.locator("h5").first()).toContainText("Current Unix Timestamp (Seconds)");
+    await expect(page.locator("h5").first()).toContainText(
+      "Current Unix Timestamp (Seconds)",
+    );
 
     // Wait for client-side rendering to complete and the unix timestamp to show up
     const timestampValue = page.locator("#currentTimestamp");

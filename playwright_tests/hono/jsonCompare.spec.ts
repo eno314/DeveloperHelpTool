@@ -6,7 +6,9 @@ test("JSON Compare Tool correctly parses and compares JSON strings (Hono)", asyn
 
   await expect(page).toHaveTitle("Developer Help Tool - JSON Compare Tool");
   await expect(
-    page.getByRole("heading", { name: "Developer Help Tool - JSON Compare Tool" }),
+    page.getByRole("heading", {
+      name: "Developer Help Tool - JSON Compare Tool",
+    }),
   ).toBeVisible();
 
   const leftTextarea = page.locator("textarea").nth(0);
@@ -30,11 +32,11 @@ test("JSON Compare Tool correctly parses and compares JSON strings (Hono)", asyn
   await expect(page.getByText("Right Result")).toBeVisible();
 
   // "age": 30 should be present and marked as removed on the left side
-  const leftRemovedSpan = page.locator('span.removed');
+  const leftRemovedSpan = page.locator("span.removed");
   await expect(leftRemovedSpan).toContainText('"age": 30');
 
   // "age": 31 and "city": "New York" should be present and marked as added on the right side
-  const rightAddedSpan = page.locator('span.added');
+  const rightAddedSpan = page.locator("span.added");
   await expect(rightAddedSpan).toContainText('"age": 31');
   await expect(rightAddedSpan).toContainText('"city": "New York"');
 });

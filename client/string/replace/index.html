@@ -87,44 +87,6 @@
       </div>
     </div>
 
-    <script type="module">
-      // Import pure function from our source via a temporary build process for POC
-      // Since it's a browser, we will inline the replaceStr function logic here for the pure HTML/JS POC,
-      // or we could use Vite. For step 2 proof-of-concept, inlining the function is simplest.
-
-      const replaceStr = (replacedStr, targetSubstr, newSubstr) => {
-        if (!targetSubstr) {
-          return replacedStr;
-        }
-        try {
-          const regex = new RegExp(targetSubstr, "g");
-          return replacedStr.replace(regex, newSubstr);
-        } catch {
-          const regex = new RegExp(
-            targetSubstr.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-            "g",
-          );
-          return replacedStr.replace(regex, newSubstr);
-        }
-      };
-
-      document.getElementById("applyBtn").addEventListener(
-        "click",
-        () => {
-          const replacedStr =
-            document.getElementById("replacedTextarea").value;
-          const targetSubstr =
-            document.getElementById("targetSubstr").value;
-          const newSubstr = document.getElementById("newSubstr").value;
-
-          const result = replaceStr(
-            replacedStr,
-            targetSubstr,
-            newSubstr,
-          );
-          document.getElementById("newTextarea").value = result;
-        },
-      );
-    </script>
+    <script type="module" src="./main.ts"></script>
   </body>
 </html>

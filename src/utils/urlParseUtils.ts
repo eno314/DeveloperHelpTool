@@ -26,7 +26,8 @@ export const parseUrl = (
     });
 
     return {
-      baseUrlText: `${parsedUrl.protocol}//${parsedUrl.hostname}${parsedUrl.pathname}`,
+      baseUrlText:
+        `${parsedUrl.protocol}//${parsedUrl.hostname}${parsedUrl.pathname}`,
       urlParams,
     };
   } catch (_e) {
@@ -34,7 +35,10 @@ export const parseUrl = (
   }
 };
 
-export const createUrlText = (baseUrlText: string, urlParams: UrlParam[]): string => {
+export const createUrlText = (
+  baseUrlText: string,
+  urlParams: UrlParam[],
+): string => {
   const params = urlParams
     .filter((urlParam: UrlParam) => urlParam.key.length > 0 && urlParam.value)
     .map((urlParam: UrlParam) => {
@@ -50,7 +54,10 @@ export const createUrlText = (baseUrlText: string, urlParams: UrlParam[]): strin
   }
 };
 
-export const removeUrlParamOf = (index: number, urlParams: UrlParam[]): UrlParam[] => {
+export const removeUrlParamOf = (
+  index: number,
+  urlParams: UrlParam[],
+): UrlParam[] => {
   const newUrlParams = Array.from(urlParams);
   newUrlParams.splice(index, 1);
   return newUrlParams;
