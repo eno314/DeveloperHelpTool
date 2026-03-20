@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, {type ChangeEvent, useState} from 'react';
+import React, { type ChangeEvent, useState } from "react";
 
 interface UrlParam {
   key: string;
@@ -13,36 +13,36 @@ const styles = {
     marginBottom: 10,
   },
   addParamButton: {
-    textAlign: 'center' as const,
+    textAlign: "center" as const,
   },
 };
 
 const UrlParseForm = (): React.JSX.Element => {
-  const [parsedUrlText, setParsedUrlText] = useState('');
-  const [baseUrlText, setBaseUrlText] = useState('');
+  const [parsedUrlText, setParsedUrlText] = useState("");
+  const [baseUrlText, setBaseUrlText] = useState("");
   const [urlParams, setUrlParams] = useState([] as UrlParam[]);
 
   return (
-    <div className={'container'}>
-      <div className={'input-group mb-3'}>
-        <span className={'input-group-text'} id={'parsedUrl'}>
+    <div className="container">
+      <div className="input-group mb-3">
+        <span className="input-group-text" id="parsedUrl">
           Parsed URL
         </span>
         <input
-          type={'url'}
-          className={'form-control'}
-          aria-describedby={'parsedUrl'}
+          type="url"
+          className="form-control"
+          aria-describedby="parsedUrl"
           value={parsedUrlText}
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             setParsedUrlText(e.target.value);
           }}
         />
       </div>
-      <div className={'row'} style={styles.primaryButtonsRow}>
-        <div className={'col text-center'}>
+      <div className="row" style={styles.primaryButtonsRow}>
+        <div className="col text-center">
           <button
-            type={'button'}
-            className={'btn btn-primary'}
+            type="button"
+            className="btn btn-primary"
             onClick={() => {
               const result = parseUrl(parsedUrlText);
               setBaseUrlText(result.baseUrlText);
@@ -52,10 +52,10 @@ const UrlParseForm = (): React.JSX.Element => {
             ▼ Parse URL
           </button>
         </div>
-        <div className={'col text-center'}>
+        <div className="col text-center">
           <button
-            type={'button'}
-            className={'btn btn-primary'}
+            type="button"
+            className="btn btn-primary"
             onClick={() => {
               setParsedUrlText(createUrlText(baseUrlText, urlParams));
             }}
@@ -65,26 +65,26 @@ const UrlParseForm = (): React.JSX.Element => {
         </div>
       </div>
       <div>
-        <div className={'input-group mb-3'}>
-          <span className={'input-group-text'} id={'baseUrl'}>
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="baseUrl">
             Base URL
           </span>
           <input
-            type={'url'}
-            className={'form-control'}
-            aria-describedby={'baseUrl'}
+            type="url"
+            className="form-control"
+            aria-describedby="baseUrl"
             value={baseUrlText}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setBaseUrlText(e.target.value);
             }}
           />
         </div>
-        <table className={'table table-sm'}>
+        <table className="table table-sm">
           <thead>
             <tr>
-              <th scope={'col'}>URL PARAM KEY</th>
-              <th scope={'col'}>URL PARAM VALUE</th>
-              <th scope={'col'}>DELETE</th>
+              <th scope="col">URL PARAM KEY</th>
+              <th scope="col">URL PARAM VALUE</th>
+              <th scope="col">DELETE</th>
             </tr>
           </thead>
           <tbody>
@@ -92,32 +92,32 @@ const UrlParseForm = (): React.JSX.Element => {
               <tr key={i}>
                 <td>
                   <input
-                    type={'text'}
-                    className={'form-control'}
+                    type="text"
+                    className="form-control"
                     value={urlParam.key}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                       setUrlParams(
-                        updateUrlParams(urlParams, i, 'key', e.target.value),
+                        updateUrlParams(urlParams, i, "key", e.target.value),
                       );
                     }}
                   />
                 </td>
                 <td>
                   <input
-                    type={'text'}
-                    className={'form-control'}
+                    type="text"
+                    className="form-control"
                     value={urlParam.value}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                       setUrlParams(
-                        updateUrlParams(urlParams, i, 'value', e.target.value),
+                        updateUrlParams(urlParams, i, "value", e.target.value),
                       );
                     }}
                   />
                 </td>
                 <td>
                   <button
-                    type={'button'}
-                    className={'btn btn-secondary btn-sm'}
+                    type="button"
+                    className="btn btn-secondary btn-sm"
                     onClick={() => {
                       setUrlParams(removeUrlParamOf(i, urlParams));
                     }}
@@ -131,8 +131,8 @@ const UrlParseForm = (): React.JSX.Element => {
         </table>
         <div style={styles.addParamButton}>
           <button
-            type={'button'}
-            className={'btn btn-secondary'}
+            type="button"
+            className="btn btn-secondary"
             onClick={() => {
               setUrlParams(addUrlParam(urlParams));
             }}
@@ -158,16 +158,17 @@ const updateUrlParams = (
 
 const parseUrl = (
   url: string,
-): {baseUrlText: string; urlParams: UrlParam[]} => {
+): { baseUrlText: string; urlParams: UrlParam[] } => {
   const parsedUrl = new URL(url);
 
   const urlParams: UrlParam[] = [];
   parsedUrl.searchParams.forEach((value: string, key: string) => {
-    urlParams.push({key, value});
+    urlParams.push({ key, value });
   });
 
   return {
-    baseUrlText: `${parsedUrl.protocol}//${parsedUrl.hostname}${parsedUrl.pathname}`,
+    baseUrlText:
+      `${parsedUrl.protocol}//${parsedUrl.hostname}${parsedUrl.pathname}`,
     urlParams,
   };
 };
@@ -179,7 +180,7 @@ const createUrlText = (baseUrlText: string, urlParams: UrlParam[]): string => {
       const encodedValue = encodeURIComponent(urlParam.value);
       return `${urlParam.key}=${encodedValue}`;
     })
-    .join('&');
+    .join("&");
 
   if (params.length === 0) {
     return baseUrlText;
@@ -196,7 +197,7 @@ const removeUrlParamOf = (index: number, urlParams: UrlParam[]): UrlParam[] => {
 
 const addUrlParam = (urlParams: UrlParam[]): UrlParam[] => {
   const newUrlParams = Array.from(urlParams);
-  newUrlParams.push({key: '', value: ''});
+  newUrlParams.push({ key: "", value: "" });
   return newUrlParams;
 };
 

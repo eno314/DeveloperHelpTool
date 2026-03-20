@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import React, {useState, useId} from 'react';
+import React, { useId, useState } from "react";
 
 const textAreaStyle = {
   height: 500,
 };
 
-type EncodeDecodeMode = 'URL' | 'Base64' | 'JSON';
+type EncodeDecodeMode = "URL" | "Base64" | "JSON";
 
 const EncodeDecodeForm = (): React.JSX.Element => {
-  const [mode, setMode] = useState<EncodeDecodeMode>('URL');
-  const [decodedText, setDecodedText] = useState('');
-  const [encodedText, setEncodedText] = useState('');
+  const [mode, setMode] = useState<EncodeDecodeMode>("URL");
+  const [decodedText, setDecodedText] = useState("");
+  const [encodedText, setEncodedText] = useState("");
 
   const toEncodedText = (text: string): string => {
-    if (mode === 'URL') {
+    if (mode === "URL") {
       return encodeURIComponent(text);
-    } else if (mode === 'JSON') {
+    } else if (mode === "JSON") {
       try {
         const obj = JSON.parse(text);
         return JSON.stringify(obj);
@@ -27,9 +27,10 @@ const EncodeDecodeForm = (): React.JSX.Element => {
     } else {
       try {
         const bytes = new TextEncoder().encode(text);
-        const binString = Array.from(bytes, byte =>
-          String.fromCodePoint(byte),
-        ).join('');
+        const binString = Array.from(
+          bytes,
+          (byte) => String.fromCodePoint(byte),
+        ).join("");
         return btoa(binString);
       } catch (err) {
         const errMessage: string = (err as Error).toString();
@@ -39,14 +40,14 @@ const EncodeDecodeForm = (): React.JSX.Element => {
   };
 
   const toDecodedText = (text: string): string => {
-    if (mode === 'URL') {
+    if (mode === "URL") {
       try {
         return decodeURIComponent(text);
       } catch (err) {
         const errMessage: string = (err as Error).toString();
         return `can not decode. ${errMessage}.`;
       }
-    } else if (mode === 'JSON') {
+    } else if (mode === "JSON") {
       try {
         const obj = JSON.parse(text);
         return JSON.stringify(obj, null, 2);
@@ -57,7 +58,7 @@ const EncodeDecodeForm = (): React.JSX.Element => {
     } else {
       try {
         const binString = atob(text);
-        const bytes = Uint8Array.from(binString, m => m.codePointAt(0)!);
+        const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0)!);
         return new TextDecoder().decode(bytes);
       } catch (err) {
         const errMessage: string = (err as Error).toString();
@@ -70,8 +71,8 @@ const EncodeDecodeForm = (): React.JSX.Element => {
 
   const handleModeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMode(e.target.value as EncodeDecodeMode);
-    setDecodedText('');
-    setEncodedText('');
+    setDecodedText("");
+    setEncodedText("");
   };
 
   const handleFileChange =
@@ -81,20 +82,20 @@ const EncodeDecodeForm = (): React.JSX.Element => {
       if (!file) return;
 
       const reader = new FileReader();
-      reader.onload = event => {
+      reader.onload = (event) => {
         const content = event.target?.result;
-        if (typeof content === 'string') {
+        if (typeof content === "string") {
           setter(content);
         }
       };
       reader.readAsText(file);
-      e.target.value = '';
+      e.target.value = "";
     };
 
   return (
-    <div className={'container'}>
-      <div className={'row mb-3'}>
-        <div className={'col-md-4'}>
+    <div className="container">
+      <div className="row mb-3">
+        <div className="col-md-4">
           <label htmlFor="modeSelect" className="form-label">
             Format
           </label>
@@ -111,9 +112,9 @@ const EncodeDecodeForm = (): React.JSX.Element => {
         </div>
       </div>
 
-      <div className={'row align-items-center mb-3'}>
-        <div className={'col-md-5'}>
-          {mode === 'JSON' && (
+      <div className="row align-items-center mb-3">
+        <div className="col-md-5">
+          {mode === "JSON" && (
             <div className="mb-2">
               <label
                 htmlFor={`left-upload-${id}`}
@@ -134,26 +135,26 @@ const EncodeDecodeForm = (): React.JSX.Element => {
           <div className="form-floating">
             <textarea
               id="encodingTextarea"
-              className={'form-control'}
+              className="form-control"
               style={textAreaStyle}
               value={decodedText}
-              placeholder={mode === 'Base64' ? 'UTF-8' : ''}
+              placeholder={mode === "Base64" ? "UTF-8" : ""}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 setDecodedText(e.target.value);
               }}
             />
-            <label htmlFor={'encodingTextarea'}>
-              {mode === 'Base64'
+            <label htmlFor="encodingTextarea">
+              {mode === "Base64"
                 ? "Please input text you'd like to encode. (UTF-8)"
                 : "Please input text you'd like to encode."}
             </label>
           </div>
         </div>
 
-        <div className={'col-md-2 text-center d-flex flex-column gap-3'}>
+        <div className="col-md-2 text-center d-flex flex-column gap-3">
           <button
-            type={'button'}
-            className={'btn btn-primary'}
+            type="button"
+            className="btn btn-primary"
             onClick={() => {
               setEncodedText(toEncodedText(decodedText));
             }}
@@ -161,8 +162,8 @@ const EncodeDecodeForm = (): React.JSX.Element => {
             Encoding ▶
           </button>
           <button
-            type={'button'}
-            className={'btn btn-primary'}
+            type="button"
+            className="btn btn-primary"
             onClick={() => {
               setDecodedText(toDecodedText(encodedText));
             }}
@@ -171,8 +172,8 @@ const EncodeDecodeForm = (): React.JSX.Element => {
           </button>
         </div>
 
-        <div className={'col-md-5'}>
-          {mode === 'JSON' && (
+        <div className="col-md-5">
+          {mode === "JSON" && (
             <div className="mb-2">
               <label
                 htmlFor={`right-upload-${id}`}
@@ -193,7 +194,7 @@ const EncodeDecodeForm = (): React.JSX.Element => {
           <div className="form-floating">
             <textarea
               id="decodingTextarea"
-              className={'form-control'}
+              className="form-control"
               style={textAreaStyle}
               value={encodedText}
               placeholder="Please input text you'd like to decode."
@@ -201,7 +202,7 @@ const EncodeDecodeForm = (): React.JSX.Element => {
                 setEncodedText(e.target.value);
               }}
             />
-            <label htmlFor={'decodingTextarea'}>
+            <label htmlFor="decodingTextarea">
               Please input text you&apos;d like to decode.
             </label>
           </div>

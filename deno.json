@@ -8,5 +8,24 @@
   "imports": {
     "@std/expect": "jsr:@std/expect@^1.0.18",
     "@std/testing": "jsr:@std/testing@^1.0.17"
+  },
+  "lint": {
+    "exclude": [
+      ".next/",
+      "build/",
+      "coverage/",
+      "node_modules/",
+      "out/"
+    ]
+  },
+  "fmt": {
+    "exclude": [
+      ".next/",
+      "build/",
+      "coverage/",
+      "node_modules/",
+      "out/",
+      "src/components/molecules/JSONCompareForm/JSONCompareForm.tsx"
+    ]
   }
 }

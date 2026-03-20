@@ -10,11 +10,14 @@
 
 - **JSON Compare Tool**: 2つのJSONを比較し、差分を確認できるツールです。
 - **String Replace Tool**: 文字列の検索・置換を簡単に行うツールです。
-- **Encode And Decode Tool**: URLとBase64、JSON形式のエンコードおよびデコードを行うツールです。
+- **Encode And Decode Tool**:
+  URLとBase64、JSON形式のエンコードおよびデコードを行うツールです。
 - **Url Parse Tool**: URLをパースし、クエリパラメータ等を組み立てるツールです。
 - **Amidakuji Tool**: あみだくじ（Ghost Leg）を作成・実行できるツールです。
-- **Curl Builder Tool**: HTTPリクエストを構築し、cURLコマンドを生成するツールです。
-- **Timestamp Tool**: 現在の時刻とタイムスタンプを表示し、タイムスタンプをコピーできるツールです。
+- **Curl Builder Tool**:
+  HTTPリクエストを構築し、cURLコマンドを生成するツールです。
+- **Timestamp Tool**:
+  現在の時刻とタイムスタンプを表示し、タイムスタンプをコピーできるツールです。
 
 ## ローカルでの開発手順と使用条件
 
@@ -34,13 +37,15 @@ npm install
 
 ### 開発用サーバーの起動 (Deno環境)
 
-ローカル開発環境ではDenoを使用して開発用サーバーを起動します。（`deno.json` に設定されています）
+ローカル開発環境ではDenoを使用して開発用サーバーを起動します。（`deno.json`
+に設定されています）
 
 ```sh
 deno task dev
 ```
 
-起動後、ブラウザで [http://localhost:3000](http://localhost:3000) にアクセスしてください。
+起動後、ブラウザで [http://localhost:3000](http://localhost:3000)
+にアクセスしてください。
 
 ※ Vercel上でのビルド・デプロイには引き続き Node.js (npm) 環境が使用されます。
 

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, {useState, useMemo, useEffect} from 'react';
+import React, { useEffect, useMemo, useState } from "react";
 
-type Method = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 interface Header {
   key: string;
@@ -10,18 +10,18 @@ interface Header {
 }
 
 const CurlBuilderForm = (): React.JSX.Element => {
-  const [url, setUrl] = useState('');
-  const [method, setMethod] = useState<Method>('GET');
+  const [url, setUrl] = useState("");
+  const [method, setMethod] = useState<Method>("GET");
   const [headers, setHeaders] = useState<Header[]>([]);
-  const [body, setBody] = useState('');
+  const [body, setBody] = useState("");
   const [copied, setCopied] = useState(false);
 
   // Generate curl command
   const curlCommand = useMemo(() => {
-    let cmd = 'curl';
+    let cmd = "curl";
 
     // Method
-    if (method !== 'GET') {
+    if (method !== "GET") {
       cmd += ` -X ${method}`;
     }
 
@@ -40,7 +40,7 @@ const CurlBuilderForm = (): React.JSX.Element => {
     }
 
     // Body
-    if (['POST', 'PUT', 'PATCH'].includes(method) && body) {
+    if (["POST", "PUT", "PATCH"].includes(method) && body) {
       // Escape single quotes: ' -> '\''
       const escapedBody = body.replace(/'/g, "'\\''");
       cmd += ` -d '${escapedBody}'`;
@@ -54,7 +54,7 @@ const CurlBuilderForm = (): React.JSX.Element => {
       await navigator.clipboard.writeText(curlCommand);
       setCopied(true);
     } catch (err) {
-      console.error('Failed to copy text: ', err);
+      console.error("Failed to copy text: ", err);
     }
   };
 
@@ -66,7 +66,7 @@ const CurlBuilderForm = (): React.JSX.Element => {
   }, [copied]);
 
   const addHeader = () => {
-    setHeaders([...headers, {key: '', value: ''}]);
+    setHeaders([...headers, { key: "", value: "" }]);
   };
 
   const removeHeader = (index: number) => {
@@ -77,26 +77,26 @@ const CurlBuilderForm = (): React.JSX.Element => {
 
   const updateHeader = (
     index: number,
-    field: 'key' | 'value',
+    field: "key" | "value",
     newValue: string,
   ) => {
     const newHeaders = [...headers];
-    newHeaders[index] = {...newHeaders[index], [field]: newValue};
+    newHeaders[index] = { ...newHeaders[index], [field]: newValue };
     setHeaders(newHeaders);
   };
 
   return (
-    <div className={'container'}>
-      <div className={'row mb-3'}>
-        <div className={'col-md-2'}>
-          <label htmlFor="methodSelect" className={'form-label'}>
+    <div className="container">
+      <div className="row mb-3">
+        <div className="col-md-2">
+          <label htmlFor="methodSelect" className="form-label">
             Method
           </label>
           <select
             id="methodSelect"
-            className={'form-select'}
+            className="form-select"
             value={method}
-            onChange={e => setMethod(e.target.value as Method)}
+            onChange={(e) => setMethod(e.target.value as Method)}
           >
             <option value="GET">GET</option>
             <option value="POST">POST</option>
@@ -105,28 +105,28 @@ const CurlBuilderForm = (): React.JSX.Element => {
             <option value="PATCH">PATCH</option>
           </select>
         </div>
-        <div className={'col-md-10'}>
-          <label htmlFor="urlInput" className={'form-label'}>
+        <div className="col-md-10">
+          <label htmlFor="urlInput" className="form-label">
             URL
           </label>
           <input
             id="urlInput"
             type="text"
-            className={'form-control'}
+            className="form-control"
             value={url}
             placeholder="https://example.com/api?query=1"
-            onChange={e => setUrl(e.target.value)}
+            onChange={(e) => setUrl(e.target.value)}
           />
         </div>
       </div>
 
-      <div className={'row mb-3'}>
-        <div className={'col-12'}>
+      <div className="row mb-3">
+        <div className="col-12">
           <div className="d-flex justify-content-between align-items-center mb-2">
-            <label className={'form-label mb-0'}>Headers</label>
+            <label className="form-label mb-0">Headers</label>
             <button
               type="button"
-              className={'btn btn-sm btn-outline-secondary'}
+              className="btn btn-sm btn-outline-secondary"
               onClick={addHeader}
             >
               + Add Header
@@ -136,29 +136,29 @@ const CurlBuilderForm = (): React.JSX.Element => {
             <div className="text-muted small mb-2">No headers added.</div>
           )}
           {headers.map((header, index) => (
-            <div key={index} className={'row mb-2'}>
-              <div className={'col-md-5'}>
+            <div key={index} className="row mb-2">
+              <div className="col-md-5">
                 <input
                   type="text"
-                  className={'form-control'}
+                  className="form-control"
                   placeholder="Key (e.g., Content-Type)"
                   value={header.key}
-                  onChange={e => updateHeader(index, 'key', e.target.value)}
+                  onChange={(e) => updateHeader(index, "key", e.target.value)}
                 />
               </div>
-              <div className={'col-md-6'}>
+              <div className="col-md-6">
                 <input
                   type="text"
-                  className={'form-control'}
+                  className="form-control"
                   placeholder="Value (e.g., application/json)"
                   value={header.value}
-                  onChange={e => updateHeader(index, 'value', e.target.value)}
+                  onChange={(e) => updateHeader(index, "value", e.target.value)}
                 />
               </div>
-              <div className={'col-md-1 d-flex align-items-center'}>
+              <div className="col-md-1 d-flex align-items-center">
                 <button
                   type="button"
-                  className={'btn btn-sm btn-danger w-100'}
+                  className="btn btn-sm btn-danger w-100"
                   onClick={() => removeHeader(index)}
                   aria-label="Remove header"
                 >
@@ -170,40 +170,40 @@ const CurlBuilderForm = (): React.JSX.Element => {
         </div>
       </div>
 
-      {['POST', 'PUT', 'PATCH'].includes(method) && (
-        <div className={'row mb-3 form-floating'}>
+      {["POST", "PUT", "PATCH"].includes(method) && (
+        <div className="row mb-3 form-floating">
           <textarea
             id="bodyTextarea"
-            className={'form-control'}
-            style={{height: 150}}
+            className="form-control"
+            style={{ height: 150 }}
             value={body}
             placeholder="Request Body"
-            onChange={e => setBody(e.target.value)}
+            onChange={(e) => setBody(e.target.value)}
           />
-          <label htmlFor={'bodyTextarea'} style={{left: '12px'}}>
+          <label htmlFor="bodyTextarea" style={{ left: "12px" }}>
             Body
           </label>
         </div>
       )}
 
-      <div className={'row mb-3 mt-4'}>
-        <div className={'col-12'}>
-          <label className={'form-label fw-bold'}>Generated curl Command</label>
+      <div className="row mb-3 mt-4">
+        <div className="col-12">
+          <label className="form-label fw-bold">Generated curl Command</label>
           <div className="position-relative">
             <textarea
-              className={'form-control bg-light'}
-              style={{height: 120, fontFamily: 'monospace'}}
+              className="form-control bg-light"
+              style={{ height: 120, fontFamily: "monospace" }}
               readOnly
               value={curlCommand}
             />
             <button
               type="button"
               className={`btn btn-sm position-absolute top-0 end-0 m-2 ${
-                copied ? 'btn-success' : 'btn-primary'
+                copied ? "btn-success" : "btn-primary"
               }`}
               onClick={handleCopy}
             >
-              {copied ? 'Copied!' : 'Copy'}
+              {copied ? "Copied!" : "Copy"}
             </button>
           </div>
         </div>

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, {useState, useCallback, useRef} from 'react';
-import styles from './Amidakuji.module.css';
+import React, { useCallback, useRef, useState } from "react";
+import styles from "./Amidakuji.module.css";
 
 interface Line {
   col: number; // The vertical line index starting from 0 (between col and col+1)
@@ -14,12 +14,12 @@ const ROWS = 20; // Number of possible horizontal line positions (slots)
 
 const Amidakuji = (): React.JSX.Element => {
   const [numLines, setNumLines] = useState<number>(5);
-  const [inputNumLines, setInputNumLines] = useState<string>('5');
+  const [inputNumLines, setInputNumLines] = useState<string>("5");
   const [topLabels, setTopLabels] = useState<string[]>(
-    Array.from({length: 5}, (_, i) => String(i + 1)),
+    Array.from({ length: 5 }, (_, i) => String(i + 1)),
   );
   const [bottomLabels, setBottomLabels] = useState<string[]>(
-    Array.from({length: 5}, (_, i) => String(i + 1)),
+    Array.from({ length: 5 }, (_, i) => String(i + 1)),
   );
   const [horizontalLines, setHorizontalLines] = useState<Line[]>([]);
   const [isGenerated, setIsGenerated] = useState<boolean>(false);
@@ -44,7 +44,7 @@ const Amidakuji = (): React.JSX.Element => {
       setNumLines(clampedValue);
 
       // Update labels to match the new size, keeping existing ones
-      setTopLabels(prev => {
+      setTopLabels((prev) => {
         const newLabels = [...prev];
         if (newLabels.length < clampedValue) {
           for (let i = newLabels.length; i < clampedValue; i++) {
@@ -56,7 +56,7 @@ const Amidakuji = (): React.JSX.Element => {
         return newLabels;
       });
 
-      setBottomLabels(prev => {
+      setBottomLabels((prev) => {
         const newLabels = [...prev];
         if (newLabels.length < clampedValue) {
           for (let i = newLabels.length; i < clampedValue; i++) {
@@ -106,7 +106,7 @@ const Amidakuji = (): React.JSX.Element => {
         // Randomly place a line between col and col+1
         if (Math.random() > 0.6) {
           // 40% chance to have a line
-          newLines.push({col: c, row: r});
+          newLines.push({ col: c, row: r });
           // Skip the next column to prevent adjacent lines connecting directly
           c += 2;
         } else {
@@ -124,43 +124,43 @@ const Amidakuji = (): React.JSX.Element => {
     setHorizontalLines([]);
     setIsGenerated(false);
     setSelectedStart(null);
-    setTopLabels(Array.from({length: numLines}, (_, i) => String(i + 1)));
-    setBottomLabels(Array.from({length: numLines}, (_, i) => String(i + 1)));
+    setTopLabels(Array.from({ length: numLines }, (_, i) => String(i + 1)));
+    setBottomLabels(Array.from({ length: numLines }, (_, i) => String(i + 1)));
   }, [numLines]);
 
   // Calculate the path for a given start index
-  const getPath = (startIndex: number): {col: number; row: number}[] => {
-    const path: {col: number; row: number}[] = [];
+  const getPath = (startIndex: number): { col: number; row: number }[] => {
+    const path: { col: number; row: number }[] = [];
     let currentCol = startIndex;
 
     // Start point
-    path.push({col: currentCol, row: -1});
+    path.push({ col: currentCol, row: -1 });
 
     // Iterate through rows to trace the path
     for (let r = 0; r <= ROWS; r++) {
       // Find if there's a horizontal line connected to currentCol at this row
       const lineRight = horizontalLines.find(
-        l => l.row === r && l.col === currentCol,
+        (l) => l.row === r && l.col === currentCol,
       );
       const lineLeft = horizontalLines.find(
-        l => l.row === r && l.col === currentCol - 1,
+        (l) => l.row === r && l.col === currentCol - 1,
       );
 
       if (lineRight) {
         // Move right
-        path.push({col: currentCol, row: r});
+        path.push({ col: currentCol, row: r });
         currentCol += 1;
-        path.push({col: currentCol, row: r});
+        path.push({ col: currentCol, row: r });
       } else if (lineLeft) {
         // Move left
-        path.push({col: currentCol, row: r});
+        path.push({ col: currentCol, row: r });
         currentCol -= 1;
-        path.push({col: currentCol, row: r});
+        path.push({ col: currentCol, row: r });
       }
     }
 
     // End point
-    path.push({col: currentCol, row: ROWS});
+    path.push({ col: currentCol, row: ROWS });
 
     return path;
   };
@@ -189,7 +189,7 @@ const Amidakuji = (): React.JSX.Element => {
         className={styles.svgContainer}
       >
         {/* Vertical Lines */}
-        {Array.from({length: numLines}).map((_, i) => (
+        {Array.from({ length: numLines }).map((_, i) => (
           <line
             key={`v-${i}`}
             x1={getX(i)}
@@ -221,16 +221,15 @@ const Amidakuji = (): React.JSX.Element => {
         {selectedPath && (
           <polyline
             points={selectedPath
-              .map(p => {
-                const y =
-                  p.row === -1
-                    ? paddingY
-                    : p.row === ROWS
-                      ? paddingY + height
-                      : getY(p.row);
+              .map((p) => {
+                const y = p.row === -1
+                  ? paddingY
+                  : p.row === ROWS
+                  ? paddingY + height
+                  : getY(p.row);
                 return `${getX(p.col)},${y}`;
               })
-              .join(' ')}
+              .join(" ")}
             fill="none"
             stroke="red"
             strokeWidth="6"
@@ -258,13 +257,13 @@ const Amidakuji = (): React.JSX.Element => {
           max={MAX_LINES}
           onChange={handleNumLinesChange}
           onBlur={handleNumLinesBlur}
-          style={{maxWidth: '200px'}}
+          style={{ maxWidth: "200px" }}
         />
         <div className="mt-3">
-          <button className="btn btn-primary me-2" onClick={generateLines}>
+          <button type="button" className="btn btn-primary me-2" onClick={generateLines}>
             生成 (Generate)
           </button>
-          <button className="btn btn-outline-secondary" onClick={handleClear}>
+          <button type="button" className="btn btn-outline-secondary" onClick={handleClear}>
             クリア (Clear)
           </button>
         </div>
@@ -279,17 +278,19 @@ const Amidakuji = (): React.JSX.Element => {
                 type="text"
                 className={`form-control ${styles.labelInput}`}
                 value={label}
-                onChange={e => handleLabelChange(i, e.target.value, true)}
-                onClick={() => isGenerated && setSelectedStart(i)}
+                onChange={(e) =>
+                  handleLabelChange(i, e.target.value, true)}
+                onClick={() =>
+                  isGenerated && setSelectedStart(i)}
                 readOnly={isGenerated}
                 style={{
-                  cursor: isGenerated ? 'pointer' : 'text',
-                  borderColor: selectedStart === i ? 'red' : undefined,
-                  borderWidth: selectedStart === i ? '2px' : undefined,
+                  cursor: isGenerated ? "pointer" : "text",
+                  borderColor: selectedStart === i ? "red" : undefined,
+                  borderWidth: selectedStart === i ? "2px" : undefined,
                 }}
               />
               {isGenerated && (
-                <button
+                <button type="button"
                   className="btn btn-sm btn-outline-danger mt-1"
                   onClick={() => setSelectedStart(i)}
                 >
@@ -321,12 +322,12 @@ const Amidakuji = (): React.JSX.Element => {
                   type="text"
                   className={`form-control ${styles.labelInput}`}
                   value={label}
-                  onChange={e => handleLabelChange(i, e.target.value, false)}
+                  onChange={(e) => handleLabelChange(i, e.target.value, false)}
                   readOnly={isGenerated}
                   style={{
-                    borderColor: isEndNode ? 'red' : undefined,
-                    borderWidth: isEndNode ? '2px' : undefined,
-                    backgroundColor: isEndNode ? '#ffe6e6' : undefined,
+                    borderColor: isEndNode ? "red" : undefined,
+                    borderWidth: isEndNode ? "2px" : undefined,
+                    backgroundColor: isEndNode ? "#ffe6e6" : undefined,
                   }}
                 />
               </div>
