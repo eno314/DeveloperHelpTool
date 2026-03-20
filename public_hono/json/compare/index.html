@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Help Tool - JSON Compare Tool</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    >
+    <style>
+      .diffContainer {
+        min-height: 200px;
+        white-space: pre-wrap;
+        word-break: break-all;
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+      }
+      .added {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      .removed {
+        background-color: #f8d7da;
+        color: #721c24;
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Developer Help Tool - JSON Compare Tool</h1>
+      <p class="text-secondary">You can compare two JSONs by this tool.</p>
+
+      <div id="root">
+        <div class="container mt-4">
+          <div id="errorAlert" class="alert alert-danger d-none" role="alert"></div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="mb-2">
+                <label for="left-json-input" class="form-label d-block mb-1">
+                  Left JSON
+                </label>
+                <input
+                  type="file"
+                  accept=".json"
+                  class="form-control form-control-sm"
+                  id="left-file-input"
+                  aria-label="Upload Left JSON file"
+                />
+              </div>
+              <textarea
+                id="left-json-input"
+                class="form-control"
+                rows="10"
+              ></textarea>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-2">
+                <label for="right-json-input" class="form-label d-block mb-1">
+                  Right JSON
+                </label>
+                <input
+                  type="file"
+                  accept=".json"
+                  class="form-control form-control-sm"
+                  id="right-file-input"
+                  aria-label="Upload Right JSON file"
+                />
+              </div>
+              <textarea
+                id="right-json-input"
+                class="form-control"
+                rows="10"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col text-center">
+              <button type="button" class="btn btn-primary" id="compareBtn">
+                Compare
+              </button>
+            </div>
+          </div>
+
+          <div id="diffResultContainer" class="row d-none">
+            <div class="col-md-6">
+              <h4>Left Result</h4>
+              <pre id="leftResult" class="form-control diffContainer"></pre>
+            </div>
+            <div class="col-md-6">
+              <h4>Right Result</h4>
+              <pre id="rightResult" class="form-control diffContainer"></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      /**
+       * Basic Myers diff algorithm implementation matching src/utils/diff.ts
+       */
+      function diffLines(oldStr, newStr) {
+        const oldLines = splitIntoLines(oldStr);
+        const newLines = splitIntoLines(newStr);
+        const changes = [];
+        const diffs = myersDiff(oldLines, newLines);
+
+        for (const diff of diffs) {
+          const lastChange = changes[changes.length - 1];
+          if (
+            lastChange &&
+            lastChange.added === diff.added &&
+            lastChange.removed === diff.removed
+          ) {
+            lastChange.value += diff.value;
+          } else {
+            changes.push({ ...diff });
+          }
+        }
+        return changes;
+      }
+
+      function splitIntoLines(str) {
+        if (str === "") return [];
+        const lines = str.split(/\r?\n/);
+        return lines
+          .map((line, index) => (index < lines.length - 1 ? line + "\\n" : line))
+          .filter((line) => line.length > 0);
+      }
+
+      function myersDiff(oldLines, newLines) {
+        const n = oldLines.length;
+        const m = newLines.length;
+        const max = n + m;
+        const v = { 1: 0 };
+        const trace = [];
+
+        for (let d = 0; d <= max; d++) {
+          const vCopy = {};
+          for (const key in v) {
+            vCopy[key] = v[key];
+          }
+          trace.push(vCopy);
+
+          for (let k = -d; k <= d; k += 2) {
+            let x;
+            const down = k === -d || (k !== d && v[k - 1] < v[k + 1]);
+
+            if (down) {
+              x = v[k + 1];
+            } else {
+              x = v[k - 1] + 1;
+            }
+
+            let y = x - k;
+
+            while (x < n && y < m && oldLines[x] === newLines[y]) {
+              x++;
+              y++;
+            }
+
+            v[k] = x;
+
+            if (x >= n && y >= m) {
+              return buildScript(trace, oldLines, newLines);
+            }
+          }
+        }
+        return [];
+      }
+
+      function buildScript(trace, oldLines, newLines) {
+        const script = [];
+        let x = oldLines.length;
+        let y = newLines.length;
+
+        for (let d = trace.length - 1; d >= 0; d--) {
+          const v = trace[d];
+          const k = x - y;
+
+          const down = k === -d || (k !== d && v[k - 1] < v[k + 1]);
+          const kPrev = down ? k + 1 : k - 1;
+
+          const xPrev = v[kPrev];
+          const yPrev = xPrev - kPrev;
+
+          while (x > xPrev && y > yPrev) {
+            script.push({ value: oldLines[x - 1] });
+            x--;
+            y--;
+          }
+
+          if (d > 0) {
+            if (down) {
+              script.push({ value: newLines[yPrev], added: true });
+            } else {
+              script.push({ value: oldLines[xPrev], removed: true });
+            }
+            x = xPrev;
+            y = yPrev;
+          }
+        }
+        return script.reverse();
+      }
+
+      // DOM Elements
+      const leftFileInput = document.getElementById('left-file-input');
+      const rightFileInput = document.getElementById('right-file-input');
+      const leftTextarea = document.getElementById('left-json-input');
+      const rightTextarea = document.getElementById('right-json-input');
+      const compareBtn = document.getElementById('compareBtn');
+      const errorAlert = document.getElementById('errorAlert');
+      const diffResultContainer = document.getElementById('diffResultContainer');
+      const leftResult = document.getElementById('leftResult');
+      const rightResult = document.getElementById('rightResult');
+
+      const handleFileChange = (textareaElement) => {
+        return (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            const content = event.target?.result;
+            if (typeof content === 'string') {
+              textareaElement.value = content;
+            }
+          };
+          reader.readAsText(file);
+          e.target.value = '';
+        };
+      };
+
+      leftFileInput.addEventListener('change', handleFileChange(leftTextarea));
+      rightFileInput.addEventListener('change', handleFileChange(rightTextarea));
+
+      compareBtn.addEventListener('click', () => {
+        errorAlert.classList.add('d-none');
+        diffResultContainer.classList.add('d-none');
+        leftResult.innerHTML = '';
+        rightResult.innerHTML = '';
+
+        let parsedLeft;
+        let parsedRight;
+
+        try {
+          parsedLeft = JSON.parse(leftTextarea.value);
+        } catch {
+          errorAlert.textContent = 'Left JSON is invalid.';
+          errorAlert.classList.remove('d-none');
+          return;
+        }
+
+        try {
+          parsedRight = JSON.parse(rightTextarea.value);
+        } catch {
+          errorAlert.textContent = 'Right JSON is invalid.';
+          errorAlert.classList.remove('d-none');
+          return;
+        }
+
+        const formattedLeft = JSON.stringify(parsedLeft, null, 2);
+        const formattedRight = JSON.stringify(parsedRight, null, 2);
+
+        const differences = diffLines(formattedLeft, formattedRight);
+
+        diffResultContainer.classList.remove('d-none');
+
+        // Render left
+        differences.forEach(part => {
+          if (part.added) return;
+          const span = document.createElement('span');
+          span.textContent = part.value;
+          if (part.removed) span.className = 'removed';
+          leftResult.appendChild(span);
+        });
+
+        // Render right
+        differences.forEach(part => {
+          if (part.removed) return;
+          const span = document.createElement('span');
+          span.textContent = part.value;
+          if (part.added) span.className = 'added';
+          rightResult.appendChild(span);
+        });
+      });
+    </script>
+  </body>
+</html>

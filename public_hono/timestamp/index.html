@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Help Tool - Timestamp Tool</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    >
+    <style>
+      .text-monospace {
+        font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Developer Help Tool - Timestamp Tool</h1>
+      <p class="text-secondary">You can check current time and unix timestamp by this tool.</p>
+
+      <div id="root">
+        <div class="container mt-4">
+          <div class="row">
+            <div class="col-12 col-md-6 mb-4 mb-md-0">
+              <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                  <h5 class="mb-0">Current Unix Timestamp (Seconds)</h5>
+                </div>
+                <div class="card-body d-flex align-items-center justify-content-between">
+                  <h2 class="mb-0 text-monospace" id="currentTimestamp"></h2>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    id="copyTimestampBtn"
+                    aria-label="Copy timestamp"
+                  >
+                    Copy
+                  </button>
+                </div>
+              </div>
+
+              <div class="card h-100">
+                <div class="card-header bg-secondary text-white">
+                  <h5 class="mb-0">Current Time</h5>
+                </div>
+                <div class="card-body">
+                  <table class="table table-striped table-hover mb-0">
+                    <thead>
+                      <tr>
+                        <th scope="col">Timezone / City</th>
+                        <th scope="col">Time (YYYY-MM-DD HH:mm:ss)</th>
+                        <th scope="col" style="width: 100px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="timeTableBody">
+                      <!-- Rendered by JS -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <div class="card h-100">
+                <div class="card-header bg-secondary text-white">
+                  <h5 class="mb-0">Timestamp Converter</h5>
+                </div>
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label for="converterTimestamp" class="form-label fw-bold">
+                      Unix Timestamp (Seconds)
+                    </label>
+                    <div class="input-group">
+                      <input
+                        type="number"
+                        class="form-control text-monospace"
+                        id="converterTimestamp"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        id="copyConverterTimestampBtn"
+                        aria-label="Copy converter timestamp"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="converterLocalTime" class="form-label fw-bold">
+                      Local Time (YYYY-MM-DD HH:mm:ss)
+                    </label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control text-monospace"
+                        id="converterLocalTime"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        id="copyConverterLocalTimeBtn"
+                        aria-label="Copy converter local time"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="converterUtcTime" class="form-label fw-bold">
+                      UTC Time (YYYY-MM-DD HH:mm:ss)
+                    </label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control text-monospace"
+                        id="converterUtcTime"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        id="copyConverterUtcTimeBtn"
+                        aria-label="Copy converter UTC time"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      const TIMEZONE_GROUPS = [
+        {
+          group: "Africa",
+          options: [
+            { label: "Cairo (EET/EEST)", value: "Africa/Cairo" },
+            { label: "Johannesburg (SAST)", value: "Africa/Johannesburg" },
+            { label: "Nairobi (EAT)", value: "Africa/Nairobi" },
+          ],
+        },
+        {
+          group: "Americas",
+          options: [
+            { label: "Bogota (COT)", value: "America/Bogota" },
+            {
+              label: "Buenos Aires (ART)",
+              value: "America/Argentina/Buenos_Aires",
+            },
+            { label: "Costa Rica (CST)", value: "America/Costa_Rica" },
+            { label: "Los Angeles (PST/PDT)", value: "America/Los_Angeles" },
+            { label: "Mexico City (CST/CDT)", value: "America/Mexico_City" },
+            { label: "New York (EST/EDT)", value: "America/New_York" },
+            { label: "Sao Paulo (BRT/BRST)", value: "America/Sao_Paulo" },
+          ],
+        },
+        {
+          group: "Asia",
+          options: [
+            { label: "Almaty (ALMT)", value: "Asia/Almaty" },
+            { label: "Japan (JST)", value: "Asia/Tokyo" },
+            { label: "Tashkent (UZT)", value: "Asia/Tashkent" },
+          ],
+        },
+        {
+          group: "Europe",
+          options: [
+            { label: "London (GMT/BST)", value: "Europe/London" },
+            { label: "Paris (CET/CEST)", value: "Europe/Paris" },
+          ],
+        },
+        {
+          group: "Oceania",
+          options: [{ label: "Sydney (AEST/AEDT)", value: "Australia/Sydney" }],
+        },
+      ];
+
+      function formatDate(date, timeZone) {
+        const formatter = new Intl.DateTimeFormat("en-CA", {
+          timeZone,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        });
+
+        const parts = formatter.formatToParts(date);
+        const yyyy = parts.find((p) => p.type === "year")?.value;
+        const mm = parts.find((p) => p.type === "month")?.value;
+        const dd = parts.find((p) => p.type === "day")?.value;
+        const hh = parts.find((p) => p.type === "hour")?.value;
+        const min = parts.find((p) => p.type === "minute")?.value;
+        const ss = parts.find((p) => p.type === "second")?.value;
+
+        if (!yyyy || !mm || !dd || !hh || !min || !ss) {
+          return formatter.format(date);
+        }
+
+        let formattedHh = hh;
+        if (formattedHh === "24") {
+          formattedHh = "00";
+        }
+
+        return `${yyyy}-${mm}-${dd} ${formattedHh}:${min}:${ss}`;
+      }
+
+      function parseFormattedDate(dateStr, timeZone) {
+        const regex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+        if (!regex.test(dateStr)) return null;
+
+        try {
+          const isoStr = dateStr.replace(" ", "T");
+          let fullStr = "";
+          if (timeZone === "UTC") {
+            fullStr = `${isoStr}Z`;
+          } else {
+            const d = new Date(isoStr);
+            if (isNaN(d.getTime())) return null;
+            return d;
+          }
+          const date = new Date(fullStr);
+          return isNaN(date.getTime()) ? null : date;
+        } catch {
+          return null;
+        }
+      }
+
+      const handleCopy = (textToCopy, btnElement) => {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const originalText = btnElement.textContent;
+          const originalClass = btnElement.className;
+
+          btnElement.textContent = "Copied!";
+          btnElement.className = "btn btn-success" + (originalClass.includes('btn-sm') ? ' btn-sm' : '');
+
+          setTimeout(() => {
+            btnElement.textContent = originalText;
+            btnElement.className = originalClass;
+          }, 2000);
+        });
+      };
+
+      const currentTimestampEl = document.getElementById('currentTimestamp');
+      const converterTimestampEl = document.getElementById('converterTimestamp');
+      const converterLocalTimeEl = document.getElementById('converterLocalTime');
+      const converterUtcTimeEl = document.getElementById('converterUtcTime');
+      const timeTableBody = document.getElementById('timeTableBody');
+      const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      let selectedTimezone = "";
+
+      function updateCurrentTime() {
+        const now = new Date();
+        const ts = Math.floor(now.getTime() / 1000);
+        currentTimestampEl.textContent = ts;
+
+        // Render table
+        let html = '';
+
+        // Check if the button was clicked and is showing "Copied!" before replacing its state
+        // To avoid resetting "Copied!" text back to "Copy" when the timer fires, we will NOT re-render the whole table if it's not strictly necessary, OR we preserve the button state.
+        // The easiest fix is to have the buttons statically in DOM and only update the text.
+        // Let's re-render the rows fully, but we need to track copied state for buttons.
+        const localTimeStr = formatDate(now, localTimeZone);
+        html += `
+          <tr>
+            <td class="align-middle">Local Time</td>
+            <td class="text-monospace align-middle" id="localTimeVal">${localTimeStr}</td>
+            <td>
+              <button type="button" id="copyLocalTimeBtn" class="btn btn-sm btn-outline-primary" aria-label="Copy time for Local Time">Copy</button>
+            </td>
+          </tr>
+        `;
+
+        const utcTimeStr = formatDate(now, "UTC");
+        html += `
+          <tr>
+            <td class="align-middle">UTC (GMT)</td>
+            <td class="text-monospace align-middle" id="utcTimeVal">${utcTimeStr}</td>
+            <td>
+              <button type="button" id="copyUtcTimeBtn" class="btn btn-sm btn-outline-primary" aria-label="Copy time for UTC (GMT)">Copy</button>
+            </td>
+          </tr>
+        `;
+
+        // Selected Timezone
+        let tzSelectOptions = '<option value="">Select a Timezone...</option>';
+        TIMEZONE_GROUPS.forEach(group => {
+          tzSelectOptions += `<optgroup label="${group.group}">`;
+          group.options.forEach(tz => {
+            const selected = selectedTimezone === tz.value ? 'selected' : '';
+            tzSelectOptions += `<option value="${tz.value}" ${selected}>${tz.label}</option>`;
+          });
+          tzSelectOptions += `</optgroup>`;
+        });
+
+        const selectedTimeStr = selectedTimezone ? formatDate(now, selectedTimezone) : "";
+        const copyBtnHtml = selectedTimezone
+          ? `<button type="button" id="copySelectedTimeBtn" class="btn btn-sm btn-outline-primary" aria-label="Copy time for selected timezone">Copy</button>`
+          : '';
+
+        html += `
+          <tr>
+            <td class="align-middle">
+              <select class="form-select form-select-sm" id="timezoneSelect" aria-label="Select timezone">
+                ${tzSelectOptions}
+              </select>
+            </td>
+            <td class="text-monospace align-middle" id="selectedTimeVal">${selectedTimeStr}</td>
+            <td>${copyBtnHtml}</td>
+          </tr>
+        `;
+
+        // Preserve copy button states across renders
+        let isLocalCopied = false;
+        let isUtcCopied = false;
+        let isSelectedCopied = false;
+
+        const oldLocalBtn = document.getElementById('copyLocalTimeBtn');
+        if (oldLocalBtn) isLocalCopied = oldLocalBtn.textContent === 'Copied!';
+
+        const oldUtcBtn = document.getElementById('copyUtcTimeBtn');
+        if (oldUtcBtn) isUtcCopied = oldUtcBtn.textContent === 'Copied!';
+
+        const oldSelectedBtn = document.getElementById('copySelectedTimeBtn');
+        if (oldSelectedBtn) isSelectedCopied = oldSelectedBtn.textContent === 'Copied!';
+
+        timeTableBody.innerHTML = html;
+
+        if (isLocalCopied) {
+          const btn = document.getElementById('copyLocalTimeBtn');
+          if (btn) { btn.textContent = "Copied!"; btn.className = "btn btn-sm btn-success"; }
+        }
+        if (isUtcCopied) {
+          const btn = document.getElementById('copyUtcTimeBtn');
+          if (btn) { btn.textContent = "Copied!"; btn.className = "btn btn-sm btn-success"; }
+        }
+        if (isSelectedCopied) {
+          const btn = document.getElementById('copySelectedTimeBtn');
+          if (btn) { btn.textContent = "Copied!"; btn.className = "btn btn-sm btn-success"; }
+        }
+
+        // Re-attach listeners
+        document.getElementById('timezoneSelect').addEventListener('change', (e) => {
+          selectedTimezone = e.target.value;
+          updateCurrentTime();
+        });
+
+        document.getElementById('copyLocalTimeBtn')?.addEventListener('click', function() {
+          handleCopy(document.getElementById('localTimeVal').textContent, this);
+        });
+
+        document.getElementById('copyUtcTimeBtn')?.addEventListener('click', function() {
+          handleCopy(document.getElementById('utcTimeVal').textContent, this);
+        });
+
+        document.getElementById('copySelectedTimeBtn')?.addEventListener('click', function() {
+          handleCopy(document.getElementById('selectedTimeVal').textContent, this);
+        });
+      }
+
+      window.copyText = handleCopy;
+
+      // Copy buttons for current time
+      document.getElementById('copyTimestampBtn').addEventListener('click', function() {
+        handleCopy(currentTimestampEl.textContent, this);
+      });
+
+      // Converter Copy Buttons
+      document.getElementById('copyConverterTimestampBtn').addEventListener('click', function() {
+        handleCopy(converterTimestampEl.value, this);
+      });
+      document.getElementById('copyConverterLocalTimeBtn').addEventListener('click', function() {
+        handleCopy(converterLocalTimeEl.value, this);
+      });
+      document.getElementById('copyConverterUtcTimeBtn').addEventListener('click', function() {
+        handleCopy(converterUtcTimeEl.value, this);
+      });
+
+      // Initialize converter
+      const initDate = new Date();
+      converterTimestampEl.value = Math.floor(initDate.getTime() / 1000).toString();
+      converterLocalTimeEl.value = formatDate(initDate, localTimeZone);
+      converterUtcTimeEl.value = formatDate(initDate, "UTC");
+
+      // Converters logic
+      converterTimestampEl.addEventListener('input', (e) => {
+        const newTs = e.target.value;
+        const parsedTs = parseInt(newTs, 10);
+        if (!isNaN(parsedTs)) {
+          const date = new Date(parsedTs * 1000);
+          converterLocalTimeEl.value = formatDate(date, localTimeZone);
+          converterUtcTimeEl.value = formatDate(date, "UTC");
+        }
+      });
+
+      converterLocalTimeEl.addEventListener('input', (e) => {
+        const newLocalTime = e.target.value;
+        const date = parseFormattedDate(newLocalTime, localTimeZone);
+        if (date) {
+          converterTimestampEl.value = Math.floor(date.getTime() / 1000).toString();
+          converterUtcTimeEl.value = formatDate(date, "UTC");
+        }
+      });
+
+      converterUtcTimeEl.addEventListener('input', (e) => {
+        const newUtcTime = e.target.value;
+        const date = parseFormattedDate(newUtcTime, "UTC");
+        if (date) {
+          converterTimestampEl.value = Math.floor(date.getTime() / 1000).toString();
+          converterLocalTimeEl.value = formatDate(date, localTimeZone);
+        }
+      });
+
+      // Loop
+      setInterval(updateCurrentTime, 100);
+      updateCurrentTime();
+    </script>
+  </body>
+</html>
