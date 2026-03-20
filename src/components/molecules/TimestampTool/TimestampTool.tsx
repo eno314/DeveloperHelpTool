@@ -7,23 +7,46 @@ const TimestampTool = (): React.JSX.Element => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [selectedTimezone, setSelectedTimezone] = useState<string>('');
 
-  const TIMEZONES = [
-    {label: 'Japan (JST)', value: 'Asia/Tokyo'},
-    {label: 'New York (EST/EDT)', value: 'America/New_York'},
-    {label: 'London (GMT/BST)', value: 'Europe/London'},
-    {label: 'Sydney (AEST/AEDT)', value: 'Australia/Sydney'},
-    {label: 'Paris (CET/CEST)', value: 'Europe/Paris'},
-    {label: 'Los Angeles (PST/PDT)', value: 'America/Los_Angeles'},
-    {label: 'Johannesburg (SAST)', value: 'Africa/Johannesburg'},
-    {label: 'Cairo (EET/EEST)', value: 'Africa/Cairo'},
-    {label: 'Nairobi (EAT)', value: 'Africa/Nairobi'},
-    {label: 'Mexico City (CST/CDT)', value: 'America/Mexico_City'},
-    {label: 'Costa Rica (CST)', value: 'America/Costa_Rica'},
-    {label: 'Sao Paulo (BRT/BRST)', value: 'America/Sao_Paulo'},
-    {label: 'Buenos Aires (ART)', value: 'America/Argentina/Buenos_Aires'},
-    {label: 'Bogota (COT)', value: 'America/Bogota'},
-    {label: 'Almaty (ALMT)', value: 'Asia/Almaty'},
-    {label: 'Tashkent (UZT)', value: 'Asia/Tashkent'},
+  const TIMEZONE_GROUPS = [
+    {
+      group: 'Africa',
+      options: [
+        {label: 'Cairo (EET/EEST)', value: 'Africa/Cairo'},
+        {label: 'Johannesburg (SAST)', value: 'Africa/Johannesburg'},
+        {label: 'Nairobi (EAT)', value: 'Africa/Nairobi'},
+      ],
+    },
+    {
+      group: 'Americas',
+      options: [
+        {label: 'Bogota (COT)', value: 'America/Bogota'},
+        {label: 'Buenos Aires (ART)', value: 'America/Argentina/Buenos_Aires'},
+        {label: 'Costa Rica (CST)', value: 'America/Costa_Rica'},
+        {label: 'Los Angeles (PST/PDT)', value: 'America/Los_Angeles'},
+        {label: 'Mexico City (CST/CDT)', value: 'America/Mexico_City'},
+        {label: 'New York (EST/EDT)', value: 'America/New_York'},
+        {label: 'Sao Paulo (BRT/BRST)', value: 'America/Sao_Paulo'},
+      ],
+    },
+    {
+      group: 'Asia',
+      options: [
+        {label: 'Almaty (ALMT)', value: 'Asia/Almaty'},
+        {label: 'Japan (JST)', value: 'Asia/Tokyo'},
+        {label: 'Tashkent (UZT)', value: 'Asia/Tashkent'},
+      ],
+    },
+    {
+      group: 'Europe',
+      options: [
+        {label: 'London (GMT/BST)', value: 'Europe/London'},
+        {label: 'Paris (CET/CEST)', value: 'Europe/Paris'},
+      ],
+    },
+    {
+      group: 'Oceania',
+      options: [{label: 'Sydney (AEST/AEDT)', value: 'Australia/Sydney'}],
+    },
   ];
 
   useEffect(() => {
@@ -161,10 +184,14 @@ const TimestampTool = (): React.JSX.Element => {
                         aria-label="Select timezone"
                       >
                         <option value="">Select a Timezone...</option>
-                        {TIMEZONES.map(tz => (
-                          <option key={tz.value} value={tz.value}>
-                            {tz.label}
-                          </option>
+                        {TIMEZONE_GROUPS.map(group => (
+                          <optgroup key={group.group} label={group.group}>
+                            {group.options.map(tz => (
+                              <option key={tz.value} value={tz.value}>
+                                {tz.label}
+                              </option>
+                            ))}
+                          </optgroup>
                         ))}
                       </select>
                     </td>
