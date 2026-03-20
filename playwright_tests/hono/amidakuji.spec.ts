@@ -27,7 +27,7 @@ test.describe("Amidakuji Page Tests (Hono) - Happy Path", () => {
   test("should allow editing start and end points in the initial state", async ({ page }) => {
     // Top labels
     const topInputs = page
-      .locator('#topLabelsContainer')
+      .locator("#topLabelsContainer")
       .locator('input[type="text"]');
     await topInputs.nth(0).fill("Start 1");
     await expect(topInputs.nth(0)).toHaveValue("Start 1");
@@ -35,7 +35,7 @@ test.describe("Amidakuji Page Tests (Hono) - Happy Path", () => {
 
     // Bottom labels
     const bottomInputs = page
-      .locator('#bottomLabelsContainer')
+      .locator("#bottomLabelsContainer")
       .locator('input[type="text"]');
     await bottomInputs.nth(0).fill("End 1");
     await expect(bottomInputs.nth(0)).toHaveValue("End 1");
@@ -53,12 +53,12 @@ test.describe("Amidakuji Page Tests (Hono) - Happy Path", () => {
 
     // Verify inputs are readonly
     const topInputs = page
-      .locator('#topLabelsContainer')
+      .locator("#topLabelsContainer")
       .locator('input[type="text"]');
     await expect(topInputs.nth(0)).toHaveAttribute("readonly", "");
 
     const bottomInputs = page
-      .locator('#bottomLabelsContainer')
+      .locator("#bottomLabelsContainer")
       .locator('input[type="text"]');
     await expect(bottomInputs.nth(0)).toHaveAttribute("readonly", "");
 
@@ -76,7 +76,7 @@ test.describe("Amidakuji Page Tests (Hono) - Happy Path", () => {
     await numLinesInput.blur();
 
     const topInputs = page
-      .locator('#topLabelsContainer')
+      .locator("#topLabelsContainer")
       .locator('input[type="text"]');
     await topInputs.nth(0).fill("Start 1");
 
@@ -102,7 +102,7 @@ test.describe("Amidakuji Page Tests (Hono) - Happy Path", () => {
     await expect(topInputs.nth(2)).toHaveValue("3");
 
     const bottomInputs = page
-      .locator('#bottomLabelsContainer')
+      .locator("#bottomLabelsContainer")
       .locator('input[type="text"]');
     await expect(bottomInputs.nth(0)).not.toHaveAttribute("readonly");
     await expect(bottomInputs.nth(0)).toHaveValue("1");

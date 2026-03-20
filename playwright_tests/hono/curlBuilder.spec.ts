@@ -13,7 +13,7 @@ test.describe("Curl Builder Tool Tests (Hono)", () => {
   });
 
   test("should update curl command when URL is entered", async ({ page }) => {
-    await page.fill('#urlInput', "https://example.com/api");
+    await page.fill("#urlInput", "https://example.com/api");
 
     const outputTextarea = page.locator("#curlOutput");
     await expect(outputTextarea).toHaveValue('curl "https://example.com/api"');
@@ -21,7 +21,7 @@ test.describe("Curl Builder Tool Tests (Hono)", () => {
 
   test("should handle changing method to POST and add body", async ({ page }) => {
     // URL
-    await page.fill('#urlInput', "http://localhost");
+    await page.fill("#urlInput", "http://localhost");
 
     // Method
     await page.selectOption("#methodSelect", "POST");
@@ -31,7 +31,7 @@ test.describe("Curl Builder Tool Tests (Hono)", () => {
     await expect(outputTextarea).toHaveValue('curl -X POST "http://localhost"');
 
     // Fill Body
-    await page.fill('#bodyTextarea', '{"test": 123}');
+    await page.fill("#bodyTextarea", '{"test": 123}');
 
     await expect(outputTextarea).toHaveValue(
       'curl -X POST "http://localhost" -d \'{"test": 123}\'',
@@ -65,7 +65,7 @@ test.describe("Curl Builder Tool Tests (Hono)", () => {
   test("should verify body quote escaping", async ({ page }) => {
     await page.selectOption("#methodSelect", "PUT");
 
-    await page.fill('#bodyTextarea', "It's a test");
+    await page.fill("#bodyTextarea", "It's a test");
 
     const outputTextarea = page.locator("#curlOutput");
     await expect(outputTextarea).toHaveValue(

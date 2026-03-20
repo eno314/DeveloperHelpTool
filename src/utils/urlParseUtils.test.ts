@@ -1,10 +1,10 @@
 import { expect } from "@std/expect";
 import {
-  parseUrl,
-  createUrlText,
-  updateUrlParams,
-  removeUrlParamOf,
   addUrlParam,
+  createUrlText,
+  parseUrl,
+  removeUrlParamOf,
+  updateUrlParams,
 } from "./urlParseUtils.ts";
 
 Deno.test("urlParseUtils - parseUrl", () => {
@@ -17,7 +17,9 @@ Deno.test("urlParseUtils - parseUrl", () => {
 });
 
 Deno.test("urlParseUtils - parseUrl with multibyte chars", () => {
-  const urlToParse = `https://example.com/path?key1=${encodeURIComponent("あいうえお")}`;
+  const urlToParse = `https://example.com/path?key1=${
+    encodeURIComponent("あいうえお")
+  }`;
   const result = parseUrl(urlToParse);
   expect(result.baseUrlText).toBe("https://example.com/path");
   expect(result.urlParams).toEqual([
@@ -47,14 +49,16 @@ Deno.test("urlParseUtils - createUrlText with multibyte chars", () => {
     { key: "key1", value: "あいうえお" },
   ];
   const result = createUrlText(baseUrlText, urlParams);
-  expect(result).toBe(`https://example.com/path?key1=${encodeURIComponent("あいうえお")}`);
+  expect(result).toBe(
+    `https://example.com/path?key1=${encodeURIComponent("あいうえお")}`,
+  );
 });
 
 Deno.test("urlParseUtils - createUrlText with empty params", () => {
   const baseUrlText = "https://example.com/path";
   const urlParams = [
     { key: "", value: "value1" }, // Invalid key
-    { key: "key2", value: "" },   // Invalid value
+    { key: "key2", value: "" }, // Invalid value
   ];
   const result = createUrlText(baseUrlText, urlParams);
   expect(result).toBe("https://example.com/path");

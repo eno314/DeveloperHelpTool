@@ -2,12 +2,12 @@
 
 import React, { type ChangeEvent, useState } from "react";
 import {
-  type UrlParam,
-  parseUrl,
-  createUrlText,
-  updateUrlParams,
-  removeUrlParamOf,
   addUrlParam,
+  createUrlText,
+  parseUrl,
+  removeUrlParamOf,
+  updateUrlParams,
+  type UrlParam,
 } from "../../../utils/urlParseUtils.ts";
 
 const styles = {

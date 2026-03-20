@@ -1,69 +1,26 @@
-// Logic from urlParseUtils.ts (Inline for SPA prototype)
-
-const parseUrl = (url) => {
-  try {
-    const parsedUrl = new URL(url);
-
-    const urlParams = [];
-    parsedUrl.searchParams.forEach((value, key) => {
-      urlParams.push({ key, value });
-    });
-
-    return {
-      baseUrlText: `${parsedUrl.protocol}//${parsedUrl.hostname}${parsedUrl.pathname}`,
-      urlParams,
-    };
-  } catch (_e) {
-    return { baseUrlText: "", urlParams: [] };
-  }
-};
-
-const createUrlText = (baseUrlText, urlParams) => {
-  const params = urlParams
-    .filter((urlParam) => urlParam.key.length > 0 && urlParam.value)
-    .map((urlParam) => {
-      const encodedValue = encodeURIComponent(urlParam.value);
-      return `${urlParam.key}=${encodedValue}`;
-    })
-    .join("&");
-
-  if (params.length === 0) {
-    return baseUrlText;
-  } else {
-    return `${baseUrlText}?${params}`;
-  }
-};
-
-const updateUrlParams = (base, index, type, value) => {
-  const urlParams = Array.from(base);
-  urlParams[index][type] = value;
-  return urlParams;
-};
-
-const removeUrlParamOf = (index, urlParams) => {
-  const newUrlParams = Array.from(urlParams);
-  newUrlParams.splice(index, 1);
-  return newUrlParams;
-};
-
-const addUrlParam = (urlParams) => {
-  const newUrlParams = Array.from(urlParams);
-  newUrlParams.push({ key: "", value: "" });
-  return newUrlParams;
-};
+import {
+  addUrlParam,
+  createUrlText,
+  parseUrl,
+  removeUrlParamOf,
+  updateUrlParams,
+  type UrlParam,
+} from "@/utils/urlParseUtils";
 
 // State
 let parsedUrlText = "";
 let baseUrlText = "";
-let urlParams = [];
+let urlParams: UrlParam[] = [];
 
 // DOM Elements
-const parsedUrlInput = document.getElementById("parsedUrl");
-const baseUrlInput = document.getElementById("baseUrl");
-const parseUrlBtn = document.getElementById("parseUrlBtn");
-const buildUrlBtn = document.getElementById("buildUrlBtn");
-const urlParamsTableBody = document.getElementById("urlParamsTableBody");
-const addParamBtn = document.getElementById("addParamBtn");
+const parsedUrlInput = document.getElementById("parsedUrl") as HTMLInputElement;
+const baseUrlInput = document.getElementById("baseUrl") as HTMLInputElement;
+const parseUrlBtn = document.getElementById("parseUrlBtn") as HTMLButtonElement;
+const buildUrlBtn = document.getElementById("buildUrlBtn") as HTMLButtonElement;
+const urlParamsTableBody = document.getElementById(
+  "urlParamsTableBody",
+) as HTMLTableSectionElement;
+const addParamBtn = document.getElementById("addParamBtn") as HTMLButtonElement;
 
 // Render Functions
 const render = () => {
@@ -82,7 +39,12 @@ const render = () => {
     inputKey.className = "form-control";
     inputKey.value = param.key;
     inputKey.addEventListener("input", (e) => {
-      urlParams = updateUrlParams(urlParams, i, "key", e.target.value);
+      urlParams = updateUrlParams(
+        urlParams,
+        i,
+        "key",
+        (e.target as HTMLInputElement).value,
+      );
     });
     tdKey.appendChild(inputKey);
 
@@ -93,7 +55,12 @@ const render = () => {
     inputValue.className = "form-control";
     inputValue.value = param.value;
     inputValue.addEventListener("input", (e) => {
-      urlParams = updateUrlParams(urlParams, i, "value", e.target.value);
+      urlParams = updateUrlParams(
+        urlParams,
+        i,
+        "value",
+        (e.target as HTMLInputElement).value,
+      );
     });
     tdValue.appendChild(inputValue);
 
@@ -119,11 +86,11 @@ const render = () => {
 
 // Event Listeners
 parsedUrlInput.addEventListener("input", (e) => {
-  parsedUrlText = e.target.value;
+  parsedUrlText = (e.target as HTMLInputElement).value;
 });
 
 baseUrlInput.addEventListener("input", (e) => {
-  baseUrlText = e.target.value;
+  baseUrlText = (e.target as HTMLInputElement).value;
 });
 
 parseUrlBtn.addEventListener("click", () => {
