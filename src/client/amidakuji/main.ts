@@ -137,11 +137,17 @@ function render() {
     isEndNodeArray[endPoint.col] = true;
   }
 
+  const getColPercent = (col: number) => {
+    if (state.numLines <= 1) return 50;
+    return (col / (state.numLines - 1)) * 100;
+  };
+
   // Top Labels
   topLabelsContainer.innerHTML = "";
   state.topLabels.forEach((label, i) => {
     const container = document.createElement("div");
     container.className = "labelContainer";
+    container.style.left = `${getColPercent(i)}%`;
 
     const input = document.createElement("input");
     input.type = "text";
@@ -176,6 +182,7 @@ function render() {
   state.bottomLabels.forEach((label, i) => {
     const container = document.createElement("div");
     container.className = "labelContainer";
+    container.style.left = `${getColPercent(i)}%`;
 
     const input = document.createElement("input");
     input.type = "text";
@@ -196,21 +203,18 @@ function render() {
   });
 
   // SVG
-  const width = 100 * (state.numLines - 1);
-  const height = 400;
-  const paddingX = 50;
-  const paddingY = 20;
+  const width = 100;
+  const height = 400; // Keep height relatively large to maintain line aspect ratio in percentage space
   const rowSpacing = height / (ROWS + 1);
-  const colSpacing = width / (state.numLines - 1 || 1);
 
-  const getX = (col: number) => paddingX + col * colSpacing;
-  const getY = (row: number) => paddingY + (row + 1) * rowSpacing;
+  const getX = (col: number) => getColPercent(col);
+  const getY = (row: number) => (row + 1) * rowSpacing;
 
   let svgHtml = `
     <svg
       width="100%"
       height="100%"
-      viewBox="0 0 ${width + paddingX * 2} ${height + paddingY * 2}"
+      viewBox="0 0 ${width} ${height}"
       preserveAspectRatio="none"
       class="svgContainer"
     >
@@ -218,9 +222,7 @@ function render() {
 
   // Vertical lines
   for (let i = 0; i < state.numLines; i++) {
-    svgHtml += `<line x1="${getX(i)}" y1="${paddingY}" x2="${getX(i)}" y2="${
-      paddingY + height
-    }" stroke="#ccc" stroke-width="4" vector-effect="non-scaling-stroke" />`;
+    svgHtml += `<line x1="${getX(i)}" y1="0" x2="${getX(i)}" y2="${height}" stroke="#ccc" stroke-width="4" vector-effect="non-scaling-stroke" />`;
   }
 
   // Horizontal lines
@@ -243,9 +245,9 @@ function render() {
     const points = selectedPath
       .map((p) => {
         const y = p.row === -1
-          ? paddingY
+          ? 0
           : p.row === ROWS
-          ? paddingY + height
+          ? height
           : getY(p.row);
         return `${getX(p.col)},${y}`;
       })
