@@ -1,8 +1,8 @@
 import {
-  EncodingMode,
+  EncodeDecodeMode as EncodingMode,
   toDecodedText,
   toEncodedText,
-} from "@/utils/encodeDecodeUtils";
+} from "@/utils/encodeDecodeUtils.ts";
 
 const modeSelect = document.getElementById("modeSelect") as HTMLSelectElement;
 const encodingTextarea = document.getElementById(
