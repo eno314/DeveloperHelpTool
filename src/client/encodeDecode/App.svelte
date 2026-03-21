@@ -1,6 +1,9 @@
 <script lang="ts">
   import {
     type EncodeDecodeMode as EncodingMode,
+    getEncodingLabelText,
+    getEncodingPlaceholderText,
+    getShowUploadContainers,
     toDecodedText,
     toEncodedText,
   } from "../../domain/encodeDecode.ts";
@@ -10,13 +13,9 @@
   let decodingText = $state("");
 
   // Derived states based on mode
-  let showUploadContainers = $derived(mode === "JSON");
-  let encodingLabelText = $derived(
-    mode === "Base64"
-      ? "Please input text you'd like to encode. (UTF-8)"
-      : "Please input text you'd like to encode."
-  );
-  let encodingPlaceholderText = $derived(mode === "Base64" ? "UTF-8" : "");
+  let showUploadContainers = $derived(getShowUploadContainers(mode));
+  let encodingLabelText = $derived(getEncodingLabelText(mode));
+  let encodingPlaceholderText = $derived(getEncodingPlaceholderText(mode));
 
   function handleModeChange() {
     encodingText = "";

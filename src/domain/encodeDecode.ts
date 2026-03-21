@@ -82,3 +82,17 @@ const base64Handler: encodeDecodeHandler = {
     }
   },
 };
+
+export const getShowUploadContainers = (mode: EncodeDecodeMode): boolean => {
+  return mode === "JSON";
+};
+
+export const getEncodingLabelText = (mode: EncodeDecodeMode): string => {
+  return mode === "Base64"
+    ? "Please input text you'd like to encode. (UTF-8)"
+    : "Please input text you'd like to encode.";
+};
+
+export const getEncodingPlaceholderText = (mode: EncodeDecodeMode): string => {
+  return mode === "Base64" ? "UTF-8" : "";
+};
