@@ -9,14 +9,14 @@ test.describe("Curl Builder Tool Tests", () => {
     await expect(page).toHaveTitle("Developer Help Tool - Curl Builder Tool");
 
     const outputTextarea = page.locator("#curlOutput");
-    await expect(outputTextarea).toHaveValue('curl ""');
+    await expect(outputTextarea).toHaveValue("curl ''");
   });
 
   test("should update curl command when URL is entered", async ({ page }) => {
     await page.fill("#urlInput", "https://example.com/api");
 
     const outputTextarea = page.locator("#curlOutput");
-    await expect(outputTextarea).toHaveValue('curl "https://example.com/api"');
+    await expect(outputTextarea).toHaveValue("curl 'https://example.com/api'");
   });
 
   test("should handle changing method to POST and add body", async ({ page }) => {
@@ -28,13 +28,13 @@ test.describe("Curl Builder Tool Tests", () => {
 
     // Output should update
     const outputTextarea = page.locator("#curlOutput");
-    await expect(outputTextarea).toHaveValue('curl -X POST "http://localhost"');
+    await expect(outputTextarea).toHaveValue("curl -X POST 'http://localhost'");
 
     // Fill Body
     await page.fill("#bodyTextarea", '{"test": 123}');
 
     await expect(outputTextarea).toHaveValue(
-      'curl -X POST "http://localhost" -d \'{"test": 123}\'',
+      "curl -X POST 'http://localhost' -d '{\"test\": 123}'",
     );
   });
 
@@ -54,12 +54,12 @@ test.describe("Curl Builder Tool Tests", () => {
 
     const outputTextarea = page.locator("#curlOutput");
     await expect(outputTextarea).toHaveValue(
-      'curl "" -H "Authorization: Bearer token"',
+      "curl '' -H 'Authorization: Bearer token'",
     );
 
     // Remove Header
     await page.click('button[aria-label="Remove header"]');
-    await expect(outputTextarea).toHaveValue('curl ""');
+    await expect(outputTextarea).toHaveValue("curl ''");
   });
 
   test("should verify body quote escaping", async ({ page }) => {
@@ -69,7 +69,7 @@ test.describe("Curl Builder Tool Tests", () => {
 
     const outputTextarea = page.locator("#curlOutput");
     await expect(outputTextarea).toHaveValue(
-      "curl -X PUT \"\" -d 'It'\\''s a test'",
+      "curl -X PUT '' -d 'It'\\''s a test'",
     );
   });
 });
