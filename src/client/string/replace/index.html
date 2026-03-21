@@ -10,17 +10,6 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     >
-    <style>
-      .textarea {
-        height: 200px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-      }
-      .buttonsRow {
-        margin-top: 5px;
-        margin-bottom: 5px;
-      }
-    </style>
   </head>
   <body>
     <div class="container mt-5">
@@ -29,6 +18,17 @@
       <div id="app"></div>
     </div>
 
-    <script type="module" src="./main.ts"></script>
+    <script type="module">
+      import { mount } from "svelte";
+      import App from "./App.svelte";
+
+      const appElement = document.getElementById("app");
+
+      if (appElement) {
+        mount(App, {
+          target: appElement,
+        });
+      }
+    </script>
   </body>
 </html>

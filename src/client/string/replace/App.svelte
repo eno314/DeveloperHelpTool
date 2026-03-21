@@ -11,6 +11,18 @@
   }
 </script>
 
+<style>
+  .textarea {
+    height: 200px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .buttonsRow {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+</style>
+
 <div class="container">
   <div class="row form-floating">
     <textarea
