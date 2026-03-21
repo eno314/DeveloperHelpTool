@@ -1,4 +1,4 @@
-import { replaceStr } from "@/utils/stringUtils.ts";
+import { replaceStr } from "../../../utils/stringUtils.ts";
 
 document.getElementById("applyBtn")?.addEventListener("click", () => {
   const replacedStr = (

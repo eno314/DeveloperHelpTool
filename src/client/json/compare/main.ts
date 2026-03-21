@@ -1,4 +1,4 @@
-import { diffLines, Change as DiffResult } from "@/utils/diff.ts";
+import { diffLines, Change as DiffResult } from "../../../utils/diff.ts";
 
 // DOM Elements
 const leftFileInput = document.getElementById(

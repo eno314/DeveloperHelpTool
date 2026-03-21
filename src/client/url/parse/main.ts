@@ -5,7 +5,7 @@ import {
   removeUrlParamOf,
   updateUrlParams,
   type UrlParam,
-} from "@/utils/urlParseUtils.ts";
+} from "../../../utils/urlParseUtils.ts";
 
 // State
 let parsedUrlText = "";

@@ -20,11 +20,6 @@ export default defineConfig({
       },
     },
   },
-  resolve: {
-    alias: {
-      "@": resolve(__dirname, "src"),
-    },
-  },
   preview: {
     port: 8000,
     strictPort: true,
