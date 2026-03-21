@@ -1,5 +1,9 @@
-export function formatDate(date: Date, timeZone: string): string {
-  const formatter = new Intl.DateTimeFormat("en-CA", {
+export function formatDate(
+  date: Date,
+  timeZone: string,
+  formatter?: Intl.DateTimeFormat,
+): string {
+  const dtFormatter = formatter || new Intl.DateTimeFormat("en-CA", {
     timeZone,
     year: "numeric",
     month: "2-digit",
@@ -10,7 +14,7 @@ export function formatDate(date: Date, timeZone: string): string {
     hour12: false,
   });
 
-  const parts = formatter.formatToParts(date);
+  const parts = dtFormatter.formatToParts(date);
   const yyyy = parts.find((p) => p.type === "year")?.value;
   const mm = parts.find((p) => p.type === "month")?.value;
   const dd = parts.find((p) => p.type === "day")?.value;
@@ -19,7 +23,7 @@ export function formatDate(date: Date, timeZone: string): string {
   const ss = parts.find((p) => p.type === "second")?.value;
 
   if (!yyyy || !mm || !dd || !hh || !min || !ss) {
-    return formatter.format(date);
+    return dtFormatter.format(date);
   }
 
   let formattedHh = hh;
@@ -30,6 +34,14 @@ export function formatDate(date: Date, timeZone: string): string {
   return `${yyyy}-${mm}-${dd} ${formattedHh}:${min}:${ss}`;
 }
 
+/**
+ * Parses a date string in "YYYY-MM-DD HH:mm:ss" format.
+ * Due to JavaScript's Date limitations, it only natively supports parsing
+ * the given string as either UTC (if timeZone === "UTC") or the runtime's local timezone.
+ * Arbitrary IANA timezones are ignored and treated as local time.
+ * @param dateStr the date string to parse
+ * @param timeZone "UTC" or any other string (treated as local)
+ */
 export function parseFormattedDate(
   dateStr: string,
   timeZone: string,
@@ -39,16 +51,13 @@ export function parseFormattedDate(
 
   try {
     const isoStr = dateStr.replace(" ", "T");
-    let fullStr = "";
     if (timeZone === "UTC") {
-      fullStr = `${isoStr}Z`;
+      const date = new Date(`${isoStr}Z`);
+      return isNaN(date.getTime()) ? null : date;
     } else {
-      const d = new Date(isoStr);
-      if (isNaN(d.getTime())) return null;
-      return d;
+      const date = new Date(isoStr);
+      return isNaN(date.getTime()) ? null : date;
     }
-    const date = new Date(fullStr);
-    return isNaN(date.getTime()) ? null : date;
   } catch {
     return null;
   }

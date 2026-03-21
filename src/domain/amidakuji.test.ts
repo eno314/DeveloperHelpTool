@@ -4,9 +4,16 @@ import { generateHorizontalLines, getPath } from "./amidakuji.ts";
 Deno.test("generateHorizontalLines returns array of points within bounds", () => {
   const numLines = 5;
   const rows = 10;
-  const lines = generateHorizontalLines(numLines, rows);
+  // Use a deterministic random function for testing
+  let counter = 0;
+  const mockRandom = () => {
+    counter++;
+    return counter % 2 === 0 ? 0.7 : 0.4;
+  };
+  const lines = generateHorizontalLines(numLines, rows, mockRandom);
 
   expect(Array.isArray(lines)).toBe(true);
+  expect(lines.length).toBeGreaterThan(0); // Should have generated some lines
 
   for (const line of lines) {
     expect(line.col).toBeGreaterThanOrEqual(0);
@@ -14,6 +21,13 @@ Deno.test("generateHorizontalLines returns array of points within bounds", () =>
     expect(line.row).toBeGreaterThanOrEqual(0);
     expect(line.row).toBeLessThan(rows);
   }
+});
+
+Deno.test("generateHorizontalLines uses Math.random by default", () => {
+  const numLines = 3;
+  const rows = 5;
+  const lines = generateHorizontalLines(numLines, rows);
+  expect(Array.isArray(lines)).toBe(true);
 });
 
 Deno.test("getPath calculates correct path without lines", () => {

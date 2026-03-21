@@ -3,12 +3,13 @@ export type Point = { col: number; row: number };
 export function generateHorizontalLines(
   numLines: number,
   rows: number,
+  randomFn: () => number = Math.random,
 ): Point[] {
   const newLines: Point[] = [];
   for (let r = 0; r < rows; r++) {
     let c = 0;
     while (c < numLines - 1) {
-      if (Math.random() > 0.6) {
+      if (randomFn() > 0.6) {
         newLines.push({ col: c, row: r });
         c += 2;
       } else {

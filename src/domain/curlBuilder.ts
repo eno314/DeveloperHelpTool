@@ -8,25 +8,31 @@ export function buildCurlCommand(
 ): string {
   let cmd = "curl";
 
-  if (method !== "GET") {
-    cmd += ` -X ${method}`;
+  // Strict allowlist for HTTP methods
+  const allowedMethods = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD", "TRACE"];
+  const safeMethod = allowedMethods.includes(method.toUpperCase()) ? method.toUpperCase() : "GET";
+
+  if (safeMethod !== "GET") {
+    cmd += ` -X ${safeMethod}`;
   }
 
+  // Escape single quotes for shell safety
+  const escapeShellArg = (arg: string) => `'${arg.replace(/'/g, "'\\''")}'`;
+
   if (url) {
-    cmd += ` "${url}"`;
+    cmd += ` ${escapeShellArg(url)}`;
   } else {
-    cmd += ' ""';
+    cmd += " ''";
   }
 
   for (const h of headers) {
     if (h.key || h.value) {
-      cmd += ` -H "${h.key}: ${h.value}"`;
+      cmd += ` -H ${escapeShellArg(`${h.key}: ${h.value}`)}`;
     }
   }
 
-  if (["POST", "PUT", "PATCH"].includes(method) && body) {
-    const escapedBody = body.replace(/'/g, "'\\''");
-    cmd += ` -d '${escapedBody}'`;
+  if (["POST", "PUT", "PATCH"].includes(safeMethod) && body) {
+    cmd += ` -d ${escapeShellArg(body)}`;
   }
 
   return cmd;

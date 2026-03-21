@@ -49,38 +49,29 @@ Deno.test("parseFormattedDate handles invalid UTC date bounds", () => {
   expect(result).toBeNull();
 });
 
-Deno.test("formatDate handles midnight (24->00)", () => {
-  // In node/v8, formatToParts can return '24' for midnight.
-  // We mock the timezone parts to test this since actual dates might always return '00'.
-  // This is purely an internal sanity test so we'll just test the main branches.
-});
 Deno.test("formatDate handles missing parts by mocking", () => {
-  const originalFormatToParts = Intl.DateTimeFormat.prototype.formatToParts;
-  try {
-    Intl.DateTimeFormat.prototype.formatToParts = () => [];
-    const result = formatDate(new Date(2023, 4, 15), "UTC");
-    expect(result).toBeDefined(); // Should fall back to regular format()
-  } finally {
-    Intl.DateTimeFormat.prototype.formatToParts = originalFormatToParts;
-  }
+  // Inject custom formatter to test branch
+  const customFormatter = {
+    formatToParts: () => [],
+    format: (_date: Date) => "Fallback format",
+  } as unknown as Intl.DateTimeFormat;
+  const result = formatDate(new Date(2023, 4, 15), "UTC", customFormatter);
+  expect(result).toBe("Fallback format");
 });
 
 Deno.test("formatDate handles midnight 24 hour", () => {
-  const originalFormatToParts = Intl.DateTimeFormat.prototype.formatToParts;
-  try {
-    Intl.DateTimeFormat.prototype.formatToParts = () => [
+  const customFormatter = {
+    formatToParts: () => [
       { type: "year", value: "2023" },
       { type: "month", value: "05" },
       { type: "day", value: "15" },
       { type: "hour", value: "24" },
       { type: "minute", value: "30" },
       { type: "second", value: "45" },
-    ];
-    const result = formatDate(new Date(2023, 4, 15), "UTC");
-    expect(result).toBe("2023-05-15 00:30:45");
-  } finally {
-    Intl.DateTimeFormat.prototype.formatToParts = originalFormatToParts;
-  }
+    ],
+  } as unknown as Intl.DateTimeFormat;
+  const result = formatDate(new Date(2023, 4, 15), "UTC", customFormatter);
+  expect(result).toBe("2023-05-15 00:30:45");
 });
 
 Deno.test("parseFormattedDate fallback branch local time valid", () => {
