@@ -130,133 +130,98 @@ const timeTableBody = document.getElementById(
 const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 let selectedTimezone = "";
 
-function updateCurrentTime() {
-  const now = new Date();
-  const ts = Math.floor(now.getTime() / 1000);
-  currentTimestampEl.textContent = ts.toString();
 
-  let html = "";
-  const localTimeStr = formatDate(now, localTimeZone);
-  html += `
-    <tr>
-      <td class="align-middle">Local Time</td>
-      <td class="text-monospace align-middle" id="localTimeVal">${localTimeStr}</td>
-      <td>
-        <button type="button" id="copyLocalTimeBtn" class="btn btn-sm btn-outline-primary" aria-label="Copy time for Local Time">Copy</button>
-      </td>
-    </tr>
-  `;
-
-  const utcTimeStr = formatDate(now, "UTC");
-  html += `
-    <tr>
-      <td class="align-middle">UTC (GMT)</td>
-      <td class="text-monospace align-middle" id="utcTimeVal">${utcTimeStr}</td>
-      <td>
-        <button type="button" id="copyUtcTimeBtn" class="btn btn-sm btn-outline-primary" aria-label="Copy time for UTC (GMT)">Copy</button>
-      </td>
-    </tr>
-  `;
-
+function initTimeTable() {
   let tzSelectOptions = '<option value="">Select a Timezone...</option>';
   TIMEZONE_GROUPS.forEach((group) => {
     tzSelectOptions += `<optgroup label="${group.group}">`;
     group.options.forEach((tz) => {
-      const selected = selectedTimezone === tz.value ? "selected" : "";
-      tzSelectOptions +=
-        `<option value="${tz.value}" ${selected}>${tz.label}</option>`;
+      tzSelectOptions += `<option value="${tz.value}">${tz.label}</option>`;
     });
     tzSelectOptions += `</optgroup>`;
   });
 
-  const selectedTimeStr = selectedTimezone
-    ? formatDate(now, selectedTimezone)
-    : "";
-  const copyBtnHtml = selectedTimezone
-    ? `<button type="button" id="copySelectedTimeBtn" class="btn btn-sm btn-outline-primary" aria-label="Copy time for selected timezone">Copy</button>`
-    : "";
-
-  html += `
+  const html = `
+    <tr>
+      <td class="align-middle">Local Time</td>
+      <td class="text-monospace align-middle" id="localTimeVal"></td>
+      <td>
+        <button type="button" id="copyLocalTimeBtn" class="btn btn-sm btn-outline-primary" aria-label="Copy time for Local Time">Copy</button>
+      </td>
+    </tr>
+    <tr>
+      <td class="align-middle">UTC (GMT)</td>
+      <td class="text-monospace align-middle" id="utcTimeVal"></td>
+      <td>
+        <button type="button" id="copyUtcTimeBtn" class="btn btn-sm btn-outline-primary" aria-label="Copy time for UTC (GMT)">Copy</button>
+      </td>
+    </tr>
     <tr>
       <td class="align-middle">
         <select class="form-select form-select-sm" id="timezoneSelect" aria-label="Select timezone">
           ${tzSelectOptions}
         </select>
       </td>
-      <td class="text-monospace align-middle" id="selectedTimeVal">${selectedTimeStr}</td>
-      <td>${copyBtnHtml}</td>
+      <td class="text-monospace align-middle" id="selectedTimeVal"></td>
+      <td>
+        <button type="button" id="copySelectedTimeBtn" class="btn btn-sm btn-outline-primary d-none" aria-label="Copy time for selected timezone">Copy</button>
+      </td>
     </tr>
   `;
 
-  let isLocalCopied = false;
-  let isUtcCopied = false;
-  let isSelectedCopied = false;
-
-  const oldLocalBtn = document.getElementById("copyLocalTimeBtn");
-  if (oldLocalBtn) isLocalCopied = oldLocalBtn.textContent === "Copied!";
-
-  const oldUtcBtn = document.getElementById("copyUtcTimeBtn");
-  if (oldUtcBtn) isUtcCopied = oldUtcBtn.textContent === "Copied!";
-
-  const oldSelectedBtn = document.getElementById("copySelectedTimeBtn");
-  if (oldSelectedBtn) {
-    isSelectedCopied = oldSelectedBtn.textContent === "Copied!";
-  }
-
   timeTableBody.innerHTML = html;
 
-  if (isLocalCopied) {
-    const btn = document.getElementById("copyLocalTimeBtn");
-    if (btn) {
-      btn.textContent = "Copied!";
-      btn.className = "btn btn-sm btn-success";
+  document.getElementById("timezoneSelect")?.addEventListener("change", (e) => {
+    selectedTimezone = (e.target as HTMLSelectElement).value;
+    updateCurrentTime();
+  });
+
+  document.getElementById("copyLocalTimeBtn")?.addEventListener("click", function () {
+    handleCopy(document.getElementById("localTimeVal")!.textContent!, this);
+  });
+
+  document.getElementById("copyUtcTimeBtn")?.addEventListener("click", function () {
+    handleCopy(document.getElementById("utcTimeVal")!.textContent!, this);
+  });
+
+  document.getElementById("copySelectedTimeBtn")?.addEventListener("click", function () {
+    handleCopy(document.getElementById("selectedTimeVal")!.textContent!, this);
+  });
+}
+
+function updateCurrentTime() {
+  const now = new Date();
+  const ts = Math.floor(now.getTime() / 1000);
+  currentTimestampEl.textContent = ts.toString();
+
+  const localTimeValEl = document.getElementById("localTimeVal");
+  if (localTimeValEl) {
+    localTimeValEl.textContent = formatDate(now, localTimeZone);
+  }
+
+  const utcTimeValEl = document.getElementById("utcTimeVal");
+  if (utcTimeValEl) {
+    utcTimeValEl.textContent = formatDate(now, "UTC");
+  }
+
+  const selectedTimeValEl = document.getElementById("selectedTimeVal");
+  const copySelectedBtnEl = document.getElementById("copySelectedTimeBtn");
+
+  if (selectedTimezone) {
+    if (selectedTimeValEl) {
+      selectedTimeValEl.textContent = formatDate(now, selectedTimezone);
+    }
+    if (copySelectedBtnEl) {
+      copySelectedBtnEl.classList.remove("d-none");
+    }
+  } else {
+    if (selectedTimeValEl) {
+      selectedTimeValEl.textContent = "";
+    }
+    if (copySelectedBtnEl) {
+      copySelectedBtnEl.classList.add("d-none");
     }
   }
-  if (isUtcCopied) {
-    const btn = document.getElementById("copyUtcTimeBtn");
-    if (btn) {
-      btn.textContent = "Copied!";
-      btn.className = "btn btn-sm btn-success";
-    }
-  }
-  if (isSelectedCopied) {
-    const btn = document.getElementById("copySelectedTimeBtn");
-    if (btn) {
-      btn.textContent = "Copied!";
-      btn.className = "btn btn-sm btn-success";
-    }
-  }
-
-  document
-    .getElementById("timezoneSelect")
-    ?.addEventListener("change", (e) => {
-      selectedTimezone = (e.target as HTMLSelectElement).value;
-      updateCurrentTime();
-    });
-
-  document.getElementById("copyLocalTimeBtn")?.addEventListener(
-    "click",
-    function () {
-      handleCopy(document.getElementById("localTimeVal")!.textContent!, this);
-    },
-  );
-
-  document.getElementById("copyUtcTimeBtn")?.addEventListener(
-    "click",
-    function () {
-      handleCopy(document.getElementById("utcTimeVal")!.textContent!, this);
-    },
-  );
-
-  document.getElementById("copySelectedTimeBtn")?.addEventListener(
-    "click",
-    function () {
-      handleCopy(
-        document.getElementById("selectedTimeVal")!.textContent!,
-        this,
-      );
-    },
-  );
 }
 
 document.getElementById("copyTimestampBtn")?.addEventListener(
@@ -318,5 +283,6 @@ converterUtcTimeEl.addEventListener("input", (e) => {
   }
 });
 
+initTimeTable();
 setInterval(updateCurrentTime, 100);
 updateCurrentTime();
