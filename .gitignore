@@ -42,3 +42,7 @@ dev.log
 
 dist/
 hono.log
+
+# vite
+.vite/
+src/client/.vite/
