@@ -56,26 +56,33 @@ Deno.test("formatDate handles midnight (24->00)", () => {
 });
 Deno.test("formatDate handles missing parts by mocking", () => {
   const originalFormatToParts = Intl.DateTimeFormat.prototype.formatToParts;
-  Intl.DateTimeFormat.prototype.formatToParts = () => [];
-  const result = formatDate(new Date(2023, 4, 15), "UTC");
-  expect(result).toBeDefined(); // Should fall back to regular format()
-  Intl.DateTimeFormat.prototype.formatToParts = originalFormatToParts;
+  try {
+    Intl.DateTimeFormat.prototype.formatToParts = () => [];
+    const result = formatDate(new Date(2023, 4, 15), "UTC");
+    expect(result).toBeDefined(); // Should fall back to regular format()
+  } finally {
+    Intl.DateTimeFormat.prototype.formatToParts = originalFormatToParts;
+  }
 });
 
 Deno.test("formatDate handles midnight 24 hour", () => {
   const originalFormatToParts = Intl.DateTimeFormat.prototype.formatToParts;
-  Intl.DateTimeFormat.prototype.formatToParts = () => [
-    { type: "year", value: "2023" },
-    { type: "month", value: "05" },
-    { type: "day", value: "15" },
-    { type: "hour", value: "24" },
-    { type: "minute", value: "30" },
-    { type: "second", value: "45" },
-  ];
-  const result = formatDate(new Date(2023, 4, 15), "UTC");
-  expect(result).toBe("2023-05-15 00:30:45");
-  Intl.DateTimeFormat.prototype.formatToParts = originalFormatToParts;
+  try {
+    Intl.DateTimeFormat.prototype.formatToParts = () => [
+      { type: "year", value: "2023" },
+      { type: "month", value: "05" },
+      { type: "day", value: "15" },
+      { type: "hour", value: "24" },
+      { type: "minute", value: "30" },
+      { type: "second", value: "45" },
+    ];
+    const result = formatDate(new Date(2023, 4, 15), "UTC");
+    expect(result).toBe("2023-05-15 00:30:45");
+  } finally {
+    Intl.DateTimeFormat.prototype.formatToParts = originalFormatToParts;
+  }
 });
+
 Deno.test("parseFormattedDate fallback branch local time valid", () => {
   const d = parseFormattedDate("2023-05-15 12:30:45", "Non-UTC");
   expect(d).not.toBeNull();
@@ -83,28 +90,31 @@ Deno.test("parseFormattedDate fallback branch local time valid", () => {
 
 Deno.test("parseFormattedDate fallback branch local time invalid", () => {
   const originalDate = globalThis.Date;
-  // @ts-ignore: Mock Date globally briefly to force isNaN
-  globalThis.Date = class extends originalDate {
-    constructor(...args: any[]) {
+  try {
+    // @ts-ignore: Mock Date globally briefly to force isNaN
+    globalThis.Date = function (...args: unknown[]) {
       if (args.length === 1 && typeof args[0] === "string" && args[0] === "2023-05-15T12:30:45") {
-        super("invalid");
-      } else {
-        super(...args as []);
+        return new originalDate("invalid");
       }
-    }
-  };
-  const d = parseFormattedDate("2023-05-15 12:30:45", "Non-UTC");
-  expect(d).toBeNull();
-  globalThis.Date = originalDate;
+      return new originalDate(...(args as []));
+    } as unknown as typeof Date;
+    const d = parseFormattedDate("2023-05-15 12:30:45", "Non-UTC");
+    expect(d).toBeNull();
+  } finally {
+    globalThis.Date = originalDate;
+  }
 });
 
 Deno.test("parseFormattedDate throws in catch block", () => {
   const originalDate = globalThis.Date;
-  // @ts-ignore: throw error to hit catch block
-  globalThis.Date = class {
-    constructor() { throw new Error("mock error"); }
-  };
-  const d = parseFormattedDate("2023-05-15 12:30:45", "UTC");
-  expect(d).toBeNull();
-  globalThis.Date = originalDate;
+  try {
+    // @ts-ignore: throw error to hit catch block
+    globalThis.Date = class {
+      constructor() { throw new Error("mock error"); }
+    };
+    const d = parseFormattedDate("2023-05-15 12:30:45", "UTC");
+    expect(d).toBeNull();
+  } finally {
+    globalThis.Date = originalDate;
+  }
 });
