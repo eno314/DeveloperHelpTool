@@ -10,83 +10,25 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     >
-    <style>
-      .textarea {
-        height: 200px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-      }
-      .buttonsRow {
-        margin-top: 5px;
-        margin-bottom: 5px;
-      }
-    </style>
   </head>
   <body>
     <div class="container mt-5">
       <h1>Developer Help Tool - String Replace Tool</h1>
 
-      <div id="root">
-        <div class="container">
-          <div class="row form-floating">
-            <textarea
-              class="form-control textarea"
-              id="replacedTextarea"
-            ></textarea>
-            <label for="replacedTextarea">
-              Please input text you'd like to replace.
-            </label>
-          </div>
-          <div class="row buttonsRow">
-            <div class="input-group mb-3 col">
-              <span class="input-group-text" id="targetSubstrSpan">
-                target substr
-              </span>
-              <input
-                aria-describedby="targetSubstrSpan"
-                class="form-control"
-                id="targetSubstr"
-                placeholder="Supports regular expression"
-                type="text"
-              />
-            </div>
-            <div class="input-group mb-3 col">
-              <span class="input-group-text" id="newSubstrSpan">
-                new substr
-              </span>
-              <input
-                aria-describedby="newSubstrSpan"
-                class="form-control"
-                id="newSubstr"
-                type="text"
-              />
-            </div>
-          </div>
-          <div class="row buttonsRow">
-            <div class="col text-center">
-              <button
-                type="button"
-                class="btn btn-primary"
-                id="applyBtn"
-              >
-                ▼ Apply
-              </button>
-            </div>
-          </div>
-          <div class="row form-floating">
-            <textarea
-              class="form-control textarea"
-              id="newTextarea"
-              readonly
-            ></textarea>
-            <label for="newTextarea">
-              If you click apply button, replaced string will appear here.
-            </label>
-          </div>
-        </div>
-      </div>
+      <div id="app"></div>
     </div>
 
-    <script type="module" src="./main.ts"></script>
+    <script type="module">
+      import { mount } from "svelte";
+      import App from "./App.svelte";
+
+      const appElement = document.getElementById("app");
+
+      if (appElement) {
+        mount(App, {
+          target: appElement,
+        });
+      }
+    </script>
   </body>
 </html>
