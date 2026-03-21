@@ -1,0 +1,116 @@
+{
+  "scriptId": "306",
+  "url": "file:///app/src/domain/amidakuji.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 0,
+          "endOffset": 1169,
+          "count": 1
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "generateHorizontalLines",
+      "ranges": [
+        {
+          "startOffset": 7,
+          "endOffset": 347,
+          "count": 1
+        },
+        {
+          "startOffset": 112,
+          "endOffset": 326,
+          "count": 10
+        },
+        {
+          "startOffset": 156,
+          "endOffset": 322,
+          "count": 30
+        },
+        {
+          "startOffset": 189,
+          "endOffset": 285,
+          "count": 13
+        },
+        {
+          "startOffset": 285,
+          "endOffset": 316,
+          "count": 17
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "getPath",
+      "ranges": [
+        {
+          "startOffset": 355,
+          "endOffset": 1168,
+          "count": 2
+        },
+        {
+          "startOffset": 544,
+          "endOffset": 1096,
+          "count": 10
+        },
+        {
+          "startOffset": 740,
+          "endOffset": 906,
+          "count": 2
+        },
+        {
+          "startOffset": 906,
+          "endOffset": 1092,
+          "count": 8
+        },
+        {
+          "startOffset": 926,
+          "endOffset": 1092,
+          "count": 1
+        },
+        {
+          "startOffset": 1096,
+          "endOffset": 1167,
+          "count": 10
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 589,
+          "endOffset": 629,
+          "count": 9
+        },
+        {
+          "startOffset": 606,
+          "endOffset": 629,
+          "count": 3
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 674,
+          "endOffset": 718,
+          "count": 12
+        },
+        {
+          "startOffset": 691,
+          "endOffset": 718,
+          "count": 3
+        }
+      ],
+      "isBlockCoverage": true
+    }
+  ]
+}

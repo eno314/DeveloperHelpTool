@@ -1,0 +1,63 @@
+{
+  "scriptId": "306",
+  "url": "file:///app/src/domain/curlBuilder.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 0,
+          "endOffset": 503,
+          "count": 1
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "buildCurlCommand",
+      "ranges": [
+        {
+          "startOffset": 7,
+          "endOffset": 502,
+          "count": 5
+        },
+        {
+          "startOffset": 107,
+          "endOffset": 140,
+          "count": 2
+        },
+        {
+          "startOffset": 152,
+          "endOffset": 181,
+          "count": 4
+        },
+        {
+          "startOffset": 181,
+          "endOffset": 210,
+          "count": 1
+        },
+        {
+          "startOffset": 237,
+          "endOffset": 319,
+          "count": 2
+        },
+        {
+          "startOffset": 253,
+          "endOffset": 263,
+          "count": 0
+        },
+        {
+          "startOffset": 384,
+          "endOffset": 391,
+          "count": 2
+        },
+        {
+          "startOffset": 393,
+          "endOffset": 486,
+          "count": 1
+        }
+      ],
+      "isBlockCoverage": true
+    }
+  ]
+}

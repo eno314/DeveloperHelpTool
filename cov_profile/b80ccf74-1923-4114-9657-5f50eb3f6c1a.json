@@ -1,0 +1,60 @@
+{
+  "scriptId": "304",
+  "url": "file:///app/src/domain/amidakuji.test.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 0,
+          "endOffset": 1562,
+          "count": 1
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 180,
+          "endOffset": 547,
+          "count": 1
+        },
+        {
+          "startOffset": 354,
+          "endOffset": 545,
+          "count": 13
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 609,
+          "endOffset": 890,
+          "count": 1
+        },
+        {
+          "startOffset": 852,
+          "endOffset": 888,
+          "count": 2
+        }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [
+        {
+          "startOffset": 949,
+          "endOffset": 1559,
+          "count": 1
+        }
+      ],
+      "isBlockCoverage": true
+    }
+  ]
+}

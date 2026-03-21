@@ -25,3 +25,8 @@ Deno.test("buildCurlCommand includes headers", () => {
   const result = buildCurlCommand("GET", "https://api.example.com", headers, "");
   expect(result).toBe('curl "https://api.example.com" -H "Content-Type: application/json" -H "Authorization: Bearer token"');
 });
+
+Deno.test("buildCurlCommand formats empty URL as empty quotes", () => {
+  const result = buildCurlCommand("GET", "", [], "");
+  expect(result).toBe('curl ""');
+});
