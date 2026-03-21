@@ -5,6 +5,7 @@
     "jsr:@std/assert@^1.0.19": "1.0.19",
     "jsr:@std/async@^1.1.0": "1.2.0",
     "jsr:@std/data-structures@^1.0.10": "1.0.10",
+    "jsr:@std/expect@*": "1.0.18",
     "jsr:@std/expect@^1.0.18": "1.0.18",
     "jsr:@std/fs@^1.0.22": "1.0.23",
     "jsr:@std/internal@^1.0.12": "1.0.12",

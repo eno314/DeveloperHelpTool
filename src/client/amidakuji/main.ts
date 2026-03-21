@@ -1,3 +1,9 @@
+import {
+  generateHorizontalLines,
+  getPath,
+  type Point,
+} from "../../domain/amidakuji.ts";
+
 const MAX_LINES = 15;
 const MIN_LINES = 2;
 const ROWS = 20;
@@ -14,8 +20,6 @@ const bottomLabelsContainer = document.getElementById(
   "bottomLabelsContainer",
 ) as HTMLDivElement;
 const svgWrapper = document.getElementById("svgWrapper") as HTMLDivElement;
-
-type Point = { col: number; row: number };
 
 const state = {
   numLines: 5,
@@ -64,19 +68,7 @@ numLinesInput.addEventListener("blur", (e) => {
 });
 
 generateBtn.addEventListener("click", () => {
-  const newLines: Point[] = [];
-  for (let r = 0; r < ROWS; r++) {
-    let c = 0;
-    while (c < state.numLines - 1) {
-      if (Math.random() > 0.6) {
-        newLines.push({ col: c, row: r });
-        c += 2;
-      } else {
-        c += 1;
-      }
-    }
-  }
-  state.horizontalLines = newLines;
+  state.horizontalLines = generateHorizontalLines(state.numLines, ROWS);
   state.isGenerated = true;
   state.selectedStart = null;
   render();
@@ -97,38 +89,9 @@ clearBtn.addEventListener("click", () => {
   render();
 });
 
-function getPath(startIndex: number): Point[] {
-  const path: Point[] = [];
-  let currentCol = startIndex;
-
-  path.push({ col: currentCol, row: -1 });
-
-  for (let r = 0; r <= ROWS; r++) {
-    const lineRight = state.horizontalLines.find(
-      (l) => l.row === r && l.col === currentCol,
-    );
-    const lineLeft = state.horizontalLines.find(
-      (l) => l.row === r && l.col === currentCol - 1,
-    );
-
-    if (lineRight) {
-      path.push({ col: currentCol, row: r });
-      currentCol += 1;
-      path.push({ col: currentCol, row: r });
-    } else if (lineLeft) {
-      path.push({ col: currentCol, row: r });
-      currentCol -= 1;
-      path.push({ col: currentCol, row: r });
-    }
-  }
-
-  path.push({ col: currentCol, row: ROWS });
-  return path;
-}
-
 function render() {
   const selectedPath = state.selectedStart !== null
-    ? getPath(state.selectedStart)
+    ? getPath(state.selectedStart, state.horizontalLines, ROWS)
     : null;
   const isEndNodeArray = Array(state.numLines).fill(false);
 
