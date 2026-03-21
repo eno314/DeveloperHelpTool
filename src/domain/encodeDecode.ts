@@ -16,12 +16,13 @@ type encodeDecodeHandler = {
 const getEncodeDecodeHandler = (
   mode: EncodeDecodeMode,
 ): encodeDecodeHandler => {
-  if (mode === "URL") {
-    return urlHandler;
-  } else if (mode === "JSON") {
-    return jsonHandler;
-  } else {
-    return base64Handler;
+  switch (mode) {
+    case "URL":
+      return urlHandler;
+    case "JSON":
+      return jsonHandler;
+    case "Base64":
+      return base64Handler;
   }
 };
 
