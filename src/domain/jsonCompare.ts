@@ -1,4 +1,4 @@
-import { diffLines, Change as DiffResult } from "../utils/diff.ts";
+import { Change as DiffResult, diffLines } from "../utils/diff.ts";
 
 export interface JsonCompareResult {
   errorMessage: string;
@@ -14,20 +14,31 @@ export interface JsonCompareResult {
  * @param rightJson The right JSON string
  * @returns An object containing separated differences or an error message
  */
-export function compareJson(leftJson: string, rightJson: string): JsonCompareResult {
+export function compareJson(
+  leftJson: string,
+  rightJson: string,
+): JsonCompareResult {
   let parsedLeft;
   let parsedRight;
 
   try {
     parsedLeft = JSON.parse(leftJson);
   } catch {
-    return { errorMessage: "Left JSON is invalid.", leftDifferences: [], rightDifferences: [] };
+    return {
+      errorMessage: "Left JSON is invalid.",
+      leftDifferences: [],
+      rightDifferences: [],
+    };
   }
 
   try {
     parsedRight = JSON.parse(rightJson);
   } catch {
-    return { errorMessage: "Right JSON is invalid.", leftDifferences: [], rightDifferences: [] };
+    return {
+      errorMessage: "Right JSON is invalid.",
+      leftDifferences: [],
+      rightDifferences: [],
+    };
   }
 
   const formattedLeft = JSON.stringify(parsedLeft, null, 2);

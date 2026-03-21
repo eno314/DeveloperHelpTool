@@ -2,7 +2,9 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Amidakuji Page Tests - Happy Path", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("http://localhost:8000/DeveloperHelpTool/amidakuji/index.html");
+    await page.goto(
+      "http://localhost:8000/DeveloperHelpTool/amidakuji/index.html",
+    );
   });
 
   test("should verify the number of vertical lines for 2 and 15", async ({ page }) => {

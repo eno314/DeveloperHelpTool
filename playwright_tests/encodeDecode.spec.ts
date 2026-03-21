@@ -3,7 +3,9 @@ import { expect, test } from "@playwright/test";
 test.describe("Encode And Decode Tool", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the page
-    await page.goto("http://localhost:8000/DeveloperHelpTool/encodeDecode/index.html");
+    await page.goto(
+      "http://localhost:8000/DeveloperHelpTool/encodeDecode/index.html",
+    );
   });
 
   test("should format URL by default", async ({ page }) => {

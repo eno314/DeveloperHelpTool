@@ -9,8 +9,19 @@ export function buildCurlCommand(
   let cmd = "curl";
 
   // Strict allowlist for HTTP methods
-  const allowedMethods = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD", "TRACE"];
-  const safeMethod = allowedMethods.includes(method.toUpperCase()) ? method.toUpperCase() : "GET";
+  const allowedMethods = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+    "HEAD",
+    "TRACE",
+  ];
+  const safeMethod = allowedMethods.includes(method.toUpperCase())
+    ? method.toUpperCase()
+    : "GET";
 
   if (safeMethod !== "GET") {
     cmd += ` -X ${safeMethod}`;

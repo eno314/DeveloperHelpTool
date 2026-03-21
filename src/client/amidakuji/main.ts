@@ -185,7 +185,9 @@ function render() {
 
   // Vertical lines
   for (let i = 0; i < state.numLines; i++) {
-    svgHtml += `<line x1="${getX(i)}" y1="0" x2="${getX(i)}" y2="${height}" stroke="#ccc" stroke-width="4" vector-effect="non-scaling-stroke" />`;
+    svgHtml += `<line x1="${getX(i)}" y1="0" x2="${
+      getX(i)
+    }" y2="${height}" stroke="#ccc" stroke-width="4" vector-effect="non-scaling-stroke" />`;
   }
 
   // Horizontal lines
@@ -207,11 +209,7 @@ function render() {
   if (selectedPath) {
     const points = selectedPath
       .map((p) => {
-        const y = p.row === -1
-          ? 0
-          : p.row === ROWS
-          ? height
-          : getY(p.row);
+        const y = p.row === -1 ? 0 : p.row === ROWS ? height : getY(p.row);
         return `${getX(p.col)},${y}`;
       })
       .join(" ");

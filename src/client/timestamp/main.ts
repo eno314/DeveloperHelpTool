@@ -79,7 +79,6 @@ const timeTableBody = document.getElementById(
 const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 let selectedTimezone = "";
 
-
 function initTimeTable() {
   let tzSelectOptions = '<option value="">Select a Timezone...</option>';
   TIMEZONE_GROUPS.forEach((group) => {
@@ -125,17 +124,29 @@ function initTimeTable() {
     updateCurrentTime();
   });
 
-  document.getElementById("copyLocalTimeBtn")?.addEventListener("click", function () {
-    handleCopy(document.getElementById("localTimeVal")!.textContent!, this);
-  });
+  document.getElementById("copyLocalTimeBtn")?.addEventListener(
+    "click",
+    function () {
+      handleCopy(document.getElementById("localTimeVal")!.textContent!, this);
+    },
+  );
 
-  document.getElementById("copyUtcTimeBtn")?.addEventListener("click", function () {
-    handleCopy(document.getElementById("utcTimeVal")!.textContent!, this);
-  });
+  document.getElementById("copyUtcTimeBtn")?.addEventListener(
+    "click",
+    function () {
+      handleCopy(document.getElementById("utcTimeVal")!.textContent!, this);
+    },
+  );
 
-  document.getElementById("copySelectedTimeBtn")?.addEventListener("click", function () {
-    handleCopy(document.getElementById("selectedTimeVal")!.textContent!, this);
-  });
+  document.getElementById("copySelectedTimeBtn")?.addEventListener(
+    "click",
+    function () {
+      handleCopy(
+        document.getElementById("selectedTimeVal")!.textContent!,
+        this,
+      );
+    },
+  );
 }
 
 function updateCurrentTime() {

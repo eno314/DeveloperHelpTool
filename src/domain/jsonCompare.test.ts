@@ -21,7 +21,9 @@ Deno.test("compareJson", async (t) => {
     const leftDiffValues = result.leftDifferences.map((d) => d.value).join("");
     expect(leftDiffValues).toContain("30");
 
-    const rightDiffValues = result.rightDifferences.map((d) => d.value).join("");
+    const rightDiffValues = result.rightDifferences.map((d) => d.value).join(
+      "",
+    );
     expect(rightDiffValues).toContain("31");
   });
 

@@ -16,7 +16,10 @@ export default defineConfig({
         curl: resolve(__dirname, "src/client/curl/builder/index.html"),
         encodeDecode: resolve(__dirname, "src/client/encodeDecode/index.html"),
         jsonCompare: resolve(__dirname, "src/client/json/compare/index.html"),
-        stringReplace: resolve(__dirname, "src/client/string/replace/index.html"),
+        stringReplace: resolve(
+          __dirname,
+          "src/client/string/replace/index.html",
+        ),
         timestamp: resolve(__dirname, "src/client/timestamp/index.html"),
         urlParse: resolve(__dirname, "src/client/url/parse/index.html"),
       },
