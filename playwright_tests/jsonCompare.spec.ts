@@ -2,11 +2,13 @@ import { expect, test } from "@playwright/test";
 import { Buffer } from "node:buffer";
 
 test("JSON Compare Tool correctly parses and compares JSON strings", async ({ page }) => {
-  await page.goto("http://localhost:3000/json/compare");
+  await page.goto("http://localhost:8000/json/compare/index.html");
 
   await expect(page).toHaveTitle("Developer Help Tool - JSON Compare Tool");
   await expect(
-    page.getByRole("heading", { name: "JSON Compare Tool" }),
+    page.getByRole("heading", {
+      name: "Developer Help Tool - JSON Compare Tool",
+    }),
   ).toBeVisible();
 
   const leftTextarea = page.locator("textarea").nth(0);
@@ -30,17 +32,17 @@ test("JSON Compare Tool correctly parses and compares JSON strings", async ({ pa
   await expect(page.getByText("Right Result")).toBeVisible();
 
   // "age": 30 should be present and marked as removed on the left side
-  const leftRemovedSpan = page.locator('span[class*="removed"]');
+  const leftRemovedSpan = page.locator("span.removed");
   await expect(leftRemovedSpan).toContainText('"age": 30');
 
   // "age": 31 and "city": "New York" should be present and marked as added on the right side
-  const rightAddedSpan = page.locator('span[class*="added"]');
+  const rightAddedSpan = page.locator("span.added");
   await expect(rightAddedSpan).toContainText('"age": 31');
   await expect(rightAddedSpan).toContainText('"city": "New York"');
 });
 
 test("JSON Compare Tool correctly parses and compares from uploaded JSON files", async ({ page }) => {
-  await page.goto("http://localhost:3000/json/compare");
+  await page.goto("http://localhost:8000/json/compare/index.html");
 
   const validJsonLeft = '{"name": "John", "age": 30}';
   const validJsonRight = '{"name": "John", "age": 31, "city": "New York"}';

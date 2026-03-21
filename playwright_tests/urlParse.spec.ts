@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Url Parse Tool (Hono)", () => {
+test.describe("Url Parse Tool", () => {
   test.beforeEach(async ({ page }) => {
-    // Navigate to the Hono proof-of-concept page
+    // Navigate to the page
     await page.goto("http://localhost:8000/url/parse/index.html");
   });
 

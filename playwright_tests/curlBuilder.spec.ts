@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Curl Builder Tool Tests (Hono)", () => {
+test.describe("Curl Builder Tool Tests", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("http://localhost:8000/curl/builder/index.html");
   });

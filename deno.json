@@ -1,12 +1,9 @@
 {
   "nodeModulesDir": "auto",
   "tasks": {
-    "dev": "deno run -A --node-modules-dir npm:next dev",
-    "dev:client": "deno run -A --node-modules-dir npm:vite",
-    "build:client": "deno run -A --node-modules-dir npm:vite build",
-    "build": "deno task build:client && deno run -A --node-modules-dir npm:next build",
-    "start": "deno run -A --node-modules-dir npm:next start",
-    "start:hono": "deno serve -A src/server.ts"
+    "dev": "npm run dev",
+    "build": "npm run build",
+    "preview": "npm run preview"
   },
   "imports": {
     "@std/expect": "jsr:@std/expect@^1.0.18",
@@ -14,7 +11,6 @@
   },
   "lint": {
     "exclude": [
-      ".next/",
       "build/",
       "coverage/",
       "node_modules/",
@@ -24,13 +20,11 @@
   },
   "fmt": {
     "exclude": [
-      ".next/",
       "build/",
       "coverage/",
       "node_modules/",
       "out/",
-      "dist/",
-      "src/components/molecules/JSONCompareForm/JSONCompareForm.tsx"
+      "dist/"
     ]
   }
 }

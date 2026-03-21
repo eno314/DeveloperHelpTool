@@ -24,4 +24,7 @@ export default defineConfig({
       "@": resolve(__dirname, "src"),
     },
   },
+  preview: {
+    port: 8000,
+  },
 });

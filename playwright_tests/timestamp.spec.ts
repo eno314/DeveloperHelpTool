@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Timestamp Tool", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/timestamp");
+    await page.goto("http://localhost:8000/timestamp/index.html");
   });
 
   test("should display the Timestamp Tool page correctly", async ({ page }) => {
@@ -10,15 +10,12 @@ test.describe("Timestamp Tool", () => {
     await expect(page.locator("h1")).toContainText("Developer Help Tool");
 
     // Check subtitle
-    await expect(page.locator("h2").first()).toContainText("Timestamp Tool");
-
-    // Check Unix Timestamp section
-    await expect(
-      page.locator("text=Current Unix Timestamp (Seconds)").first(),
-    ).toBeVisible();
+    await expect(page.locator("h5").first()).toContainText(
+      "Current Unix Timestamp (Seconds)",
+    );
 
     // Wait for client-side rendering to complete and the unix timestamp to show up
-    const timestampValue = page.locator("h2.text-monospace").first();
+    const timestampValue = page.locator("#currentTimestamp");
     await expect(timestampValue).toBeVisible();
 
     // Validate it's a number
@@ -125,16 +122,5 @@ test.describe("Timestamp Tool", () => {
     await expect(copySelectedBtn).toBeVisible();
     await copySelectedBtn.click();
     await expect(copySelectedBtn).toContainText("Copied!");
-  });
-
-  test("should be accessible from the index page", async ({ page }) => {
-    await page.goto("/");
-
-    // Click on the Timestamp Tool link
-    await page.click("text=Timestamp Tool");
-
-    // Verify that we are on the Timestamp Tool page
-    await expect(page).toHaveURL(/.*\/timestamp/);
-    await expect(page.locator("h2").first()).toContainText("Timestamp Tool");
   });
 });

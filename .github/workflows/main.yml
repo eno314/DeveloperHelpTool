@@ -49,11 +49,19 @@ jobs:
         with:
           node-version: "24.x"
 
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Build Application
+        run: npm run build
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
       - name: UI Test
-        run: npx playwright test playwright_tests/index.spec.ts
+        run: npx playwright test playwright_tests/
