@@ -1,3 +1,5 @@
+import { buildCurlCommand, type Header } from "../../../domain/curlBuilder.ts";
+
 const methodSelect = document.getElementById(
   "methodSelect",
 ) as HTMLSelectElement;
@@ -16,7 +18,6 @@ const bodyTextarea = document.getElementById(
 const curlOutput = document.getElementById("curlOutput") as HTMLTextAreaElement;
 const copyBtn = document.getElementById("copyBtn") as HTMLButtonElement;
 
-type Header = { key: string; value: string };
 const state = {
   method: "GET",
   url: "",
@@ -70,30 +71,12 @@ function renderHeaders() {
 }
 
 function updateCurlCommand() {
-  let cmd = "curl";
-
-  if (state.method !== "GET") {
-    cmd += ` -X ${state.method}`;
-  }
-
-  if (state.url) {
-    cmd += ` "${state.url}"`;
-  } else {
-    cmd += ' ""';
-  }
-
-  for (const h of state.headers) {
-    if (h.key || h.value) {
-      cmd += ` -H "${h.key}: ${h.value}"`;
-    }
-  }
-
-  if (["POST", "PUT", "PATCH"].includes(state.method) && state.body) {
-    const escapedBody = state.body.replace(/'/g, "'\\''");
-    cmd += ` -d '${escapedBody}'`;
-  }
-
-  curlOutput.value = cmd;
+  curlOutput.value = buildCurlCommand(
+    state.method,
+    state.url,
+    state.headers,
+    state.body,
+  );
 }
 
 // Event Listeners
