@@ -23,16 +23,14 @@
 
 ### 使用条件 (Prerequisites)
 
-- Deno (ローカル開発用)
-- Node.js `>=24.0.0` (Vercelデプロイ・CI用)
-- npm
+- Deno
 
 ### インストール
 
-リポジトリをクローン後、依存パッケージをインストールします。
+リポジトリをクローン後、Denoの依存関係をインストールします（通常はタスク実行時に自動で解決されます）。
 
 ```sh
-npm install
+deno install
 ```
 
 ### 開発用サーバーの起動 (Deno環境)
@@ -44,29 +42,29 @@ npm install
 deno task dev
 ```
 
-起動後、ブラウザで [http://localhost:3000](http://localhost:3000)
-にアクセスしてください。
+起動後、ブラウザで [http://localhost:5173/DeveloperHelpTool/](http://localhost:5173/DeveloperHelpTool/)
+にアクセスしてください。（ポート番号は環境により異なる場合があります）
 
-※ Vercel上でのビルド・デプロイには引き続き Node.js (npm) 環境が使用されます。
+※ アプリケーションは GitHub Pages にデプロイされます。
 
 ### テストの実行
 
-Jestによるユニットテストを実行します。
+Denoによるユニットテストを実行します。
 
 ```sh
-npm run test
+deno task test
 ```
 
 カバレッジを出力する場合は以下のコマンドを実行します。
 
 ```sh
-npm run test:coverage
+deno task test:coverage
 ```
 
 PlaywrightによるE2Eテストを実行する場合は以下のコマンドを実行します。
 
 ```sh
-npx playwright test playwright_tests/
+deno run -A npm:playwright test playwright_tests/
 ```
 
 ## 脆弱性の確認・修正 (Support Vulnerability)
@@ -74,13 +72,7 @@ npx playwright test playwright_tests/
 脆弱性のチェック:
 
 ```sh
-npm audit
-```
-
-自動修正の適用:
-
-```sh
-npm update
+deno audit
 ```
 
 ## ライセンス

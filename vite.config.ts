@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import { resolve } from "node:path";
 
 export default defineConfig({
+  base: "/DeveloperHelpTool/",
   root: "client",
   build: {
     outDir: "../dist",
@@ -26,5 +27,6 @@ export default defineConfig({
   },
   preview: {
     port: 8000,
+    strictPort: true,
   },
 });

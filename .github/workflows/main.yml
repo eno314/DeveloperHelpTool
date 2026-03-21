@@ -14,26 +14,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "24.x"
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Type Check
+        run: deno task compile
 
       - name: Unit Test
-        run: npm run test:coverage
+        run: deno task test:coverage
 
       - name: Lint
-        run: npm run lint
+        run: deno task lint
 
       - name: Vulnerability
-        run: npm audit --audit-level=moderate
+        run: deno audit
 
       - name: Upload Coverage
         uses: codecov/codecov-action@v5
@@ -45,23 +42,53 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
-        with:
-          node-version: "24.x"
 
       - name: Setup Deno
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
 
-      - name: Install dependencies
-        run: npm ci
-
       - name: Build Application
-        run: npm run build
+        run: deno task build
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps chromium
+        run: deno run -A npm:playwright install --with-deps chromium
 
       - name: UI Test
-        run: npx playwright test playwright_tests/
+        run: deno run -A npm:playwright test playwright_tests/
+
+  deploy-pages:
+    needs: [tests, playwright-tests]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Build Application
+        run: deno task build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
