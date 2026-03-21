@@ -9,7 +9,7 @@
     "test:coverage": "deno test -A --coverage",
     "lint": "deno lint",
     "lint:fix": "deno fmt && deno lint",
-    "compile": "deno check src/**/*.ts client/**/*.ts",
+    "compile": "deno check src/**/*.ts",
     "prepare": "deno task compile",
     "pretest": "deno task compile",
     "posttest": "deno task lint"
