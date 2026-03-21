@@ -1,9 +1,44 @@
 export type EncodeDecodeMode = "URL" | "Base64" | "JSON";
 
 export const toEncodedText = (text: string, mode: EncodeDecodeMode): string => {
+  return getEncodeDecodeHandler(mode).toEncodedText(text);
+};
+
+export const toDecodedText = (text: string, mode: EncodeDecodeMode): string => {
+  return getEncodeDecodeHandler(mode).toDecodedText(text);
+};
+
+type encodeDecodeHandler = {
+  toEncodedText: (text: string) => string;
+  toDecodedText: (text: string) => string;
+};
+
+const getEncodeDecodeHandler = (
+  mode: EncodeDecodeMode,
+): encodeDecodeHandler => {
   if (mode === "URL") {
-    return encodeURIComponent(text);
+    return urlHandler;
   } else if (mode === "JSON") {
+    return jsonHandler;
+  } else {
+    return base64Handler;
+  }
+};
+
+const urlHandler: encodeDecodeHandler = {
+  toEncodedText: (text: string) => encodeURIComponent(text),
+  toDecodedText: (text: string) => {
+    try {
+      return decodeURIComponent(text);
+    } catch (err) {
+      const errMessage: string = (err as Error).toString();
+      return `can not decode. ${errMessage}.`;
+    }
+  },
+};
+
+const jsonHandler: encodeDecodeHandler = {
+  toEncodedText: (text: string) => {
     try {
       const obj = JSON.parse(text);
       return JSON.stringify(obj);
@@ -11,7 +46,20 @@ export const toEncodedText = (text: string, mode: EncodeDecodeMode): string => {
       const errMessage: string = (err as Error).toString();
       return `can not encode. ${errMessage}.`;
     }
-  } else {
+  },
+  toDecodedText: (text: string) => {
+    try {
+      const obj = JSON.parse(text);
+      return JSON.stringify(obj, null, 2);
+    } catch (err) {
+      const errMessage: string = (err as Error).toString();
+      return `can not decode. ${errMessage}.`;
+    }
+  },
+};
+
+const base64Handler: encodeDecodeHandler = {
+  toEncodedText: (text: string) => {
     try {
       const bytes = new TextEncoder().encode(text);
       const binString = Array.from(bytes, (byte) => String.fromCodePoint(byte))
@@ -21,26 +69,8 @@ export const toEncodedText = (text: string, mode: EncodeDecodeMode): string => {
       const errMessage: string = (err as Error).toString();
       return `can not encode. ${errMessage}.`;
     }
-  }
-};
-
-export const toDecodedText = (text: string, mode: EncodeDecodeMode): string => {
-  if (mode === "URL") {
-    try {
-      return decodeURIComponent(text);
-    } catch (err) {
-      const errMessage: string = (err as Error).toString();
-      return `can not decode. ${errMessage}.`;
-    }
-  } else if (mode === "JSON") {
-    try {
-      const obj = JSON.parse(text);
-      return JSON.stringify(obj, null, 2);
-    } catch (err) {
-      const errMessage: string = (err as Error).toString();
-      return `can not decode. ${errMessage}.`;
-    }
-  } else {
+  },
+  toDecodedText: (text: string) => {
     try {
       const binString = atob(text);
       const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0)!);
@@ -49,5 +79,5 @@ export const toDecodedText = (text: string, mode: EncodeDecodeMode): string => {
       const errMessage: string = (err as Error).toString();
       return `can not decode. ${errMessage}.`;
     }
-  }
+  },
 };
