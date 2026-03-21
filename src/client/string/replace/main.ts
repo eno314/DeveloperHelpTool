@@ -1,16 +1,10 @@
-import { replaceStr } from "../../../utils/stringUtils.ts";
+import { mount } from "svelte";
+import App from "./App.svelte";
 
-document.getElementById("applyBtn")?.addEventListener("click", () => {
-  const replacedStr = (
-    document.getElementById("replacedTextarea") as HTMLTextAreaElement
-  ).value;
-  const targetSubstr = (
-    document.getElementById("targetSubstr") as HTMLInputElement
-  ).value;
-  const newSubstr = (document.getElementById("newSubstr") as HTMLInputElement)
-    .value;
+const appElement = document.getElementById("app");
 
-  const result = replaceStr(replacedStr, targetSubstr, newSubstr);
-  (document.getElementById("newTextarea") as HTMLTextAreaElement).value =
-    result;
-});
+if (appElement) {
+  mount(App, {
+    target: appElement,
+  });
+}
