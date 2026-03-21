@@ -23,7 +23,6 @@
     "@types/deno": "npm:@types/deno@^2.5.0",
     "@types/node": "npm:@types/node@^24.12.0",
     "typescript": "npm:typescript@^5.9.3",
-    "tmp": "npm:tmp@^0.2.5",
     "@/": "./src/"
   },
   "lint": {
