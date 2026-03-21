@@ -1,5 +1,5 @@
 import { expect } from "@std/expect";
-import { toDecodedText, toEncodedText } from "./encodeDecodeUtils.ts";
+import { toDecodedText, toEncodedText } from "./encodeDecode.ts";
 
 Deno.test("toEncodedText with URL mode", () => {
   const result = toEncodedText("hello world", "URL");

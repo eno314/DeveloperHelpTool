@@ -84,7 +84,10 @@ Deno.test("parseFormattedDate fallback branch local time invalid", () => {
   try {
     // @ts-ignore: Mock Date globally briefly to force isNaN
     globalThis.Date = function (...args: unknown[]) {
-      if (args.length === 1 && typeof args[0] === "string" && args[0] === "2023-05-15T12:30:45") {
+      if (
+        args.length === 1 && typeof args[0] === "string" &&
+        args[0] === "2023-05-15T12:30:45"
+      ) {
         return new originalDate("invalid");
       }
       return new originalDate(...(args as []));
@@ -101,7 +104,9 @@ Deno.test("parseFormattedDate throws in catch block", () => {
   try {
     // @ts-ignore: throw error to hit catch block
     globalThis.Date = class {
-      constructor() { throw new Error("mock error"); }
+      constructor() {
+        throw new Error("mock error");
+      }
     };
     const d = parseFormattedDate("2023-05-15 12:30:45", "UTC");
     expect(d).toBeNull();

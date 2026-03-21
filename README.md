@@ -42,7 +42,8 @@ deno install
 deno task dev
 ```
 
-起動後、ブラウザで [http://localhost:5173/DeveloperHelpTool/](http://localhost:5173/DeveloperHelpTool/)
+起動後、ブラウザで
+[http://localhost:5173/DeveloperHelpTool/](http://localhost:5173/DeveloperHelpTool/)
 にアクセスしてください。（ポート番号は環境により異なる場合があります）
 
 ※ アプリケーションは GitHub Pages にデプロイされます。
