@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test.describe("Timestamp Tool", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("http://localhost:8000/timestamp/index.html");
+    await page.goto("http://localhost:8000/DeveloperHelpTool/timestamp/index.html");
   });
 
   test("should display the Timestamp Tool page correctly", async ({ page }) => {

@@ -1,30 +1,33 @@
 {
   "nodeModulesDir": "auto",
   "tasks": {
-    "dev": "npm run dev",
-    "build": "npm run build",
-    "preview": "npm run preview"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "deno test -A",
+    "test:watch": "deno test -A --watch",
+    "test:coverage": "deno test -A --coverage",
+    "lint": "deno lint",
+    "lint:fix": "deno fmt && deno lint",
+    "compile": "deno check src/**/*.ts",
+    "prepare": "deno task compile",
+    "pretest": "deno task compile",
+    "posttest": "deno task lint"
   },
   "imports": {
     "@std/expect": "jsr:@std/expect@^1.0.18",
-    "@std/testing": "jsr:@std/testing@^1.0.17"
+    "@std/testing": "jsr:@std/testing@^1.0.17",
+    "bootstrap": "npm:bootstrap@5.x",
+    "vite": "npm:vite@^8.0.1",
+    "@playwright/test": "npm:@playwright/test@^1.58.2"
   },
-  "lint": {
-    "exclude": [
-      "build/",
-      "coverage/",
-      "node_modules/",
-      "out/",
-      "dist/"
-    ]
-  },
-  "fmt": {
-    "exclude": [
-      "build/",
-      "coverage/",
-      "node_modules/",
-      "out/",
-      "dist/"
-    ]
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "deno.ns"
+    ],
+    "strictNullChecks": true
   }
 }

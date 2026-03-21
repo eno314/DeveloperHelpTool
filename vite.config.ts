@@ -2,29 +2,26 @@ import { defineConfig } from "vite";
 import { resolve } from "node:path";
 
 export default defineConfig({
-  root: "client",
+  base: "/DeveloperHelpTool/",
+  root: "src/client",
   build: {
-    outDir: "../dist",
+    outDir: "../../dist",
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "client/index.html"),
-        amidakuji: resolve(__dirname, "client/amidakuji/index.html"),
-        curl: resolve(__dirname, "client/curl/builder/index.html"),
-        encodeDecode: resolve(__dirname, "client/encodeDecode/index.html"),
-        jsonCompare: resolve(__dirname, "client/json/compare/index.html"),
-        stringReplace: resolve(__dirname, "client/string/replace/index.html"),
-        timestamp: resolve(__dirname, "client/timestamp/index.html"),
-        urlParse: resolve(__dirname, "client/url/parse/index.html"),
+        main: resolve(__dirname, "src/client/index.html"),
+        amidakuji: resolve(__dirname, "src/client/amidakuji/index.html"),
+        curl: resolve(__dirname, "src/client/curl/builder/index.html"),
+        encodeDecode: resolve(__dirname, "src/client/encodeDecode/index.html"),
+        jsonCompare: resolve(__dirname, "src/client/json/compare/index.html"),
+        stringReplace: resolve(__dirname, "src/client/string/replace/index.html"),
+        timestamp: resolve(__dirname, "src/client/timestamp/index.html"),
+        urlParse: resolve(__dirname, "src/client/url/parse/index.html"),
       },
-    },
-  },
-  resolve: {
-    alias: {
-      "@": resolve(__dirname, "src"),
     },
   },
   preview: {
     port: 8000,
+    strictPort: true,
   },
 });

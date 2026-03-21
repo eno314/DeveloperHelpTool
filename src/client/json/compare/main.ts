@@ -1,4 +1,4 @@
-import { diffLines } from "@/utils/diff";
+import { diffLines, Change as DiffResult } from "../../../utils/diff.ts";
 
 // DOM Elements
 const leftFileInput = document.getElementById(
@@ -75,7 +75,7 @@ compareBtn.addEventListener("click", () => {
   diffResultContainer.classList.remove("d-none");
 
   // Render left
-  differences.forEach((part) => {
+  differences.forEach((part: DiffResult) => {
     if (part.added) return;
     const span = document.createElement("span");
     span.textContent = part.value;
@@ -84,7 +84,7 @@ compareBtn.addEventListener("click", () => {
   });
 
   // Render right
-  differences.forEach((part) => {
+  differences.forEach((part: DiffResult) => {
     if (part.removed) return;
     const span = document.createElement("span");
     span.textContent = part.value;
