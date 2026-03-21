@@ -21,24 +21,6 @@
     "vite": "npm:vite@^8.0.1",
     "@playwright/test": "npm:@playwright/test@^1.58.2"
   },
-  "lint": {
-    "exclude": [
-      "build/",
-      "coverage/",
-      "node_modules/",
-      "out/",
-      "dist/"
-    ]
-  },
-  "fmt": {
-    "exclude": [
-      "build/",
-      "coverage/",
-      "node_modules/",
-      "out/",
-      "dist/"
-    ]
-  },
   "compilerOptions": {
     "lib": [
       "dom",
