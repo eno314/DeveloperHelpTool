@@ -51,6 +51,13 @@ jobs:
       - name: Build Application
         run: deno task build
 
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-preview
+          path: dist/
+          retention-days: 7
+
       - name: Install Playwright Browsers
         run: deno run -A npm:playwright install --with-deps chromium
 
