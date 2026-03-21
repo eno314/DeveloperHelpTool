@@ -6,9 +6,9 @@
     "node": ">=24.0.0"
   },
   "scripts": {
-    "dev": "deno task dev",
-    "build": "deno task build",
-    "start:hono": "deno task start:hono",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "deno test -A",
     "test:watch": "deno test -A --watch",
     "test:coverage": "deno test -A --coverage",
@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "bootstrap": "5.x",
-    "hono": "^4.12.8"
+    "vite": "^8.0.1"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",

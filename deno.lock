@@ -5,7 +5,6 @@
     "jsr:@std/assert@^1.0.19": "1.0.19",
     "jsr:@std/async@^1.1.0": "1.2.0",
     "jsr:@std/data-structures@^1.0.10": "1.0.10",
-    "jsr:@std/expect@*": "1.0.18",
     "jsr:@std/expect@^1.0.18": "1.0.18",
     "jsr:@std/fs@^1.0.22": "1.0.23",
     "jsr:@std/internal@^1.0.12": "1.0.12",
@@ -15,9 +14,8 @@
     "npm:@types/deno@^2.5.0": "2.5.0",
     "npm:@types/node@^24.12.0": "24.12.0",
     "npm:bootstrap@5": "5.3.8_@popperjs+core@2.11.8",
-    "npm:hono@^4.12.8": "4.12.8",
     "npm:typescript@^5.9.3": "5.9.3",
-    "npm:vite@*": "8.0.1_@types+node@24.12.0"
+    "npm:vite@^8.0.1": "8.0.1_@types+node@24.12.0"
   },
   "jsr": {
     "@std/assert@1.0.19": {
@@ -231,9 +229,6 @@
       "os": ["darwin"],
       "scripts": true
     },
-    "hono@4.12.8": {
-      "integrity": "sha512-VJCEvtrezO1IAR+kqEYnxUOoStaQPGrCmX3j4wDTNOcD1uRPFpGlwQUIW8niPuvHXaTUxeOUl5MMDGrl+tmO9A=="
-    },
     "lightningcss-android-arm64@1.32.0": {
       "integrity": "sha512-YK7/ClTt4kAK0vo6w3X+Pnm0D2cf2vPHbhOXdoNti1Ga0al1P4TBZhwjATvjNwLEBCnKvjJc2jQgHXH0NEwlAg==",
       "os": ["android"],
@@ -415,8 +410,8 @@
         "npm:@types/deno@^2.5.0",
         "npm:@types/node@^24.12.0",
         "npm:bootstrap@5",
-        "npm:hono@^4.12.8",
-        "npm:typescript@^5.9.3"
+        "npm:typescript@^5.9.3",
+        "npm:vite@^8.0.1"
       ],
       "overrides": {
         "tmp": "^0.2.5"
