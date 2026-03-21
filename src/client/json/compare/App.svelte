@@ -5,7 +5,8 @@
   let leftJson = $state("");
   let rightJson = $state("");
   let errorMessage = $state("");
-  let differences = $state<DiffResult[]>([]);
+  let leftDifferences = $state<DiffResult[]>([]);
+  let rightDifferences = $state<DiffResult[]>([]);
   let showResult = $state(false);
 
   function handleFileChange(side: "left" | "right") {
@@ -33,15 +34,17 @@
   function handleCompare() {
     errorMessage = "";
     showResult = false;
-    differences = [];
+    leftDifferences = [];
+    rightDifferences = [];
 
     const result = compareJson(leftJson, rightJson);
 
-    if (result.success) {
-      differences = result.differences;
+    errorMessage = result.errorMessage;
+    leftDifferences = result.leftDifferences;
+    rightDifferences = result.rightDifferences;
+
+    if (!errorMessage) {
       showResult = true;
-    } else {
-      errorMessage = result.error;
     }
   }
 </script>
@@ -136,11 +139,11 @@
     <div id="diffResultContainer" class="row">
       <div class="col-md-6">
         <h4>Left Result</h4>
-        <pre id="leftResult" class="form-control diffContainer">{#each differences as part}{#if !part.added}<span class={part.removed ? 'removed' : ''}>{part.value}</span>{/if}{/each}</pre>
+        <pre id="leftResult" class="form-control diffContainer">{#each leftDifferences as part}<span class={part.removed ? 'removed' : ''}>{part.value}</span>{/each}</pre>
       </div>
       <div class="col-md-6">
         <h4>Right Result</h4>
-        <pre id="rightResult" class="form-control diffContainer">{#each differences as part}{#if !part.removed}<span class={part.added ? 'added' : ''}>{part.value}</span>{/if}{/each}</pre>
+        <pre id="rightResult" class="form-control diffContainer">{#each rightDifferences as part}<span class={part.added ? 'added' : ''}>{part.value}</span>{/each}</pre>
       </div>
     </div>
   {/if}

@@ -2,21 +2,27 @@ import { expect } from "@std/expect";
 import { compareJson } from "./jsonCompare.ts";
 
 Deno.test("compareJson", async (t) => {
-  await t.step("returns differences for valid JSON strings", () => {
+  await t.step("returns separated differences for valid JSON strings", () => {
     const leftJson = `{"name": "Alice", "age": 30}`;
     const rightJson = `{"name": "Alice", "age": 31}`;
 
     const result = compareJson(leftJson, rightJson);
 
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.differences).toBeDefined();
-      expect(result.differences.length).toBeGreaterThan(0);
-      // specific diff check can be brittle, but we can verify it contains the changed values
-      const diffValues = result.differences.map((d) => d.value).join("");
-      expect(diffValues).toContain("30");
-      expect(diffValues).toContain("31");
-    }
+    expect(result.errorMessage).toBe("");
+    expect(result.leftDifferences.length).toBeGreaterThan(0);
+    expect(result.rightDifferences.length).toBeGreaterThan(0);
+
+    // Left should not have "added"
+    expect(result.leftDifferences.some((d) => d.added)).toBe(false);
+    // Right should not have "removed"
+    expect(result.rightDifferences.some((d) => d.removed)).toBe(false);
+
+    // Check values
+    const leftDiffValues = result.leftDifferences.map((d) => d.value).join("");
+    expect(leftDiffValues).toContain("30");
+
+    const rightDiffValues = result.rightDifferences.map((d) => d.value).join("");
+    expect(rightDiffValues).toContain("31");
   });
 
   await t.step("returns identical result for identical JSON strings", () => {
@@ -25,15 +31,18 @@ Deno.test("compareJson", async (t) => {
 
     const result = compareJson(leftJson, rightJson);
 
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.differences).toBeDefined();
-      // It should only contain non-added/removed parts
-      const addedOrRemoved = result.differences.some(
-        (d) => d.added || d.removed,
-      );
-      expect(addedOrRemoved).toBe(false);
-    }
+    expect(result.errorMessage).toBe("");
+
+    // It should only contain non-added/removed parts
+    const leftAddedOrRemoved = result.leftDifferences.some(
+      (d) => d.added || d.removed,
+    );
+    expect(leftAddedOrRemoved).toBe(false);
+
+    const rightAddedOrRemoved = result.rightDifferences.some(
+      (d) => d.added || d.removed,
+    );
+    expect(rightAddedOrRemoved).toBe(false);
   });
 
   await t.step("returns error for invalid left JSON string", () => {
@@ -42,10 +51,9 @@ Deno.test("compareJson", async (t) => {
 
     const result = compareJson(leftJson, rightJson);
 
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error).toBe("Left JSON is invalid.");
-    }
+    expect(result.errorMessage).toBe("Left JSON is invalid.");
+    expect(result.leftDifferences).toEqual([]);
+    expect(result.rightDifferences).toEqual([]);
   });
 
   await t.step("returns error for invalid right JSON string", () => {
@@ -54,10 +62,9 @@ Deno.test("compareJson", async (t) => {
 
     const result = compareJson(leftJson, rightJson);
 
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error).toBe("Right JSON is invalid.");
-    }
+    expect(result.errorMessage).toBe("Right JSON is invalid.");
+    expect(result.leftDifferences).toEqual([]);
+    expect(result.rightDifferences).toEqual([]);
   });
 
   await t.step("handles pretty printing before diff", () => {
@@ -67,12 +74,11 @@ Deno.test("compareJson", async (t) => {
 
     const result = compareJson(leftJson, rightJson);
 
-    expect(result.success).toBe(true);
-    if (result.success) {
-      const addedOrRemoved = result.differences.some(
-        (d) => d.added || d.removed,
-      );
-      expect(addedOrRemoved).toBe(false);
-    }
+    expect(result.errorMessage).toBe("");
+
+    const leftAddedOrRemoved = result.leftDifferences.some(
+      (d) => d.added || d.removed,
+    );
+    expect(leftAddedOrRemoved).toBe(false);
   });
 });
