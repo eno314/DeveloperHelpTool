@@ -8,16 +8,16 @@
 
 当アプリケーションでは、以下のツールを提供しています。
 
-- **JSON Compare Tool**: 2つのJSONを比較し、差分を確認できるツールです。
-- **String Replace Tool**: 文字列の検索・置換を簡単に行うツールです。
-- **Encode And Decode Tool**:
-  URLとBase64、JSON形式のエンコードおよびデコードを行うツールです。
-- **Url Parse Tool**: URLをパースし、クエリパラメータ等を組み立てるツールです。
 - **Amidakuji Tool**: あみだくじ（Ghost Leg）を作成・実行できるツールです。
 - **Curl Builder Tool**:
   HTTPリクエストを構築し、cURLコマンドを生成するツールです。
+- **Encode And Decode Tool**:
+  URLとBase64、JSON形式のエンコードおよびデコードを行うツールです。
+- **JSON Compare Tool**: 2つのJSONを比較し、差分を確認できるツールです。
+- **String Replace Tool**: 文字列の検索・置換を簡単に行うツールです。
 - **Timestamp Tool**:
   現在の時刻とタイムスタンプを表示し、タイムスタンプをコピーできるツールです。
+- **Url Parse Tool**: URLをパースし、クエリパラメータ等を組み立てるツールです。
 
 ## ローカルでの開発手順と使用条件
 
