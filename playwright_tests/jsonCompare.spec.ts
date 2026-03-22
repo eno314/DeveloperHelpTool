@@ -3,7 +3,7 @@ import { Buffer } from "node:buffer";
 
 test("JSON Compare Tool correctly parses and compares JSON strings", async ({ page }) => {
   await page.goto(
-    "http://localhost:8000/DeveloperHelpTool/json/compare/index.html",
+    "http://localhost:8000/DeveloperHelpTool/json/compare/",
   );
 
   await expect(page).toHaveTitle("Developer Help Tool - JSON Compare Tool");
@@ -45,7 +45,7 @@ test("JSON Compare Tool correctly parses and compares JSON strings", async ({ pa
 
 test("JSON Compare Tool correctly parses and compares from uploaded JSON files", async ({ page }) => {
   await page.goto(
-    "http://localhost:8000/DeveloperHelpTool/json/compare/index.html",
+    "http://localhost:8000/DeveloperHelpTool/json/compare/",
   );
 
   const validJsonLeft = '{"name": "John", "age": 30}';

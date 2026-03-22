@@ -4,7 +4,7 @@ test.describe("String Replace Tool", () => {
   test("should replace strings based on the target and new substring", async ({ page }) => {
     // Navigate to the page
     await page.goto(
-      "http://localhost:8000/DeveloperHelpTool/string/replace/index.html",
+      "http://localhost:8000/DeveloperHelpTool/string/replace/",
     );
 
     // Input the original string

@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test.describe("Amidakuji Page Tests - Happy Path", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      "http://localhost:8000/DeveloperHelpTool/amidakuji/index.html",
+      "http://localhost:8000/DeveloperHelpTool/amidakuji/",
     );
   });
 
