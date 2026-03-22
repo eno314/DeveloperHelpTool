@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Layout from "../Layout.svelte";
   import {
     type EncodeDecodeMode as EncodingMode,
     getEncodingLabelText,
@@ -62,9 +63,8 @@
   }
 </style>
 
+<Layout title="Developer Help Tool - Encode And Decode Tool" description="You can encode and decode url or base64 by this tool.">
 <div class="container mt-5">
-  <h1>Developer Help Tool - Encode And Decode Tool</h1>
-
   <div id="root">
     <div class="container">
       <div class="row mb-3">
@@ -145,3 +145,4 @@
     </div>
   </div>
 </div>
+</Layout>

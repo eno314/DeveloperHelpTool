@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Layout from "../../Layout.svelte";
   import { compareJson } from "../../../domain/jsonCompare.ts";
   import type { Change as DiffResult } from "../../../utils/diff.ts";
 
@@ -70,6 +71,7 @@
   }
 </style>
 
+<Layout title="Developer Help Tool - JSON Compare Tool" description="You can compare two JSONs by this tool.">
 <div class="container mt-4">
   {#if errorMessage}
     <div id="errorAlert" class="alert alert-danger" role="alert">
@@ -148,3 +150,4 @@
     </div>
   {/if}
 </div>
+</Layout>

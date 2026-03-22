@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Layout from "../../Layout.svelte";
   import { replaceStr } from "../../../utils/stringUtils.ts";
 
   let replacedStr = $state("");
@@ -23,6 +24,7 @@
   }
 </style>
 
+<Layout title="Developer Help Tool - String Replace Tool" description="You can replace string by this tool.">
 <div class="container">
   <div class="row form-floating">
     <textarea
@@ -85,3 +87,4 @@
     </label>
   </div>
 </div>
+</Layout>
