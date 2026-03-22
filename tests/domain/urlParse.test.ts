@@ -5,7 +5,7 @@ import {
   parseUrl,
   removeUrlParamOf,
   updateUrlParams,
-} from "./urlParse.ts";
+} from "../../src/domain/urlParse.ts";
 
 Deno.test("urlParse - parseUrl", () => {
   const result = parseUrl("https://example.com/path?key1=value1&key2=value2");

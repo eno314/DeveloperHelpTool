@@ -1,4 +1,4 @@
-import { diffLines } from "./diff.ts";
+import { diffLines } from "../../src/utils/diff.ts";
 import { expect } from "@std/expect";
 
 Deno.test("diff utility", async (t) => {

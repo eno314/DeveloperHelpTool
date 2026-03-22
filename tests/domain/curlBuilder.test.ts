@@ -1,5 +1,5 @@
 import { expect } from "@std/expect";
-import { buildCurlCommand } from "./curlBuilder.ts";
+import { buildCurlCommand } from "../../src/domain/curlBuilder.ts";
 
 Deno.test("buildCurlCommand defaults to GET", () => {
   const result = buildCurlCommand("GET", "https://example.com", [], "");
