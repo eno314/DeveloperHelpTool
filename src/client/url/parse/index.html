@@ -14,86 +14,21 @@
   <body>
     <div class="container mt-4">
       <h2>Developer Help Tool - Url Parse Tool</h2>
-      <div class="card mt-4">
-        <div class="card-header">
-          Url Parse Tool
-        </div>
-        <div class="card-body">
-          <div class="container">
-            <div class="input-group mb-3">
-              <span class="input-group-text" id="parsedUrlLabel">
-                Parsed URL
-              </span>
-              <input
-                type="url"
-                class="form-control"
-                aria-describedby="parsedUrlLabel"
-                id="parsedUrl"
-              />
-            </div>
 
-            <div class="row" style="margin-top: 10px; margin-bottom: 10px">
-              <div class="col text-center">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  id="parseUrlBtn"
-                >
-                  ▼ Parse URL
-                </button>
-              </div>
-              <div class="col text-center">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  id="buildUrlBtn"
-                >
-                  ▲ Build URL
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="baseUrlLabel">
-                  Base URL
-                </span>
-                <input
-                  type="url"
-                  class="form-control"
-                  aria-describedby="baseUrlLabel"
-                  id="baseUrl"
-                />
-              </div>
-
-              <table class="table table-sm">
-                <thead>
-                  <tr>
-                    <th scope="col">URL PARAM KEY</th>
-                    <th scope="col">URL PARAM VALUE</th>
-                    <th scope="col">DELETE</th>
-                  </tr>
-                </thead>
-                <tbody id="urlParamsTableBody">
-                  <!-- Rows will be populated here -->
-                </tbody>
-              </table>
-
-              <div style="text-align: center">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  id="addParamBtn"
-                >
-                  add param
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="app"></div>
     </div>
 
-    <script type="module" src="./main.ts"></script>
+    <script type="module">
+      import { mount } from "svelte";
+      import App from "./App.svelte";
+
+      const appElement = document.getElementById("app");
+
+      if (appElement) {
+        mount(App, {
+          target: appElement,
+        });
+      }
+    </script>
   </body>
 </html>
