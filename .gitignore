@@ -49,3 +49,4 @@ src/client/.vite/
 
 # coverage
 cov_profile/
+install_deno.sh
