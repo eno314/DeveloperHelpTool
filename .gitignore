@@ -45,7 +45,7 @@ hono.log
 
 # vite
 .vite/
-src/client/.vite/
+src/ui/.vite/
 
 # coverage
 cov_profile/

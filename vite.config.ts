@@ -5,23 +5,23 @@ import { svelte } from "@sveltejs/vite-plugin-svelte";
 export default defineConfig({
   plugins: [svelte()],
   base: "/DeveloperHelpTool/",
-  root: "src/client",
+  root: "src/ui",
   build: {
     outDir: "../../dist",
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "src/client/index.html"),
-        amidakuji: resolve(__dirname, "src/client/amidakuji/index.html"),
-        curl: resolve(__dirname, "src/client/curl/builder/index.html"),
-        encodeDecode: resolve(__dirname, "src/client/encodeDecode/index.html"),
-        jsonCompare: resolve(__dirname, "src/client/json/compare/index.html"),
+        main: resolve(__dirname, "src/ui/index.html"),
+        amidakuji: resolve(__dirname, "src/ui/amidakuji/index.html"),
+        curl: resolve(__dirname, "src/ui/curl/builder/index.html"),
+        encodeDecode: resolve(__dirname, "src/ui/encodeDecode/index.html"),
+        jsonCompare: resolve(__dirname, "src/ui/json/compare/index.html"),
         stringReplace: resolve(
           __dirname,
-          "src/client/string/replace/index.html",
+          "src/ui/string/replace/index.html",
         ),
-        timestamp: resolve(__dirname, "src/client/timestamp/index.html"),
-        urlParse: resolve(__dirname, "src/client/url/parse/index.html"),
+        timestamp: resolve(__dirname, "src/ui/timestamp/index.html"),
+        urlParse: resolve(__dirname, "src/ui/url/parse/index.html"),
       },
     },
   },
