@@ -16,85 +16,20 @@
       <h1>Developer Help Tool - Curl Builder Tool</h1>
       <p class="text-secondary">You can build curl command by this tool.</p>
 
-      <div id="root">
-        <div class="container mt-4">
-          <div class="row mb-3">
-            <div class="col-md-2">
-              <label for="methodSelect" class="form-label">Method</label>
-              <select id="methodSelect" class="form-select">
-                <option value="GET">GET</option>
-                <option value="POST">POST</option>
-                <option value="PUT">PUT</option>
-                <option value="DELETE">DELETE</option>
-                <option value="PATCH">PATCH</option>
-              </select>
-            </div>
-            <div class="col-md-10">
-              <label for="urlInput" class="form-label">URL</label>
-              <input
-                id="urlInput"
-                type="text"
-                class="form-control"
-                placeholder="https://example.com/api?query=1"
-              />
-            </div>
-          </div>
-
-          <div class="row mb-3">
-            <div class="col-12">
-              <div
-                class="d-flex justify-content-between align-items-center mb-2"
-              >
-                <label class="form-label mb-0">Headers</label>
-                <button
-                  type="button"
-                  class="btn btn-sm btn-outline-secondary"
-                  id="addHeaderBtn"
-                >
-                  + Add Header
-                </button>
-              </div>
-              <div id="headersContainer"></div>
-              <div id="noHeadersMsg" class="text-muted small mb-2">
-                No headers added.
-              </div>
-            </div>
-          </div>
-
-          <div id="bodySection" class="row mb-3 form-floating d-none">
-            <textarea
-              id="bodyTextarea"
-              class="form-control"
-              style="height: 150px"
-              placeholder="Request Body"
-            ></textarea>
-            <label for="bodyTextarea" style="left: 12px">Body</label>
-          </div>
-
-          <div class="row mb-3 mt-4">
-            <div class="col-12">
-              <label class="form-label fw-bold">Generated curl Command</label>
-              <div class="position-relative">
-                <textarea
-                  id="curlOutput"
-                  class="form-control bg-light"
-                  style="height: 120px; font-family: monospace"
-                  readonly
-                ></textarea>
-                <button
-                  type="button"
-                  id="copyBtn"
-                  class="btn btn-sm btn-primary position-absolute top-0 end-0 m-2"
-                >
-                  Copy
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="app"></div>
     </div>
 
-    <script type="module" src="./main.ts"></script>
+    <script type="module">
+      import { mount } from "svelte";
+      import App from "./App.svelte";
+
+      const appElement = document.getElementById("app");
+
+      if (appElement) {
+        mount(App, {
+          target: appElement,
+        });
+      }
+    </script>
   </body>
 </html>
