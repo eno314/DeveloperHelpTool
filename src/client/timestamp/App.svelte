@@ -147,7 +147,7 @@
           <h5 class="mb-0">Current Unix Timestamp (Seconds)</h5>
         </div>
         <div class="card-body d-flex align-items-center justify-content-between">
-          <h2 class="mb-0 text-monospace">{currentTimestamp}</h2>
+          <h2 class="mb-0 text-monospace" id="currentTimestamp">{currentTimestamp}</h2>
           <button
             type="button"
             class="btn btn-outline-primary"
