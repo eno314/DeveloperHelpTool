@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Layout from "../../Layout.svelte";
   import { buildCurlCommand, type Header } from "../../../domain/curlBuilder.ts";
 
   let method = $state("GET");
@@ -31,6 +32,7 @@
   }
 </script>
 
+<Layout title="Developer Help Tool - Curl Builder Tool" description="You can build curl command by this tool.">
 <div class="container mt-4">
   <div class="row mb-3">
     <div class="col-md-2">
@@ -146,3 +148,4 @@
     </div>
   </div>
 </div>
+</Layout>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Layout from "../Layout.svelte";
   import { onMount, onDestroy } from "svelte";
   import { formatDate, parseFormattedDate } from "../../utils/dateUtils.ts";
 
@@ -139,6 +140,7 @@
   }
 </script>
 
+<Layout title="Developer Help Tool - Timestamp Tool" description="You can check current time and unix timestamp by this tool.">
 <div class="container mt-4">
   <div class="row">
     <div class="col-12 col-md-6 mb-4 mb-md-0">
@@ -322,3 +324,4 @@
       "Courier New", monospace;
   }
 </style>
+</Layout>

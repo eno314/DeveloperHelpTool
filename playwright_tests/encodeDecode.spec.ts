@@ -4,7 +4,7 @@ test.describe("Encode And Decode Tool", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the page
     await page.goto(
-      "http://localhost:8000/DeveloperHelpTool/encodeDecode/index.html",
+      "http://localhost:8000/DeveloperHelpTool/encodeDecode/",
     );
   });
 

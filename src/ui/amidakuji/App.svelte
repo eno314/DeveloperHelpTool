@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Layout from "../Layout.svelte";
   import { generateHorizontalLines, getPath, type Point } from "../../domain/amidakuji.ts";
 
   const MAX_LINES = 15;
@@ -112,6 +113,7 @@
 
 </script>
 
+<Layout title="Developer Help Tool - Amidakuji Tool" description="You can play Amidakuji (Ghost Leg) by this tool.">
 <div class="container">
   <div class="mb-4">
     <label for="numLinesInput" class="form-label">Number of Lines (2-15):</label>
@@ -254,3 +256,4 @@
     overflow: visible;
   }
 </style>
+</Layout>

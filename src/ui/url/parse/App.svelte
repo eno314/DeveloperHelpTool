@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Layout from "../../Layout.svelte";
   import {
     addUrlParam,
     createUrlText,
@@ -36,6 +37,7 @@
   };
 </script>
 
+<Layout title="Developer Help Tool - Url Parse Tool" description="You can parse and build url by this tool.">
 <div class="card mt-4">
   <div class="card-header">
     Url Parse Tool
@@ -147,3 +149,4 @@
     </div>
   </div>
 </div>
+</Layout>
