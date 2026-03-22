@@ -1,5 +1,5 @@
 import { expect } from "@std/expect";
-import { generateHorizontalLines, getPath } from "./amidakuji.ts";
+import { generateHorizontalLines, getPath } from "../../src/domain/amidakuji.ts";
 
 Deno.test("generateHorizontalLines returns array of points within bounds", () => {
   const numLines = 5;

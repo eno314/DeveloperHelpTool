@@ -1,5 +1,5 @@
 import { expect } from "@std/expect";
-import { replaceStr } from "./stringUtils.ts";
+import { replaceStr } from "../../src/utils/stringUtils.ts";
 
 Deno.test("replaceStr - should replace all occurrences of a string", () => {
   const result = replaceStr("hello world hello", "hello", "hi");

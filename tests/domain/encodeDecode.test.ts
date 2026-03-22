@@ -5,7 +5,7 @@ import {
   getShowUploadContainers,
   toDecodedText,
   toEncodedText,
-} from "./encodeDecode.ts";
+} from "../../src/domain/encodeDecode.ts";
 
 Deno.test("toEncodedText with URL mode", () => {
   const result = toEncodedText("hello world", "URL");

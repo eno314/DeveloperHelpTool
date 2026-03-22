@@ -1,5 +1,5 @@
 import { expect } from "@std/expect";
-import { formatDate, parseFormattedDate } from "./dateUtils.ts";
+import { formatDate, parseFormattedDate } from "../../src/utils/dateUtils.ts";
 
 Deno.test("formatDate formats UTC date correctly", () => {
   const d = new Date(Date.UTC(2023, 4, 15, 12, 30, 45));

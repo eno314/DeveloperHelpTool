@@ -1,5 +1,5 @@
 import { expect } from "@std/expect";
-import { compareJson } from "./jsonCompare.ts";
+import { compareJson } from "../../src/domain/jsonCompare.ts";
 
 Deno.test("compareJson", async (t) => {
   await t.step("returns separated differences for valid JSON strings", () => {
