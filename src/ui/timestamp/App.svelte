@@ -1,49 +1,14 @@
 <script lang="ts">
   import Layout from "../Layout.svelte";
   import { onMount, onDestroy } from "svelte";
-  import { formatDate, parseFormattedDate } from "../../utils/dateUtils.ts";
-
-  const TIMEZONE_GROUPS = [
-    {
-      group: "Africa",
-      options: [
-        { label: "Cairo (EET/EEST)", value: "Africa/Cairo" },
-        { label: "Johannesburg (SAST)", value: "Africa/Johannesburg" },
-        { label: "Nairobi (EAT)", value: "Africa/Nairobi" },
-      ],
-    },
-    {
-      group: "Americas",
-      options: [
-        { label: "Bogota (COT)", value: "America/Bogota" },
-        { label: "Buenos Aires (ART)", value: "America/Argentina/Buenos_Aires" },
-        { label: "Costa Rica (CST)", value: "America/Costa_Rica" },
-        { label: "Los Angeles (PST/PDT)", value: "America/Los_Angeles" },
-        { label: "Mexico City (CST/CDT)", value: "America/Mexico_City" },
-        { label: "New York (EST/EDT)", value: "America/New_York" },
-        { label: "Sao Paulo (BRT/BRST)", value: "America/Sao_Paulo" },
-      ],
-    },
-    {
-      group: "Asia",
-      options: [
-        { label: "Almaty (ALMT)", value: "Asia/Almaty" },
-        { label: "Japan (JST)", value: "Asia/Tokyo" },
-        { label: "Tashkent (UZT)", value: "Asia/Tashkent" },
-      ],
-    },
-    {
-      group: "Europe",
-      options: [
-        { label: "London (GMT/BST)", value: "Europe/London" },
-        { label: "Paris (CET/CEST)", value: "Europe/Paris" },
-      ],
-    },
-    {
-      group: "Oceania",
-      options: [{ label: "Sydney (AEST/AEDT)", value: "Australia/Sydney" }],
-    },
-  ];
+  import { formatDate } from "../../utils/dateUtils.ts";
+  import {
+    TIMEZONE_GROUPS,
+    getCurrentTimeValues,
+    convertFromTimestamp,
+    convertFromLocalTime,
+    convertFromUtcTime,
+  } from "../../domain/timestamp.ts";
 
   const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -79,17 +44,11 @@
 
   function updateCurrentTime() {
     const now = new Date();
-    const ts = Math.floor(now.getTime() / 1000);
-    currentTimestamp = ts.toString();
-
-    localTimeVal = formatDate(now, localTimeZone);
-    utcTimeVal = formatDate(now, "UTC");
-
-    if (selectedTimezone) {
-      selectedTimeVal = formatDate(now, selectedTimezone);
-    } else {
-      selectedTimeVal = "";
-    }
+    const values = getCurrentTimeValues(now, localTimeZone, selectedTimezone);
+    currentTimestamp = values.currentTimestamp;
+    localTimeVal = values.localTimeVal;
+    utcTimeVal = values.utcTimeVal;
+    selectedTimeVal = values.selectedTimeVal;
   }
 
   onMount(() => {
@@ -111,31 +70,30 @@
   function onConverterTimestampInput(e: Event) {
     const newTs = (e.target as HTMLInputElement).value;
     converterTimestamp = newTs;
-    const parsedTs = parseInt(newTs, 10);
-    if (!isNaN(parsedTs)) {
-      const date = new Date(parsedTs * 1000);
-      converterLocalTime = formatDate(date, localTimeZone);
-      converterUtcTime = formatDate(date, "UTC");
+    const result = convertFromTimestamp(newTs, localTimeZone);
+    if (result) {
+      converterLocalTime = result.converterLocalTime;
+      converterUtcTime = result.converterUtcTime;
     }
   }
 
   function onConverterLocalTimeInput(e: Event) {
     const newLocalTime = (e.target as HTMLInputElement).value;
     converterLocalTime = newLocalTime;
-    const date = parseFormattedDate(newLocalTime, localTimeZone);
-    if (date) {
-      converterTimestamp = Math.floor(date.getTime() / 1000).toString();
-      converterUtcTime = formatDate(date, "UTC");
+    const result = convertFromLocalTime(newLocalTime, localTimeZone);
+    if (result) {
+      converterTimestamp = result.converterTimestamp;
+      converterUtcTime = result.converterUtcTime;
     }
   }
 
   function onConverterUtcTimeInput(e: Event) {
     const newUtcTime = (e.target as HTMLInputElement).value;
     converterUtcTime = newUtcTime;
-    const date = parseFormattedDate(newUtcTime, "UTC");
-    if (date) {
-      converterTimestamp = Math.floor(date.getTime() / 1000).toString();
-      converterLocalTime = formatDate(date, localTimeZone);
+    const result = convertFromUtcTime(newUtcTime, localTimeZone);
+    if (result) {
+      converterTimestamp = result.converterTimestamp;
+      converterLocalTime = result.converterLocalTime;
     }
   }
 </script>
