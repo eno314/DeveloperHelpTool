@@ -1,10 +1,16 @@
 <script lang="ts">
   import Layout from "../Layout.svelte";
-  import { generateHorizontalLines, getPath, type Point } from "../../domain/amidakuji.ts";
-
-  const MAX_LINES = 15;
-  const MIN_LINES = 2;
-  const ROWS = 20;
+  import {
+    generateHorizontalLines,
+    getPath,
+    MAX_LINES,
+    MIN_LINES,
+    ROWS,
+    type Point,
+    getColPercent,
+    getEndNodeArray,
+    generateSvgLinesHtml,
+  } from "../../domain/amidakuji.ts";
 
   let numLines = $state(5);
   let topLabels = $state<string[]>(Array.from({ length: 5 }, (_, i) => String(i + 1)));
@@ -61,55 +67,27 @@
     bottomLabels = Array.from({ length: numLines }, (_, i) => String(i + 1));
   }
 
-  function getColPercent(col: number) {
-    if (numLines <= 1) return 50;
-    return (col / (numLines - 1)) * 100;
-  }
-
   const selectedPath = $derived(
     selectedStart !== null ? getPath(selectedStart, horizontalLines, ROWS) : null
   );
 
-  const isEndNodeArray = $derived.by(() => {
-    const arr = Array(numLines).fill(false);
-    if (selectedPath && selectedPath.length > 0) {
-      const endPoint = selectedPath[selectedPath.length - 1];
-      arr[endPoint.col] = true;
-    }
-    return arr;
-  });
+  const isEndNodeArray = $derived(getEndNodeArray(numLines, selectedPath));
 
   const width = 100;
   const height = 400;
   const rowSpacing = height / (ROWS + 1);
 
-  const getX = (col: number) => getColPercent(col);
-  const getY = (row: number) => (row + 1) * rowSpacing;
-
-  const svgLines = $derived.by(() => {
-    let html = "";
-    // Vertical lines
-    for (let i = 0; i < numLines; i++) {
-      html += `<line x1="${getX(i)}" y1="0" x2="${getX(i)}" y2="${height}" stroke="#ccc" stroke-width="4" vector-effect="non-scaling-stroke" />`;
-    }
-    // Horizontal lines
-    if (isGenerated) {
-      horizontalLines.forEach((line) => {
-        html += `<line x1="${getX(line.col)}" y1="${getY(line.row)}" x2="${getX(line.col + 1)}" y2="${getY(line.row)}" stroke="#ccc" stroke-width="4" vector-effect="non-scaling-stroke" />`;
-      });
-    }
-    // Selected Path
-    if (selectedPath) {
-      const points = selectedPath
-        .map((p) => {
-          const y = p.row === -1 ? 0 : p.row === ROWS ? height : getY(p.row);
-          return `${getX(p.col)},${y}`;
-        })
-        .join(" ");
-      html += `<polyline points="${points}" fill="none" stroke="red" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" />`;
-    }
-    return html;
-  });
+  const svgLines = $derived(
+    generateSvgLinesHtml(
+      numLines,
+      horizontalLines,
+      isGenerated,
+      selectedPath,
+      height,
+      rowSpacing,
+      ROWS
+    )
+  );
 
 </script>
 
@@ -151,7 +129,7 @@
       <!-- Top Labels -->
       <div class="labelsRow" id="topLabelsContainer">
         {#each topLabels as label, i}
-          <div class="labelContainer" style="left: {getColPercent(i)}%">
+          <div class="labelContainer" style="left: {getColPercent(i, numLines)}%">
             <input
               type="text"
               class="form-control labelInput top-label-input"
@@ -192,7 +170,7 @@
       <!-- Bottom Labels -->
       <div class="labelsRow bottomLabelsRow" id="bottomLabelsContainer">
         {#each bottomLabels as label, i}
-          <div class="labelContainer" style="left: {getColPercent(i)}%">
+          <div class="labelContainer" style="left: {getColPercent(i, numLines)}%">
             <input
               type="text"
               class="form-control labelInput bottom-label-input"
