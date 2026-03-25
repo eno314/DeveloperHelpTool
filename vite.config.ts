@@ -16,6 +16,7 @@ export default defineConfig({
         curl: resolve(__dirname, "src/ui/curl/builder/index.html"),
         encodeDecode: resolve(__dirname, "src/ui/encodeDecode/index.html"),
         jsonCompare: resolve(__dirname, "src/ui/json/compare/index.html"),
+        stringCount: resolve(__dirname, "src/ui/string/count/index.html"),
         stringReplace: resolve(
           __dirname,
           "src/ui/string/replace/index.html",

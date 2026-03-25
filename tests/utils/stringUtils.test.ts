@@ -1,5 +1,19 @@
 import { expect } from "@std/expect";
-import { replaceStr } from "../../src/utils/stringUtils.ts";
+import { countBytes, replaceStr } from "../../src/utils/stringUtils.ts";
+
+Deno.test("countBytes - should return correct byte length for ascii", () => {
+  expect(countBytes("hello")).toBe(5);
+  expect(countBytes("")).toBe(0);
+});
+
+Deno.test("countBytes - should return correct byte length for multi-byte characters", () => {
+  expect(countBytes("こんにちは")).toBe(15); // 3 bytes * 5
+  expect(countBytes("あ")).toBe(3);
+});
+
+Deno.test("countBytes - should return correct byte length for emojis", () => {
+  expect(countBytes("🍎")).toBe(4);
+});
 
 Deno.test("replaceStr - should replace all occurrences of a string", () => {
   const result = replaceStr("hello world hello", "hello", "hi");
