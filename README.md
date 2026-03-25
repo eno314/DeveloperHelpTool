@@ -14,6 +14,7 @@
 - **Encode And Decode Tool**:
   URLとBase64、JSON形式のエンコードおよびデコードを行うツールです。
 - **JSON Compare Tool**: 2つのJSONを比較し、差分を確認できるツールです。
+- **String Count Tool**: 文字列の文字数とUTF-8のバイト数をカウントするツールです。
 - **String Replace Tool**: 文字列の検索・置換を簡単に行うツールです。
 - **Timestamp Tool**:
   現在の時刻とタイムスタンプを表示し、タイムスタンプをコピーできるツールです。

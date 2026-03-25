@@ -7,6 +7,7 @@ const toolMap: Record<string, () => Promise<any>> = {
   "/curl/builder/": () => import("./curl/builder/App.svelte"),
   "/encodeDecode/": () => import("./encodeDecode/App.svelte"),
   "/json/compare/": () => import("./json/compare/App.svelte"),
+  "/string/count/": () => import("./string/count/App.svelte"),
   "/string/replace/": () => import("./string/replace/App.svelte"),
   "/timestamp/": () => import("./timestamp/App.svelte"),
   "/url/parse/": () => import("./url/parse/App.svelte"),
