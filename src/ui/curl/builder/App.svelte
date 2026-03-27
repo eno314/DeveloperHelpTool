@@ -4,12 +4,21 @@
 
   let method = $state("GET");
   let url = $state("");
+  let contentType = $state("");
   let headers = $state<Header[]>([]);
   let body = $state("");
   let copyBtnText = $state("Copy");
   let copyBtnClass = $state("btn-primary");
 
-  let curlCommand = $derived(buildCurlCommand(method, url, headers, body));
+  let effectiveHeaders = $derived(() => {
+    const list = [...headers];
+    if (contentType) {
+      list.push({ key: "Content-Type", value: contentType });
+    }
+    return list;
+  });
+
+  let curlCommand = $derived(buildCurlCommand(method, url, effectiveHeaders(), body));
   let showBody = $derived(["POST", "PUT", "PATCH"].includes(method));
 
   function addHeader() {
@@ -54,6 +63,27 @@
         placeholder="https://example.com/api?query=1"
         bind:value={url}
       />
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="contentTypeInput" class="form-label">Content-Type</label>
+      <input
+        id="contentTypeInput"
+        class="form-control"
+        list="contentTypeOptions"
+        placeholder="Select or type Content-Type"
+        bind:value={contentType}
+      />
+      <datalist id="contentTypeOptions">
+        <option value="application/json"></option>
+        <option value="application/x-www-form-urlencoded"></option>
+        <option value="multipart/form-data"></option>
+        <option value="text/plain"></option>
+        <option value="text/html"></option>
+        <option value="application/xml"></option>
+      </datalist>
     </div>
   </div>
 
