@@ -10,7 +10,7 @@
 
 <style>
   .textarea {
-    height: 200px;
+    height: 800px;
     margin-top: 5px;
     margin-bottom: 5px;
   }
