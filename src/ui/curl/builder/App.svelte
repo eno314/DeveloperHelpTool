@@ -1,6 +1,6 @@
 <script lang="ts">
   import Layout from "../../Layout.svelte";
-  import { buildCurlCommand, type Header } from "../../../domain/curlBuilder.ts";
+  import { buildCurlCommand, type Header, COMMON_CONTENT_TYPES } from "../../../domain/curlBuilder.ts";
 
   let method = $state("GET");
   let url = $state("");
@@ -77,12 +77,9 @@
         bind:value={contentType}
       />
       <datalist id="contentTypeOptions">
-        <option value="application/json"></option>
-        <option value="application/x-www-form-urlencoded"></option>
-        <option value="multipart/form-data"></option>
-        <option value="text/plain"></option>
-        <option value="text/html"></option>
-        <option value="application/xml"></option>
+        {#each COMMON_CONTENT_TYPES as type}
+          <option value={type}></option>
+        {/each}
       </datalist>
     </div>
   </div>
