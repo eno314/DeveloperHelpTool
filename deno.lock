@@ -14,6 +14,7 @@
     "npm:@playwright/test@^1.58.2": "1.58.2",
     "npm:@sveltejs/vite-plugin-svelte@5": "5.1.1_svelte@5.54.0_vite@8.0.1__@types+node@24.12.0",
     "npm:bootstrap@5": "5.3.8_@popperjs+core@2.11.8",
+    "npm:picomatch@^4.0.4": "4.0.4",
     "npm:playwright@*": "1.58.2",
     "npm:svelte@^5.20.0": "5.54.0",
     "npm:vite@^8.0.1": "8.0.1_@types+node@24.12.0"
@@ -307,7 +308,7 @@
         "@typescript-eslint/types"
       ]
     },
-    "fdir@6.5.0_picomatch@4.0.3": {
+    "fdir@6.5.0_picomatch@4.0.4": {
       "integrity": "sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==",
       "dependencies": [
         "picomatch"
@@ -428,8 +429,8 @@
     "picocolors@1.1.1": {
       "integrity": "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="
     },
-    "picomatch@4.0.3": {
-      "integrity": "sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q=="
+    "picomatch@4.0.4": {
+      "integrity": "sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A=="
     },
     "playwright-core@1.58.2": {
       "integrity": "sha512-yZkEtftgwS8CsfYo7nm0KE8jsvm6i/PTgVtB8DL726wNf6H2IMsDuxCpJj59KDaxCtSnrWan2AeDqM7JBaultg==",
@@ -553,6 +554,7 @@
       "npm:@playwright/test@^1.58.2",
       "npm:@sveltejs/vite-plugin-svelte@5",
       "npm:bootstrap@5",
+      "npm:picomatch@^4.0.4",
       "npm:svelte@^5.20.0",
       "npm:vite@^8.0.1"
     ]
