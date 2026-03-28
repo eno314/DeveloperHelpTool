@@ -74,4 +74,29 @@ test.describe("Curl Builder Tool Tests", () => {
       "curl -X PUT '' -d 'It'\\''s a test'",
     );
   });
+
+  test("should add Content-Type header when selected", async ({ page }) => {
+    // Fill URL
+    await page.fill("#urlInput", "http://localhost/api");
+
+    // Enter Content-Type
+    await page.fill("#contentTypeInput", "application/json");
+
+    const outputTextarea = page.locator("#curlOutput");
+    await expect(outputTextarea).toHaveValue(
+      "curl 'http://localhost/api' -H 'Content-Type: application/json'",
+    );
+
+    // Enter custom Content-Type
+    await page.fill("#contentTypeInput", "application/vnd.custom+json");
+    await expect(outputTextarea).toHaveValue(
+      "curl 'http://localhost/api' -H 'Content-Type: application/vnd.custom+json'",
+    );
+
+    // Clear Content-Type
+    await page.fill("#contentTypeInput", "");
+    await expect(outputTextarea).toHaveValue(
+      "curl 'http://localhost/api'",
+    );
+  });
 });
