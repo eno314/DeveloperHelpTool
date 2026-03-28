@@ -1,14 +1,5 @@
 export type Header = { key: string; value: string };
 
-export const COMMON_CONTENT_TYPES = [
-  "application/json",
-  "application/x-www-form-urlencoded",
-  "multipart/form-data",
-  "text/plain",
-  "text/html",
-  "application/xml",
-];
-
 export function buildCurlCommand(
   method: string,
   url: string,
