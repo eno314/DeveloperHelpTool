@@ -10,7 +10,6 @@
 
 <style>
   .textarea {
-    height: 800px;
     margin-top: 5px;
     margin-bottom: 5px;
   }
@@ -26,6 +25,7 @@
     <textarea
       class="form-control textarea"
       id="inputTextarea"
+      style="height: 450px"
       bind:value={inputStr}
     ></textarea>
     <label for="inputTextarea">
