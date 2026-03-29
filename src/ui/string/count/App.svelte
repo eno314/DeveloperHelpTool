@@ -25,7 +25,7 @@
     <textarea
       class="form-control textarea"
       id="inputTextarea"
-      style="height: 800px"
+      style="height: 450px"
       bind:value={inputStr}
     ></textarea>
     <label for="inputTextarea">
