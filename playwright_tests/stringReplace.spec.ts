@@ -27,4 +27,21 @@ test.describe("String Replace Tool", () => {
     const newTextarea = page.locator("#newTextarea");
     await expect(newTextarea).toHaveValue("hi world hi");
   });
+
+  test("should disable Apply button when target substring exceeds 100 characters", async ({ page }) => {
+    await page.goto(
+      "http://localhost:8000/DeveloperHelpTool/string/replace/",
+    );
+
+    const targetSubstrInput = page.locator("#targetSubstr");
+    const applyBtn = page.locator("#applyBtn");
+
+    // Input string of length 100 (button should be enabled)
+    await targetSubstrInput.fill("a".repeat(100));
+    await expect(applyBtn).toBeEnabled();
+
+    // Input string of length 101 (button should be disabled)
+    await targetSubstrInput.fill("a".repeat(101));
+    await expect(applyBtn).toBeDisabled();
+  });
 });
