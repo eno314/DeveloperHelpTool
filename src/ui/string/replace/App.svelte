@@ -70,6 +70,7 @@
         class="btn btn-primary"
         id="applyBtn"
         onclick={applyReplace}
+        disabled={targetSubstr.length > 100}
       >
         ▼ Apply
       </button>

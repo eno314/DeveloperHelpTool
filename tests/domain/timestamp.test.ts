@@ -1,10 +1,10 @@
 import { expect } from "@std/expect";
 import {
-  TIMEZONE_GROUPS,
   convertFromLocalTime,
   convertFromTimestamp,
   convertFromUtcTime,
   getCurrentTimeValues,
+  TIMEZONE_GROUPS,
 } from "../../src/domain/timestamp.ts";
 
 Deno.test("timestamp domain ...", async (t) => {
@@ -70,13 +70,16 @@ Deno.test("timestamp domain ...", async (t) => {
 
     // Because parsing is dependent on system timezone if not "UTC", we only test the "UTC" path securely here.
     if (result) {
-       // Assuming test runs in UTC, or since we passed 'UTC' it parses correctly as UTC inside parseFormattedDate
-       // ACTUALLY: `parseFormattedDate(str, "UTC")` explicitly appends `Z`.
-       // Let's test the "UTC" explicitly as local.
-       const resultUTCAsLocal = convertFromLocalTime("2024-01-01 12:00:00", "UTC");
-       expect(resultUTCAsLocal).not.toBeNull();
-       expect(resultUTCAsLocal?.converterUtcTime).toBe("2024-01-01 12:00:00");
-       expect(resultUTCAsLocal?.converterTimestamp).toBe("1704110400");
+      // Assuming test runs in UTC, or since we passed 'UTC' it parses correctly as UTC inside parseFormattedDate
+      // ACTUALLY: `parseFormattedDate(str, "UTC")` explicitly appends `Z`.
+      // Let's test the "UTC" explicitly as local.
+      const resultUTCAsLocal = convertFromLocalTime(
+        "2024-01-01 12:00:00",
+        "UTC",
+      );
+      expect(resultUTCAsLocal).not.toBeNull();
+      expect(resultUTCAsLocal?.converterUtcTime).toBe("2024-01-01 12:00:00");
+      expect(resultUTCAsLocal?.converterTimestamp).toBe("1704110400");
     }
   });
 

@@ -56,18 +56,18 @@ export function generateSvgLinesHtml(
 
   // Vertical lines
   for (let i = 0; i < numLines; i++) {
-    html +=
-      `<line x1="${getX(i)}" y1="0" x2="${getX(i)}" y2="${height}" stroke="#ccc" stroke-width="4" vector-effect="non-scaling-stroke" />`;
+    html += `<line x1="${getX(i)}" y1="0" x2="${
+      getX(i)
+    }" y2="${height}" stroke="#ccc" stroke-width="4" vector-effect="non-scaling-stroke" />`;
   }
   // Horizontal lines
   if (isGenerated) {
     horizontalLines.forEach((line) => {
-      html +=
-        `<line x1="${getX(line.col)}" y1="${getY(line.row)}" x2="${
-          getX(line.col + 1)
-        }" y2="${
-          getY(line.row)
-        }" stroke="#ccc" stroke-width="4" vector-effect="non-scaling-stroke" />`;
+      html += `<line x1="${getX(line.col)}" y1="${getY(line.row)}" x2="${
+        getX(line.col + 1)
+      }" y2="${
+        getY(line.row)
+      }" stroke="#ccc" stroke-width="4" vector-effect="non-scaling-stroke" />`;
     });
   }
   // Selected Path

@@ -51,8 +51,8 @@ async function init() {
       console.error("Could not find element with id 'app'");
     }
   } else {
-      // It's the root index page or an unknown page.
-      // We can create a Root.svelte later if needed, but for now we skip mounting if not found.
+    // It's the root index page or an unknown page.
+    // We can create a Root.svelte later if needed, but for now we skip mounting if not found.
   }
 }
 
