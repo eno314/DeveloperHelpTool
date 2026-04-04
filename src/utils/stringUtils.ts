@@ -21,7 +21,7 @@ export const replaceStr = (
   targetSubstr: string,
   newSubstr: string,
 ): string => {
-  if (!targetSubstr) {
+  if (!targetSubstr || targetSubstr.length > 100) {
     return replacedStr;
   }
   try {

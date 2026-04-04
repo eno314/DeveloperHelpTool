@@ -1,10 +1,10 @@
 import { expect } from "@std/expect";
 import {
   generateHorizontalLines,
-  getPath,
+  generateSvgLinesHtml,
   getColPercent,
   getEndNodeArray,
-  generateSvgLinesHtml,
+  getPath,
 } from "../../src/domain/amidakuji.ts";
 
 Deno.test("generateHorizontalLines returns array of points within bounds", () => {
@@ -108,7 +108,15 @@ Deno.test("generateSvgLinesHtml generates correct HTML string", () => {
   const rowSpacing = height / (rows + 1); // 400 / 3 = 133.33...
 
   // Case 1: isGenerated is false, selectedPath is null
-  let html = generateSvgLinesHtml(numLines, horizontalLines, false, null, height, rowSpacing, rows);
+  let html = generateSvgLinesHtml(
+    numLines,
+    horizontalLines,
+    false,
+    null,
+    height,
+    rowSpacing,
+    rows,
+  );
 
   // Should contain 3 vertical lines (col 0, 1, 2)
   expect(html).toContain('x1="0" y1="0" x2="0" y2="400"'); // col 0 (0%)
@@ -118,28 +126,48 @@ Deno.test("generateSvgLinesHtml generates correct HTML string", () => {
   // Should NOT contain horizontal lines since isGenerated is false
   expect(html).not.toContain('y1="133.33');
   // Should NOT contain polyline
-  expect(html).not.toContain('<polyline');
+  expect(html).not.toContain("<polyline");
 
   // Case 2: isGenerated is true
-  html = generateSvgLinesHtml(numLines, horizontalLines, true, null, height, rowSpacing, rows);
+  html = generateSvgLinesHtml(
+    numLines,
+    horizontalLines,
+    true,
+    null,
+    height,
+    rowSpacing,
+    rows,
+  );
 
   // Should contain horizontal lines
   // col 0 (0%) to col 1 (50%) at row 0 (y = 133.33...)
-  expect(html).toContain(`x1="0" y1="${rowSpacing}" x2="50" y2="${rowSpacing}"`);
+  expect(html).toContain(
+    `x1="0" y1="${rowSpacing}" x2="50" y2="${rowSpacing}"`,
+  );
   // col 1 (50%) to col 2 (100%) at row 1 (y = 266.66...)
-  expect(html).toContain(`x1="50" y1="${rowSpacing * 2}" x2="100" y2="${rowSpacing * 2}"`);
+  expect(html).toContain(
+    `x1="50" y1="${rowSpacing * 2}" x2="100" y2="${rowSpacing * 2}"`,
+  );
 
   // Case 3: selectedPath is present
   const path = [
     { col: 0, row: -1 },
     { col: 0, row: 0 },
     { col: 1, row: 0 },
-    { col: 1, row: rows }
+    { col: 1, row: rows },
   ];
-  html = generateSvgLinesHtml(numLines, horizontalLines, true, path, height, rowSpacing, rows);
+  html = generateSvgLinesHtml(
+    numLines,
+    horizontalLines,
+    true,
+    path,
+    height,
+    rowSpacing,
+    rows,
+  );
 
   // Should contain polyline with expected points
-  expect(html).toContain('<polyline');
+  expect(html).toContain("<polyline");
   const expectedPoints = `0,0 0,${rowSpacing} 50,${rowSpacing} 50,400`;
   expect(html).toContain(`points="${expectedPoints}"`);
 });

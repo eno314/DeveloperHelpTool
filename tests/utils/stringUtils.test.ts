@@ -30,6 +30,12 @@ Deno.test("replaceStr - should return the original string if targetSubstr is emp
   expect(result).toBe("hello world");
 });
 
+Deno.test("replaceStr - should return the original string if targetSubstr is over 100 characters", () => {
+  const longTarget = "a".repeat(101);
+  const result = replaceStr("hello world", longTarget, "hi");
+  expect(result).toBe("hello world");
+});
+
 Deno.test(
   "replaceStr - should handle invalid regular expressions gracefully (fallback to literal replace)",
   () => {
