@@ -26,14 +26,21 @@ const getEncodeDecodeHandler = (
   }
 };
 
+const handleEncodeDecodeError = (
+  err: unknown,
+  action: "encode" | "decode",
+): string => {
+  const errMessage: string = (err as Error).toString();
+  return `can not ${action}. ${errMessage}.`;
+};
+
 const urlHandler: encodeDecodeHandler = {
   toEncodedText: (text: string) => encodeURIComponent(text),
   toDecodedText: (text: string) => {
     try {
       return decodeURIComponent(text);
     } catch (err) {
-      const errMessage: string = (err as Error).toString();
-      return `can not decode. ${errMessage}.`;
+      return handleEncodeDecodeError(err, "decode");
     }
   },
 };
@@ -44,8 +51,7 @@ const jsonHandler: encodeDecodeHandler = {
       const obj = JSON.parse(text);
       return JSON.stringify(obj);
     } catch (err) {
-      const errMessage: string = (err as Error).toString();
-      return `can not encode. ${errMessage}.`;
+      return handleEncodeDecodeError(err, "encode");
     }
   },
   toDecodedText: (text: string) => {
@@ -53,8 +59,7 @@ const jsonHandler: encodeDecodeHandler = {
       const obj = JSON.parse(text);
       return JSON.stringify(obj, null, 2);
     } catch (err) {
-      const errMessage: string = (err as Error).toString();
-      return `can not decode. ${errMessage}.`;
+      return handleEncodeDecodeError(err, "decode");
     }
   },
 };
@@ -67,8 +72,7 @@ const base64Handler: encodeDecodeHandler = {
         .join("");
       return btoa(binString);
     } catch (err) {
-      const errMessage: string = (err as Error).toString();
-      return `can not encode. ${errMessage}.`;
+      return handleEncodeDecodeError(err, "encode");
     }
   },
   toDecodedText: (text: string) => {
@@ -77,8 +81,7 @@ const base64Handler: encodeDecodeHandler = {
       const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0)!);
       return new TextDecoder().decode(bytes);
     } catch (err) {
-      const errMessage: string = (err as Error).toString();
-      return `can not decode. ${errMessage}.`;
+      return handleEncodeDecodeError(err, "decode");
     }
   },
 };
