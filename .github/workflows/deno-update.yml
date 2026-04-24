@@ -1,0 +1,60 @@
+name: Deno Dependency Update
+
+on:
+  schedule:
+    - cron: '0 21 * * *' # Every day at 21:00 UTC (06:00 JST)
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Check if it is the first day of the month in JST
+        id: check-date
+        run: |
+          # UTC 21:00 + 9 hours = Next day 06:00 JST.
+          # We want it to run when it becomes the 1st of the month in JST.
+          # So it should run when current time + 9h is the 1st.
+          if [ "$(date -d "+9 hours" +%d)" != "01" ] && [ "${{ github.event_name }}" != "workflow_dispatch" ]; then
+            echo "Today is not the first day of the month in JST. Skipping..."
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          else
+            echo "should_run=true" >> $GITHUB_OUTPUT
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.check-date.outputs.should_run == 'true'
+
+      - uses: denoland/setup-deno@v2
+        if: steps.check-date.outputs.should_run == 'true'
+        with:
+          deno-version: v2.x
+
+      - name: Update dependencies
+        if: steps.check-date.outputs.should_run == 'true'
+        run: deno outdated --update
+
+      - name: Verify changes
+        if: steps.check-date.outputs.should_run == 'true'
+        run: |
+          deno task compile
+          deno task test
+
+      - name: Create Pull Request
+        if: steps.check-date.outputs.should_run == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(deps): update deno dependencies"
+          title: "Monthly Deno Dependency Update"
+          body: |
+            This is a scheduled monthly update for Deno dependencies.
+            Updated using `deno outdated --update`.
+
+            Verified by running `deno task compile` and `deno task test`.
+          branch: "deps/deno-update"
+          labels: "dependencies"
+          delete-branch: true
