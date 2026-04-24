@@ -25,7 +25,7 @@ jobs:
             echo "should_run=true" >> $GITHUB_OUTPUT
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         if: steps.check-date.outputs.should_run == 'true'
 
       - uses: denoland/setup-deno@v2
