@@ -50,3 +50,6 @@ src/ui/.vite/
 # coverage
 cov_profile/
 install_deno.sh
+
+# idea
+.idea/
