@@ -11,17 +11,18 @@ export interface JsonCompareResult {
 /**
  * Recursively sorts the keys of an object.
  */
-function sortObjectKeys(value: any): any {
+function sortObjectKeys(value: unknown): unknown {
   if (value === null || typeof value !== "object") {
     return value;
   }
   if (Array.isArray(value)) {
     return value.map(sortObjectKeys);
   }
-  const sortedKeys = Object.keys(value).sort();
-  const sortedObj: Record<string, any> = {};
+  const obj = value as Record<string, unknown>;
+  const sortedKeys = Object.keys(obj).sort();
+  const sortedObj: Record<string, unknown> = {};
   for (const key of sortedKeys) {
-    sortedObj[key] = sortObjectKeys(value[key]);
+    sortedObj[key] = sortObjectKeys(obj[key]);
   }
   return sortedObj;
 }
