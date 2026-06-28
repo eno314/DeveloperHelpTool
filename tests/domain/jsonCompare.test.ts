@@ -83,4 +83,36 @@ Deno.test("compareJson", async (t) => {
     );
     expect(leftAddedOrRemoved).toBe(false);
   });
+
+  await t.step("identifies key order differences correctly", () => {
+    const leftJson = `{"b": 2, "a": 1}`;
+    const rightJson = `{"a": 1, "b": 2}`;
+
+    const result = compareJson(leftJson, rightJson);
+    expect(result.errorMessage).toBe("");
+    expect(result.isEqual).toBe(false);
+    expect(result.isEqualIgnoringKeyOrder).toBe(true);
+    // Diff is on raw input, so there should be differences shown
+    expect(result.leftDifferences.some((d) => d.removed)).toBe(true);
+  });
+
+  await t.step("identifies actual element differences correctly", () => {
+    const leftJson = `{"b": 2, "a": 1}`;
+    const rightJson = `{"a": 1, "b": 3}`;
+
+    const result = compareJson(leftJson, rightJson);
+    expect(result.errorMessage).toBe("");
+    expect(result.isEqual).toBe(false);
+    expect(result.isEqualIgnoringKeyOrder).toBe(false);
+  });
+
+  await t.step("identifies exactly identical JSONs correctly", () => {
+    const leftJson = `{"a": 1, "b": {"c": 3}}`;
+    const rightJson = `{"a": 1, "b": {"c": 3}}`;
+
+    const result = compareJson(leftJson, rightJson);
+    expect(result.errorMessage).toBe("");
+    expect(result.isEqual).toBe(true);
+    expect(result.isEqualIgnoringKeyOrder).toBe(true);
+  });
 });

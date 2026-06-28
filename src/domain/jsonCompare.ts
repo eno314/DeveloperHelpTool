@@ -4,6 +4,26 @@ export interface JsonCompareResult {
   errorMessage: string;
   leftDifferences: DiffResult[];
   rightDifferences: DiffResult[];
+  isEqual: boolean;
+  isEqualIgnoringKeyOrder: boolean;
+}
+
+/**
+ * Recursively sorts the keys of an object.
+ */
+function sortObjectKeys(value: any): any {
+  if (value === null || typeof value !== "object") {
+    return value;
+  }
+  if (Array.isArray(value)) {
+    return value.map(sortObjectKeys);
+  }
+  const sortedKeys = Object.keys(value).sort();
+  const sortedObj: Record<string, any> = {};
+  for (const key of sortedKeys) {
+    sortedObj[key] = sortObjectKeys(value[key]);
+  }
+  return sortedObj;
 }
 
 /**
@@ -28,6 +48,8 @@ export function compareJson(
       errorMessage: "Left JSON is invalid.",
       leftDifferences: [],
       rightDifferences: [],
+      isEqual: false,
+      isEqualIgnoringKeyOrder: false,
     };
   }
 
@@ -38,11 +60,22 @@ export function compareJson(
       errorMessage: "Right JSON is invalid.",
       leftDifferences: [],
       rightDifferences: [],
+      isEqual: false,
+      isEqualIgnoringKeyOrder: false,
     };
   }
 
   const formattedLeft = JSON.stringify(parsedLeft, null, 2);
   const formattedRight = JSON.stringify(parsedRight, null, 2);
+
+  const isEqual = formattedLeft === formattedRight;
+
+  const sortedLeft = sortObjectKeys(parsedLeft);
+  const sortedRight = sortObjectKeys(parsedRight);
+  const formattedSortedLeft = JSON.stringify(sortedLeft, null, 2);
+  const formattedSortedRight = JSON.stringify(sortedRight, null, 2);
+
+  const isEqualIgnoringKeyOrder = formattedSortedLeft === formattedSortedRight;
 
   const differences = diffLines(formattedLeft, formattedRight);
 
@@ -52,5 +85,11 @@ export function compareJson(
   // Right view should not contain "removed" lines
   const rightDifferences = differences.filter((part) => !part.removed);
 
-  return { errorMessage: "", leftDifferences, rightDifferences };
+  return {
+    errorMessage: "",
+    leftDifferences,
+    rightDifferences,
+    isEqual,
+    isEqualIgnoringKeyOrder,
+  };
 }

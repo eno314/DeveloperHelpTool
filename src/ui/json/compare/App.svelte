@@ -9,6 +9,8 @@
   let leftDifferences = $state<DiffResult[]>([]);
   let rightDifferences = $state<DiffResult[]>([]);
   let showResult = $state(false);
+  let isEqual = $state(false);
+  let isEqualIgnoringKeyOrder = $state(false);
 
   function handleFileChange(side: "left" | "right") {
     return (e: Event) => {
@@ -43,6 +45,8 @@
     errorMessage = result.errorMessage;
     leftDifferences = result.leftDifferences;
     rightDifferences = result.rightDifferences;
+    isEqual = result.isEqual;
+    isEqualIgnoringKeyOrder = result.isEqualIgnoringKeyOrder;
 
     if (!errorMessage) {
       showResult = true;
@@ -138,6 +142,26 @@
   </div>
 
   {#if showResult}
+    <div class="row mb-3">
+      <div class="col">
+        {#if isEqual}
+          <div class="alert alert-success" id="compareStatusAlert" role="alert">
+            <strong>完全一致 (Exact Match):</strong> JSONは完全に一致しています。 (The JSON inputs are exactly identical.)
+          </div>
+        {:else}
+          {#if isEqualIgnoringKeyOrder}
+            <div class="alert alert-warning" id="compareStatusAlert" role="alert">
+              <strong>キー順序のみ相違 (Key Order Differs):</strong> キーの並び順のみが異なります。要素（キーと値）は一致しています。 (Only the parameter ordering differs; all elements and values match.)
+            </div>
+          {:else}
+            <div class="alert alert-danger" id="compareStatusAlert" role="alert">
+              <strong>要素の相違 (Different Elements):</strong> JSONの要素（キーまたは値）が異なっています。 (The JSON elements or values themselves are different.)
+            </div>
+          {/if}
+        {/if}
+      </div>
+    </div>
+
     <div id="diffResultContainer" class="row">
       <div class="col-md-6">
         <h4>Left Result</h4>
