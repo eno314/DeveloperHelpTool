@@ -16,11 +16,11 @@
   },
   "imports": {
     "@std/expect": "jsr:@std/expect@^1.0.20",
-    "@std/testing": "jsr:@std/testing@^1.0.20",
+    "@std/testing": "jsr:@std/testing@^1.0.21",
     "bootstrap": "npm:bootstrap@^5.3.8",
-    "vite": "npm:vite@^8.2.2",
-    "@playwright/test": "npm:@playwright/test@^1.62.1",
-    "svelte": "npm:svelte@^5.57.0",
+    "vite": "npm:vite@^8.3.5",
+    "@playwright/test": "npm:@playwright/test@^1.64.1",
+    "svelte": "npm:svelte@^5.57.3",
     "@sveltejs/vite-plugin-svelte": "npm:@sveltejs/vite-plugin-svelte@^5.1.1",
     "picomatch": "npm:picomatch@^4.0.7"
   },
